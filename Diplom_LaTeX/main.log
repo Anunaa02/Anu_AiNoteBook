@@ -1,14 +1,14 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.12) (preloaded format=xelatex 2026.3.30)  30 MAR 2026 18:15
+This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.4) (preloaded format=xelatex 2025.12.1)  30 MAR 2026 19:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **./main.tex
 (main.tex
 LaTeX2e <2025-11-01>
-L3 programming layer <2025-12-24>
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
+L3 programming layer <2025-11-06>
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/base\report.cls
 Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/base\size11.clo
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/base\size11.clo
 File: size11.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count271
@@ -24,12 +24,12 @@ File: size11.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 \belowcaptionskip=\skip50
 \bibindent=\dimen148
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.sty
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xparse
-.sty (C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
-Package: expl3 2025-12-24 L3 programming layer (loader) 
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xparse
+.sty (C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+Package: expl3 2025-11-06 L3 programming layer (loader) 
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-xete
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-xete
 x.def
 File: l3backend-xetex.def 2025-10-09 L3 backend support: XeTeX
 \g__graphics_track_int=\count280
@@ -40,7 +40,7 @@ Package: xparse 2025-10-09 L3 Experimental document command parser
 )
 Package: fontspec 2025/09/29 v2.9g Font selection for XeLaTeX and LuaLaTeX
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec-xetex.
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec-xetex.
 sty
 Package: fontspec-xetex 2025/09/29 v2.9g Font selection for XeLaTeX and LuaLaTe
 X
@@ -58,10 +58,10 @@ X
 \l__fontspec_tmpa_dim=\dimen149
 \l__fontspec_tmpb_dim=\dimen150
 \l__fontspec_tmpc_dim=\dimen151
- (C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+ (C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
 Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.cfg)))
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/fontspec\fontspec.cfg)))
 
 Package fontspec Info: 
 (fontspec)             Font family 'TimesNewRoman(0)' created for font 'Times
@@ -217,34 +217,34 @@ Space,Scale=0.88].
 (fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
 
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\polyglossia.
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\polyglossia.
 sty
 Package: polyglossia 2025/12/01 v2.9 Modern multilingual typesetting with XeLaT
 eX and LuaLaTeX
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
 Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count294
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
 Package: iftex 2024/12/12 v1.0g TeX engine tests
 )
 \l_xpg_alias_keyvals_int=\count295
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\gloss-latex.
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\gloss-latex.
 ldf
 File: gloss-latex.ldf polyglossia: module for default language
 ))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\gloss-mongol
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\gloss-mongol
 ian.ldf
 File: gloss-mongolian.ldf polyglossia: module for Mongolian
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\xpg-cyrillic
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\xpg-cyrillic
 numbers.sty
 Package: xpg-cyrillicnumbers 2019/11/15 v0.2 Formatting of Cyrillic alphabetic 
 numbers
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\babelsh.def
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\babelsh.def
 File: babelsh.def 2022/06/21 Babel common definitions for shorthands
  Taken verbatim from babel files (2022/06/06 v3.76)
 )
@@ -254,18 +254,18 @@ Package babel Info: Making " an active character on input line 72.
 Package polyglossia Info: Default language is mongolian
 
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\gloss-englis
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/polyglossia\gloss-englis
 h.ldf
 File: gloss-english.ldf polyglossia: module for English
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
-Package: geometry 2026/03/07 v6.0 Page Geometry
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
 \Gm@cnth=\count296
@@ -281,31 +281,31 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layoutvoffset=\dimen159
 \Gm@dimlist=\toks18
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/tools\indentfirst.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/tools\indentfirst.sty
 Package: indentfirst 2023/07/02 v1.03 Indent first paragraph (DPC)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/setspace\setspace.sty
 Package: setspace 2022/12/04 v6.7b set line spacing
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
 Package: amsmath 2025/07/09 v2.17z AMS math features
 \@mathmargin=\skip51
 
 For additional information on amsmath, use the `?' option.
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
 Package: amstext 2024/11/17 v2.01 AMS text
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks19
 \ex@=\dimen160
 ))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen161
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
 \inf@bad=\count299
@@ -356,10 +356,10 @@ LaTeX Info: Redefining \Relbar on input line 970.
 LaTeX Info: Redefining \[ on input line 2950.
 LaTeX Info: Redefining \] on input line 2951.
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
@@ -367,27 +367,27 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
 Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
 Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
 Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.cf
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.cf
 g
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: xetex.def on input line 106.
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\xetex.def
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\xetex.def
 File: xetex.def 2025/11/01 v5.0p Graphics/color driver for xetex
 ))
 \Gin@req@height=\dimen169
 \Gin@req@width=\dimen170
-) (C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
+) (C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
 Package: longtable 2025-10-13 v4.24 Multi-page Table package (DPC)
 \LTleft=\skip54
 \LTright=\skip55
@@ -406,15 +406,15 @@ Package: longtable 2025-10-13 v4.24 Multi-page Table package (DPC)
 \c@LT@chunks=\count315
 \LT@p@ftn=\toks24
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
 Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: xetex.def on input line 274.
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
 Package xcolor Info: Model `RGB' extended on input line 1365.
 Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
@@ -423,11 +423,11 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
-) (C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+) (C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
 \lst@mode=\count316
 \lst@gtempboxa=\box60
 \lst@token=\toks25
@@ -441,16 +441,16 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 \lst@lineno=\count321
 \lst@maxwidth=\dimen175
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstpatch.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstpatch.sty
 File: lstpatch.sty 2025/11/14 1.11b (Carsten Heinz)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
 \c@lstnumber=\count322
 \lst@skipnumbers=\count323
 \lst@framebox=\box61
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
 File: listings.cfg 2025/11/14 1.11b listings configuration
 ))
 Package: listings 2025/11/14 1.11b (Carsten Heinz)
@@ -462,42 +462,42 @@ Package: listings 2025/11/14 1.11b (Carsten Heinz)
         2025/11/14 1.11b (Carsten Heinz)
     so I'm assuming it got fixed.
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.s
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.s
 ty
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.sty
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-
 common.tex
 \pgfutil@everybye=\toks26
 \pgfutil@tempdima=\dimen176
 \pgfutil@tempdimb=\dimen177
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-
 latex.def
 \pgfutil@abb=\box62
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.c
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.c
 ode.tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf\pgf.revision.tex)
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf\pgf.revision.tex)
 Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
 ))
 Package: pgf 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.s
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.s
 ty
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.s
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.s
 ty
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
 .code.tex
 Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.
 code.tex
 \pgfkeys@pathtoks=\toks27
 \pgfkeys@temptoks=\toks28
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeysl
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeysl
 ibraryfiltered.code.tex
 \pgfkeys@tmptoks=\toks29
 ))
@@ -522,45 +522,45 @@ ibraryfiltered.code.tex
 \t@pgf@tokc=\toks32
 \pgf@sys@id@count=\count328
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.cf
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.cf
 g
 File: pgf.cfg 2025-08-29 v3.1.11a (3.1.11a)
 )
 Driver file for pgf: pgfsys-xetex.def
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
 -xetex.def
 File: pgfsys-xetex.def 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
 -dvipdfmx.def
 File: pgfsys-dvipdfmx.def 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
 -common-pdf.def
 File: pgfsys-common-pdf.def 2025-08-29 v3.1.11a (3.1.11a)
 )
 \pgfsys@objnum=\count329
 )))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
 softpath.code.tex
 File: pgfsyssoftpath.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfsyssoftpath@smallbuffer@items=\count330
 \pgfsyssoftpath@bigbuffer@items=\count331
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys
 protocol.code.tex
 File: pgfsysprotocol.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 ))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 .code.tex
 Package: pgfcore 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code.
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code.
 tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.c
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.c
 ode.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparser
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparser
 .code.tex
 \pgfmath@dimen=\dimen188
 \pgfmath@count=\count332
@@ -569,33 +569,33 @@ ode.tex)
 \pgfmath@stack@operand=\toks34
 \pgfmath@stack@operation=\toks35
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
 ons.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
 ons.basic.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
 ons.trigonometric.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
 ons.random.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
 ons.comparison.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
 ons.base.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
 ons.round.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
 ons.misc.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfuncti
 ons.integerarithmetics.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.c
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.c
 ode.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat.
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat.
 code.tex
 \c@pgfmathroundto@lastzeros=\count333
 ))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.t
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.t
 ex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 points.code.tex
 File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@picminx=\dimen189
@@ -613,19 +613,19 @@ File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@zx=\dimen257
 \pgf@zy=\dimen258
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 pathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@path@lastx=\dimen259
 \pgf@path@lasty=\dimen260
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 pathusage.code.tex
 File: pgfcorepathusage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@shorten@end@additional=\dimen261
 \pgf@shorten@start@additional=\dimen262
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 scopes.code.tex
 File: pgfcorescopes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfpic=\box64
@@ -633,96 +633,96 @@ File: pgfcorescopes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@layerbox@main=\box66
 \pgf@picture@serial@count=\count334
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 graphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgflinewidth=\dimen263
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 transformations.code.tex
 File: pgfcoretransformations.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@pt@x=\dimen264
 \pgf@pt@y=\dimen265
 \pgf@pt@temp=\dimen266
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 quick.code.tex
 File: pgfcorequick.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 objects.code.tex
 File: pgfcoreobjects.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 pathprocessing.code.tex
 File: pgfcorepathprocessing.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 arrows.code.tex
 File: pgfcorearrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfarrowsep=\dimen267
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 shade.code.tex
 File: pgfcoreshade.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@max=\dimen268
 \pgf@sys@shading@range@num=\count335
 \pgf@shadingcount=\count336
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 image.code.tex
 File: pgfcoreimage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 external.code.tex
 File: pgfcoreexternal.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfexternal@startupbox=\box67
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 layers.code.tex
 File: pgfcorelayers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 transparency.code.tex
 File: pgfcoretransparency.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 patterns.code.tex
 File: pgfcorepatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore
 rdf.code.tex
 File: pgfcorerdf.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodules
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodules
 hapes.code.tex
 File: pgfmoduleshapes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfnodeparttextbox=\box68
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodulep
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodulep
 lot.code.tex
 File: pgfmoduleplot.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfcom
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfcom
 p-version-0-65.sty
 Package: pgfcomp-version-0-65 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@nodesepstart=\dimen269
 \pgf@nodesepend=\dimen270
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfcom
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfcom
 p-version-1-18.sty
 Package: pgfcomp-version-1-18 2025-08-29 v3.1.11a (3.1.11a)
 ))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.sty
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.st
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.st
 y
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.
 code.tex))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/pgf/math\pgfmath.sty
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code.
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/pgf/math\pgfmath.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code.
 tex))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.c
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.c
 ode.tex
 Package: pgffor 2025-08-29 v3.1.11a (3.1.11a)
 \pgffor@iter=\dimen271
@@ -730,11 +730,11 @@ Package: pgffor 2025-08-29 v3.1.11a (3.1.11a)
 \pgffor@stack=\toks36
 \pgffor@toks=\toks37
 ))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 \tikz.code.tex
 Package: tikz 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibra
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibra
 ryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@plot@mark@count=\count337
@@ -757,7 +757,7 @@ File: pgflibraryplothandlers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \tikznumberofcurrentchild=\count340
 \tikz@fig@count=\count341
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodulem
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodulem
 atrix.code.tex
 File: pgfmodulematrix.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfmatrixcurrentrow=\count342
@@ -766,11 +766,11 @@ File: pgfmodulematrix.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
 \tikz@expandcount=\count345
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibra
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibra
 ryarrows.meta.code.tex
 File: pgflibraryarrows.meta.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfarrowinset=\dimen282
@@ -778,56 +778,56 @@ File: pgflibraryarrows.meta.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfarrowwidth=\dimen284
 \pgfarrowlinewidth=\dimen285
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibraryshapes.geometric.code.tex
 File: tikzlibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\p
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\p
 gflibraryshapes.geometric.code.tex
 File: pgflibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 ))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibraryshapes.misc.code.tex
 File: tikzlibraryshapes.misc.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\p
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\p
 gflibraryshapes.misc.code.tex
 File: pgflibraryshapes.misc.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 ))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibraryshapes.symbols.code.tex
 File: tikzlibraryshapes.symbols.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\p
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\p
 gflibraryshapes.symbols.code.tex
 File: pgflibraryshapes.symbols.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 ))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibrarypositioning.code.tex
 File: tikzlibrarypositioning.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibraryfit.code.tex
 File: tikzlibraryfit.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibrarycalc.code.tex
 File: tikzlibrarycalc.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibrarybackgrounds.code.tex
 File: tikzlibrarybackgrounds.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@layerbox@background=\box73
 \pgf@layerboxsaved@background=\box74
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/pgfplots\pgfplots.sty
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.revi
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/pgfplots\pgfplots.sty
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.revi
 sion.tex)
 Package: pgfplots 2021/05/15 v1.18.1 Data Visualization (1.18.1)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.code
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.code
 .tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotscore.
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotscore.
 code.tex
 \t@pgfplots@toka=\toks38
 \t@pgfplots@tokb=\toks39
@@ -836,83 +836,83 @@ code.tex
 \c@pgfplots@coordindex=\count346
 \c@pgfplots@scanlineindex=\count347
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgfplotss
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgfplotss
 ysgeneric.code.tex))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\pgfplots
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\pgfplots
 library.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/oldpgfcompati
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/oldpgfcompati
 b\pgfplotsoldpgfsupp_loader.code.tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibra
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibra
 ryfpu.code.tex)
 Package pgfplots: loading complementary utilities for your pgf version...
 \t@pgf@toka=\toks41
 \t@pgf@tokb=\toks42
 \t@pgf@tokc=\toks43
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/oldpgfcompati
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/oldpgfcompati
 b\pgfplotsoldpgfsupp_pgfutil-common-lists.tex))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
 util.code.tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure
 \pgfplotsliststructure.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure
 \pgfplotsliststructureext.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure
 \pgfplotsarray.code.tex
 \c@pgfplotsarray@tmp=\count348
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure
 \pgfplotsmatrix.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/numtable\pgfp
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/numtable\pgfp
 lotstableshared.code.tex
 \c@pgfplotstable@counta=\count349
 \t@pgfplotstable@a=\toks44
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/liststructure
 \pgfplotsdeque.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
 binary.code.tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
 binary.data.code.tex))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
 util.verb.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\pgflibra
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\pgflibra
 rypgfplots.surfshading.code.tex
 \c@pgfplotslibrarysurf@no=\count350
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgflibrar
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgflibrar
 ypgfplots.surfshading.pgfsys-xetex.def
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgflibrar
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/sys\pgflibrar
 ypgfplots.surfshading.pgfsys-dvipdfmx.def
 \c@pgfplotslibrarysurf@streamlen=\count351
 ))))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
 colormap.code.tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/util\pgfplots
 color.code.tex))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsstack
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsstack
 edplots.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsploth
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsploth
 andlers.code.tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsmeshp
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsmeshp
 lothandler.code.tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsmeshp
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsmeshp
 lotimage.code.tex)))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.scal
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.scal
 ing.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotscoord
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotscoord
 processing.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.erro
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.erro
 rbars.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.mark
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.mark
 ers.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsticks
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplotsticks
 .code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.path
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots\pgfplots.path
 s.code.tex)
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibrarydecorations.code.tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmoduled
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmoduled
 ecorations.code.tex
 \pgfdecoratedcompleteddistance=\dimen287
 \pgfdecoratedremainingdistance=\dimen288
@@ -925,15 +925,15 @@ ecorations.code.tex
 )
 \tikz@lib@dec@box=\box75
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibrarydecorations.pathmorphing.code.tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorati
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorati
 ons\pgflibrarydecorations.pathmorphing.code.tex))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibrarydecorations.pathreplacing.code.tex
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorati
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/decorati
 ons\pgflibrarydecorations.pathreplacing.code.tex))
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\tikzlibr
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgfplots/libs\tikzlibr
 arypgfplots.contourlua.code.tex)
 \pgfplots@numplots=\count353
 \pgfplots@xmin@reg=\dimen294
@@ -943,11 +943,11 @@ arypgfplots.contourlua.code.tex)
 \pgfplots@zmin@reg=\dimen298
 \pgfplots@zmax@reg=\dimen299
 )
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz
 /libraries\tikzlibraryplotmarks.code.tex
 File: tikzlibraryplotmarks.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibra
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibra
 ryplotmarks.code.tex
 File: pgflibraryplotmarks.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )))
@@ -988,22 +988,22 @@ text;"
  (main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 153.
-LaTeX Font Info:    ... okay on input line 153.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 153.
-LaTeX Font Info:    ... okay on input line 153.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 153.
-LaTeX Font Info:    ... okay on input line 153.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 153.
-LaTeX Font Info:    ... okay on input line 153.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 153.
-LaTeX Font Info:    ... okay on input line 153.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 153.
-LaTeX Font Info:    ... okay on input line 153.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 153.
-LaTeX Font Info:    ... okay on input line 153.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 153.
-LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 154.
+LaTeX Font Info:    ... okay on input line 154.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 154.
+LaTeX Font Info:    ... okay on input line 154.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 154.
+LaTeX Font Info:    ... okay on input line 154.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 154.
+LaTeX Font Info:    ... okay on input line 154.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 154.
+LaTeX Font Info:    ... okay on input line 154.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 154.
+LaTeX Font Info:    ... okay on input line 154.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 154.
+LaTeX Font Info:    ... okay on input line 154.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 154.
+LaTeX Font Info:    ... okay on input line 154.
 
 Package fontspec Info: 
 (fontspec)             Adjusting the maths setup (use [no-math] to avoid
@@ -1011,66 +1011,66 @@ Package fontspec Info:
 
 \symlegacymaths=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 153.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 153.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 153.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 153.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 153.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 153.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 153.
-LaTeX Font Info:    Redeclaring math accent \check on input line 153.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 153.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 153.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 153.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 153.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 153.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 154.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 154.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 154.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 154.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 154.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 154.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 154.
+LaTeX Font Info:    Redeclaring math accent \check on input line 154.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 154.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 154.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 154.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 154.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 154.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 153.
+(Font)              `operators' in the math version `normal' on input line 154.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> TU/TimesNewRoman(0)/m/n on input line 1
-53.
+54.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 153.
+(Font)              `operators' in the math version `bold' on input line 154.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/cmr/bx/n --> TU/TimesNewRoman(0)/m/n on input line 
-153.
+154.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  TU/TimesNewRoman(0)/m/n --> TU/TimesNewRoman(0)/m/n on 
-input line 153.
+input line 154.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
 (Font)                  OT1/cmr/m/it --> TU/TimesNewRoman(0)/m/it on input line
- 153.
+ 154.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
 (Font)                  OT1/cmr/bx/n --> TU/TimesNewRoman(0)/b/n on input line 
-153.
+154.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/Arial(0)/m/n on input line 153.
+(Font)                  OT1/cmss/m/n --> TU/Arial(0)/m/n on input line 154.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
 (Font)                  OT1/cmtt/m/n --> TU/TimesNewRoman(1)/m/n on input line 
-153.
+154.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  TU/TimesNewRoman(0)/m/n --> TU/TimesNewRoman(0)/b/n on 
-input line 153.
+input line 154.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> TU/TimesNewRoman(0)/b/it on input lin
-e 153.
+e 154.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/Arial(0)/b/n on input line 153.
+(Font)                  OT1/cmss/bx/n --> TU/Arial(0)/b/n on input line 154.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> TU/TimesNewRoman(1)/b/n on input line 
-153.
+154.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1080,14 +1080,14 @@ LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(56.9055pt, 483.69687pt, 56.9055pt)
+* h-part:(L,W,R)=(71.13188pt, 469.47049pt, 56.9055pt)
 * v-part:(T,H,B)=(56.9055pt, 731.23584pt, 56.9055pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=483.69687pt
+* \textwidth=469.47049pt
 * \textheight=731.23584pt
-* \oddsidemargin=-15.36449pt
-* \evensidemargin=-15.36449pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
 * \topmargin=-52.36449pt
 * \headheight=12.0pt
 * \headsep=25.0pt
@@ -1115,47 +1115,49 @@ File: pictures/Nmct_logo.png Graphic file (type bmp)
 <pictures/Nmct_logo.png>
 LaTeX Font Info:    Trying to load font information for U+msa on input line 9.
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 9.
 
-(C:\Users\Dell\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+(C:\Users\Acer\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 [1
 
 ] [1]) (chapters/01_abstract.tex
-Overfull \hbox (11.3934pt too wide) in paragraph at lines 34--39
-\TU/TimesNewRoman(2)/m/n/10.95 authentication was implemented using \TU/TimesNe
-wRoman(2)/b/n/10.95 JWT \TU/TimesNewRoman(2)/m/n/10.95 and \TU/TimesNewRoman(2)
-/b/n/10.95 bcrypt\TU/TimesNewRoman(2)/m/n/10.95 . The frontend was developed in
- \TU/TimesNewRoman(2)/b/n/10.95 Flutter (Dart)\TU/TimesNewRoman(2)/m/n/10.95 , 
-supporting
+Overfull \hbox (6.08643pt too wide) in paragraph at lines 29--33
+\TU/TimesNewRoman(2)/m/n/10.95 This research focuses on developing a digital sm
+art note-taking mobile application that automatically generates
  []
 
 ) [1
 
 ] (main.toc [2
 
-])
+] [3])
 \tf@toc=\write4
 \openout4 = `main.toc'.
 
- [3] (main.lof)
+ [4] (main.lof
+Overfull \hbox (13.09738pt too wide) in paragraph at lines 5--5
+ [][] \TU/TimesNewRoman(2)/m/n/10.95 Зураг 3.2. Аппликейшний бүрэн ажиллагааны 
+урсгал: Нэвтрэлт, Тэмдэглэл, AI Sticker, Calendar, 
+ []
+
+)
 \tf@lof=\write5
 \openout5 = `main.lof'.
 
- [4
+ [5
 
 ] (main.lot)
 \tf@lot=\write6
 \openout6 = `main.lot'.
 
- [5
+ [6
 
-]
-(chapters/02_chapter1.tex
+] (chapters/02_chapter1.tex
 Бүлэг 1.
 [1
 
@@ -1257,16 +1259,10 @@ LaTeX Font Info:    Font shape `TU/TimesNewRoman(3)/m/n' will be
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
-
-Overfull \hbox (23.31834pt too wide) in paragraph at lines 54--56
-[]\TU/TimesNewRoman(2)/m/n/10.95 Манай системд JWT токеныг \TU/TimesNewRoman(3)
-/m/n/10.95 flutter_secure_storage\TU/TimesNewRoman(2)/m/n/10.95 -д аюулгүй хадг
-алж, дараагийн API дуудалтад \TU/TimesNewRoman(3)/m/n/10.95 Authorization:
- []
-
 [3
 
-] [4]
+]
+ignored error: Infinite glue shrinkage found in box being split [4]
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
@@ -1280,94 +1276,96 @@ Package fontspec Info:
 (fontspec)             Times New Roman scale = 0.88.
 
 
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-ignored error: Infinite glue shrinkage found in box being split [5]
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-)
-(chapters/04_chapter3.tex [6]
-Бүлэг 3.
-
-Overfull \hbox (16.2151pt too wide) in paragraph at lines 34--36
-\TU/TimesNewRoman(2)/m/n/10.95 Манай системийн гол шинэлэг нь \TU/TimesNewRoman
-(2)/b/n/10.95 AI стикер үүсгэлт $\OMS/cmsy/m/n/10.95 !$ \TU/TimesNewRoman(2)/b/
-n/10.95 Calendar дээр байрлуулалт $\OMS/cmsy/m/n/10.95 !$ \TU/TimesNewRoman(2)/
-b/n/10.95 Автомат notification
+Overfull \hbox (3.74644pt too wide) in paragraph at lines 144--146
+\TU/TimesNewRoman(2)/m/n/10.95 Mongoose нь MongoDB-тэй ажиллахад schema-based ш
+ийдэл санал болгодог Node.js library юм. Schema
  []
 
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+[5]
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Overfull \hbox (3.00403pt too wide) in paragraph at lines 218--220
+\TU/TimesNewRoman(2)/m/n/10.95 Манай API-ийн endpoint-үүд Richardson Maturity M
+odel-ийн 2-р түвшинд байна (HTTP арга + Resource-
+ []
+
+) (chapters/04_chapter3.tex [6]
+Бүлэг 3.
 LaTeX Font Info:    Font shape `TU/TimesNewRoman(1)/b/n' will be
 (Font)              scaled to size 9.63605pt on input line 45.
 
@@ -1431,22 +1429,6 @@ Package fontspec Info:
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
-
-Package fontspec Info: 
-(fontspec)             Times New Roman scale = 0.88.
-
  [9]
 
 Package fontspec Info: 
@@ -1482,30 +1464,46 @@ Package fontspec Info:
 (fontspec)             Times New Roman scale = 0.88.
 
 
-Overfull \hbox (2.47pt too wide) in paragraph at lines 330--331
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Package fontspec Info: 
+(fontspec)             Times New Roman scale = 0.88.
+
+
+Overfull \hbox (16.69638pt too wide) in paragraph at lines 330--331
 []\TU/TimesNewRoman(2)/m/n/10.95 Серверийн эргүүлэлт: Request $\OMS/cmsy/m/n/10
 .95 !$ \TU/TimesNewRoman(2)/m/n/10.95 Middleware (CORS, JSON parse) $\OMS/cmsy/
 m/n/10.95 !$ \TU/TimesNewRoman(2)/m/n/10.95 Authentication (JWT) $\OMS/cmsy/m/n
 /10.95 !$ \TU/TimesNewRoman(2)/m/n/10.95 Controller
  []
 
+[11]
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
-[11]
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
 LaTeX Font Info:    Font shape `TU/TimesNewRoman(3)/m/n' will be
 (Font)              scaled to size 8.80005pt on input line 359.
- [12]
+ [12] [13]
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
- [13] [14]
+ [14]
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
@@ -1520,33 +1518,32 @@ Package fontspec Info:
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
- [17]
+ [17] [18]
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
- [18] [19] [20]
+ [19] [20]
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
- [21]
+ [21] [22]
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
- [22]
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
- [23]
+ [23] [24]
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
- [24] [25]
-[26]
+ [25]
+[26] [27]
 LaTeX Font Info:    Font shape `TU/TimesNewRoman(1)/m/it' will be
 (Font)              scaled to size 7.04004pt on input line 1408.
 
@@ -1555,37 +1552,25 @@ Package fontspec Info:
 
 LaTeX Font Info:    Font shape `TU/TimesNewRoman(3)/m/it' will be
 (Font)              scaled to size 7.04004pt on input line 1408.
-) (chapters/05_chapter4.tex [27] [28]
+) (chapters/05_chapter4.tex [28] [29]
 Бүлэг 4.
 
 Underfull \hbox (badness 1552) in paragraph at lines 20--21
 []|\TU/TimesNewRoman(2)/m/n/10.95 5 mood: Happy, Sad, Tired, Angry,
  []
 
-[29
+[30
 
-]) (chapters/06_chapter5.tex [30]
+]) (chapters/06_chapter5.tex [31]
 Бүлэг 5.
-[31
+[32
 
-] [32]) (chapters/07_appendix.tex [33]
+] [33]) (chapters/07_appendix.tex [34]
 Хавсралт A.
 
-Overfull \hbox (11.3934pt too wide) in paragraph at lines 39--43
-\TU/TimesNewRoman(2)/m/n/10.95 authentication was implemented using \TU/TimesNe
-wRoman(2)/b/n/10.95 JWT \TU/TimesNewRoman(2)/m/n/10.95 and \TU/TimesNewRoman(2)
-/b/n/10.95 bcrypt\TU/TimesNewRoman(2)/m/n/10.95 . The frontend was developed in
- \TU/TimesNewRoman(2)/b/n/10.95 Flutter (Dart)\TU/TimesNewRoman(2)/m/n/10.95 , 
-supporting
- []
-
-
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
-[34
-
-]
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
@@ -1594,7 +1579,9 @@ Package fontspec Info:
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
-) [35] (main.bbl
+[35
+
+]) [36] (main.bbl
 
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
@@ -1603,21 +1590,21 @@ Package fontspec Info:
 Package fontspec Info: 
 (fontspec)             Times New Roman scale = 0.88.
 
-) [36
+) [37
 
 ] (main.aux)
  ***********
 LaTeX2e <2025-11-01>
-L3 programming layer <2025-12-24>
+L3 programming layer <2025-11-06>
  ***********
  ) 
 Here is how much of TeX's memory you used:
  31107 strings out of 402987
  803240 string characters out of 5448731
- 1657072 words of memory out of 5000000
+ 1665076 words of memory out of 5000000
  59265 multiletter control sequences out of 15000+600000
  633566 words of font info for 130 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  84i,9n,95p,727b,2382s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (43 pages).
+Output written on main.pdf (45 pages).

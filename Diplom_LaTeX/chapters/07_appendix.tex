@@ -2,57 +2,6 @@
 \appendix
 \chapter{Хавсралт}
 \label{ch:appendix}
-
-\section{Монгол хэл дэх хураангуй}
-
-\noindent
-Энэхүү судалгааны ажил нь хиймэл оюун ухааны технологийг ашиглан хэрэглэгчийн
-тэмдэглэлийн агуулгад тохирсон автомат стикер үүсгэж, тэдгээр стикерт тулгуурласан
-сануулга болон мэдэгдлийн системийг бүрдүүлсэн дижитал ухаалаг тэмдэглэлийн дэвтрийн
-аппликейшнийг боловсруулахад чиглэсэн.
-
-Системийн backend хэсгийг \textbf{Node.js + Express.js} ашиглан хөгжүүлж,
-\textbf{MongoDB Atlas} үүлэн өгөгдлийн санд холбосон. Хэрэглэгчийн баталгаажуулалтыг
-\textbf{JWT} болон \textbf{bcrypt} технологиор хэрэгжүүлсэн. Frontend хэсгийг
-\textbf{Flutter (Dart)} хэлээр бичиж, Android болон iOS платформд ажиллах мобайл
-аппликейшн бүтээв.
-
-Судалгааны ажлын гол оруулт нь:
-\begin{enumerate}
-  \item Хэрэглэгчийн mood (сэтгэлийн байдал)-д тохирсон тэмдэглэлийн систем
-  \item JWT-д суурилсан аюулгүй баталгаажуулалт
-  \item REST API архитектур дээр суурилсан client-server систем
-  \item Flutter-ийн widget tree ашиглан хялбар UI/UX
-\end{enumerate}
-
-Туршилтын үр дүнгээр API хариу хугацаа дундажаар 91 мс, хэрэглэгчийн сэтгэл ханамж
-4.5/5.0 (90\%) байсан.
-
-\vspace{1cm}
-\section{Abstract in English}
-
-\noindent
-This research focuses on developing a digital smart note-taking mobile application that
-automatically generates AI-powered stickers based on note content, and delivers reminder
-notifications utilizing those stickers.
-
-The backend was built with \textbf{Node.js + Express.js} connected to \textbf{MongoDB Atlas}
-cloud database. User authentication was implemented using \textbf{JWT} and \textbf{bcrypt}.
-The frontend was developed in \textbf{Flutter (Dart)}, supporting both Android and iOS
-platforms.
-
-Key contributions of this research:
-\begin{enumerate}
-  \item Mood-aware note-taking system that links notes to emotional states
-  \item Secure JWT-based authentication with bcrypt password hashing
-  \item Client-server architecture based on REST API principles
-  \item Intuitive UI/UX using Flutter's widget tree with Material Design
-\end{enumerate}
-
-Testing results showed an average API response time of 91 ms and a user satisfaction
-score of 4.5/5.0 (90\%).
-
-\vspace{1cm}
 \section{Бүтцийн диаграм -- Фолдерийн зохион байгуулалт}
 
 \textbf{ai-notebook-backend фолдер:}

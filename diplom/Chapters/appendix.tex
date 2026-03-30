@@ -1,0 +1,83 @@
+\addtotoc{Хавсралт}
+
+\chapter*{Хавсралт}
+
+\section*{A. Системийн модуль ба үүргийн нэгтгэл}
+
+\begin{table}[H]
+\centering
+\caption{Системийн үндсэн модуль, оролт, гаралтын тодорхойлолт}
+\label{tab:appendix_module_summary}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{4.8cm}}
+\toprule
+\textbf{Модуль} & \textbf{Оролт} & \textbf{Гаралт} \\
+\midrule
+Баталгаажуулалт (Authentication) & Бүртгэл, нэвтрэлтийн мэдээлэл & Токен, хэрэглэгчийн суурь төлөв \\
+Тэмдэглэлийн удирдлага (Notes management) & Гарчиг, агуулга, сэтгэл хөдлөлийн төлөв (mood), огноо & Тэмдэглэлийн шинэчилсэн жагсаалт \\
+Календарийн харагдац (Calendar view) & Огнооны сонголт, шүүлтийн нөхцөл & Тухайн өдрийн тэмдэглэлийн дэлгэц \\
+Наалт зураг үүсгэх (Sticker generation) & Хэрэглэгчийн заавар текст (prompt) & Наалт зургийн URL эсвэл алдааны тайлбар \\
+Профайл ба сешн (Profile and session) & Хэрэглэгчийн профайл, гарах үйлдэл & Сешний төлөв шинэчлэлт, навигац \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{B. API үйлчилгээний баримтжуулалт (кодгүй хэлбэр)}
+
+\begin{table}[H]
+\centering
+\caption{Гол төгсгөлийн цэгүүдийн (endpoints) зориулалт ба хариу зан төлөв}
+\label{tab:appendix_api_summary}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{4.6cm}}
+\toprule
+\textbf{Төгсгөлийн цэг (Endpoint)} & \textbf{Зориулалт} & \textbf{Үндсэн хариу} \\
+\midrule
+POST /api/auth/signup & Шинэ хэрэглэгч бүртгэх & Амжилттай бол токен болон хэрэглэгчийн мэдээлэл буцаана \\
+POST /api/auth/login & Хэрэглэгч нэвтрүүлэх & Баталгаажсан тохиолдолд токен олгоно \\
+GET /api/notes & Хэрэглэгчийн тэмдэглэл татах & Эрэмбэлэгдсэн тэмдэглэлийн жагсаалт буцаана \\
+POST /api/notes & Шинэ тэмдэглэл үүсгэх & Шинэ тэмдэглэлийн объектыг баталгаажуулж хадгална \\
+PUT /api/notes/:id & Тэмдэглэл засварлах & Засварласан үр дүнг буцаана \\
+DELETE /api/notes/:id & Тэмдэглэл устгах & Амжилтын төлөв буцаана \\
+POST /api/notes/generate-sticker & Хиймэл оюун ухаанаар стикер үүсгэх (AI sticker generation) & Заавар текстээс (prompt) үүссэн зураг эсвэл алдааны мэдээлэл буцаана \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{C. Эрсдэл ба хяналтын матриц}
+
+\begin{table}[H]
+\centering
+\caption{Системийн ашиглалтын эрсдэлийн хяналтын матриц}
+\label{tab:appendix_risk_matrix}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{4.8cm}}
+\toprule
+\textbf{Эрсдэл} & \textbf{Нөлөөлөл} & \textbf{Хяналтын арга} \\
+\midrule
+Токен алдагдах & Хэрэглэгчийн эрх зөрчигдөх & Хамгаалалттай санах ой (secure storage) ашиглах, сешн менежмент сайжруулах \\
+Гадаад хиймэл оюуны үйлчилгээ (AI service) тасалдах & Наалт зургийн функц саатах & Дахин оролдох механизм (retry) болон алдааны ойлгомжтой тайлбар өгөх \\
+API түлхүүрийн буруу удирдлага & Нууцлалын алдагдал & Орчны хувьсагч, сервер талын түлхүүрийн бодлого мөрдөх \\
+Сүлжээ тасалдах & CRUD үйлдэл хойшлох & Дахин оролдох горим, хэрэглэгчид төлөв ойлгомжтой харуулах \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{D. Урсгалын баталгаажуулалтын хураангуй}
+
+\begin{table}[H]
+\centering
+\caption{Гол урсгалуудын бодит баталгаажуулалтын товч хүснэгт}
+\label{tab:appendix_flow_summary}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{4.8cm}>{\raggedright\arraybackslash}p{4.5cm}}
+\toprule
+\textbf{Урсгал} & \textbf{Харагдах хэсгийн үйлдэл} & \textbf{Сервер талын үр дүн (backend)} \\
+\midrule
+Нэвтрэх (Login) & Нэвтрэх дэлгэцээс (Login screen) имэйл/нууц үг илгээх & Токен үүсгэж JSON буцаах \\
+Тэмдэглэл үүсгэх (Create Note) & Хянах самбарын цонхноос (Dashboard dialog) тэмдэглэл нэмэх & Тэмдэглэлийн сан (collection)-д шинэ баримт үүсэх \\
+Тэмдэглэл шинэчлэх/устгах (Update/Delete Note) & Dashboard/Calendar-аас засах, устгах & Шинэчлэлт болон устгалын үр дүн тогтвортой хадгалагдах \\
+Наалт зураг үүсгэх (Generate Sticker) & Наалт зургийн дэлгэц дээр (Sticker screen) заавар текст (prompt) оруулах & OpenAI API-аас зураг үүсгэж холбоос буцаж ирэх \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,112 @@
+\documentclass[11pt]{Thesis}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont[Scale=0.9]{Consolas}
+\usepackage{polyglossia}
+\setdefaultlanguage{mongolian}
+\setotherlanguage{english}
+\usepackage{wrapfig}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{multicol}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{fit}
+\usetikzlibrary{calc}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{shadows}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{pgfplots.fillbetween}
+
+\begin{document}
+\frenchspacing
+\captionsetup{labelfont=bf, textfont=it}
+\pagenumbering{roman}
+\pagestyle{fancy}
+
+\input{Information}
+
+%---------
+%	Нүүр хуудас / Дотор нүүр
+%---------
+\input{Chapters/CoverPage}
+\input{Chapters/TitlePage}
+
+%---------
+%	Хураангуй (i)
+%---------
+\newpage
+\input{Chapters/Abstract}
+
+%---------
+%	Агуулга / Гарчиг (ii)
+%---------
+\newpage
+\tableofcontents
+
+%---------
+%	Товчилсон үгсийн жагсаалт (iii)
+%---------
+\input{Chapters/acrolist}
+
+%---------
+%	Хүснэгтийн жагсаалт (iv)
+%---------
+\newpage
+\listoftab
+
+%---------
+%	Зургийн жагсаалт (v)
+%---------
+\newpage
+\listoffig
+
+%---------
+%	Үндсэн хэсэг
+%---------
+
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% 1-р бүлэг: Ажлын төлөвлөгөө
+\input{Chapters/plan}
+
+% 2-р бүлэг: Удиртгал
+\input{Chapters/Chapter1_Introduction}
+
+% 3-р бүлэг: Судалгааны сэдвийн онол, өнөөгийн түвшин
+\input{Chapters/Chapter2_Literature}
+
+% 4-р бүлэг: Судалгааны арга зүй
+\input{Chapters/Chapter3_Methodology}
+
+% 5-р бүлэг: Судалгааны үр дүн, дүгнэлт
+\input{Chapters/Chapter4_Results}
+\input{Chapters/Chapter5_Conclusion}
+
+%---------
+%	Ном зүй
+%---------
+\input{Chapters/Bibliography}
+
+%---------
+%	Хавсралт
+%---------
+\input{Chapters/appendix}
+
+%---------
+%	Талархал
+%---------
+% \input{Chapters/Talarhal}
+
+\end{document}

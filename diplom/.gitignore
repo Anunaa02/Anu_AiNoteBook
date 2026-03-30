@@ -1,0 +1,22 @@
+# LaTeX intermediate files
+*.aux
+*.log
+*.toc
+*.out
+*.lof
+*.lot
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+
+# Build outputs
+*.pdf
+_build/
+_texput.log
+
+# Local compile helpers
+compile.cmd
+compile.ps1
