@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'services/api_service.dart';
 
@@ -13,6 +14,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _selectedDay = DateTime.now();
   List<dynamic> _notes = [];
   bool _loading = true;
+
+  static const _moods = [
+    {'emoji': '😊', 'label': 'Happy'},
+    {'emoji': '😔', 'label': 'Sad'},
+    {'emoji': '😴', 'label': 'Tired'},
+    {'emoji': '😤', 'label': 'Angry'},
+    {'emoji': '😍', 'label': 'Love'},
+  ];
 
   static const List<String> _weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   static const List<String> _months = [
@@ -36,6 +45,131 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
   }
 
+  Future<void> _showAddNoteDialog() async {
+    final titleCtrl = TextEditingController();
+    final contentCtrl = TextEditingController();
+    String selectedMood = '';
+
+    await showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setSt) => Dialog(
+          backgroundColor: const Color(0xFF2d1b4e),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Add Note — ${_selectedDay.day}/${_selectedDay.month}/${_selectedDay.year}',
+                  style: const TextStyle(
+                      color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: titleCtrl,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: 'Title',
+                    hintStyle: const TextStyle(color: Colors.white38),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.08),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: contentCtrl,
+                  maxLines: 3,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: 'Write your note...',
+                    hintStyle: const TextStyle(color: Colors.white38),
+                    filled: true,
+                    fillColor: Colors.white.withOpacity(0.08),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                // Mood picker
+                SizedBox(
+                  height: 44,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: _moods.map((m) {
+                      final active = selectedMood == m['emoji'];
+                      return GestureDetector(
+                        onTap: () => setSt(() => selectedMood = m['emoji']!),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 150),
+                          margin: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: active
+                                ? const Color(0xFF7c3aed)
+                                : Colors.white.withOpacity(0.08),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            '${m['emoji']} ${m['label']}',
+                            style: TextStyle(
+                                color: active ? Colors.white : Colors.white54,
+                                fontSize: 13),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () => Navigator.pop(ctx),
+                        child: const Text('Cancel',
+                            style: TextStyle(color: Colors.white54)),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (contentCtrl.text.trim().isEmpty) return;
+                          Navigator.pop(ctx);
+                          final ok = await ApiService.createNote(
+                            title: titleCtrl.text.trim(),
+                            content: contentCtrl.text.trim(),
+                            mood: selectedMood,
+                          );
+                          if (ok) _loadNotes();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF7c3aed),
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: const Text('Save'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   List<dynamic> get _selectedDayNotes => _notes.where((n) {
     final d = DateTime.tryParse(n['createdAt'] ?? '') ?? DateTime(2000);
     return d.year == _selectedDay.year &&
@@ -50,6 +184,29 @@ class _CalendarScreenState extends State<CalendarScreen> {
         .where((d) => d.year == _focusedDay.year && d.month == _focusedDay.month)
         .map((d) => d.day)
         .toSet();
+  }
+
+  Widget _buildImage(String src, {double? width}) {
+    if (src.startsWith('data:')) {
+      return Image.memory(
+        base64Decode(src.split(',').last),
+        width: width,
+        fit: BoxFit.cover,
+      );
+    }
+    return Image.network(src, width: width, fit: BoxFit.cover,
+        loadingBuilder: (ctx, child, progress) =>
+            progress == null ? child : const Center(
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: CircularProgressIndicator(color: Color(0xFFc084fc)),
+              ),
+            ),
+        errorBuilder: (_, __, ___) => const Padding(
+          padding: EdgeInsets.all(12),
+          child: Text('❌ Failed to load',
+              style: TextStyle(color: Colors.white54)),
+        ));
   }
 
   Widget _buildCalendar() {
@@ -272,20 +429,58 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               ),
                             ),
                             const SizedBox(height: 20),
+
+                            // ── Notes header ──
                             Row(
                               mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text("Today's Notes",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold)),
-                                Text(
-                                  "${_selectedDay.day}/${_selectedDay.month}/${_selectedDay.year}",
-                                  style: const TextStyle(
-                                      color: Colors.white54,
-                                      fontSize: 12),
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      "Notes",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "${_selectedDay.day}/${_selectedDay.month}/${_selectedDay.year}",
+                                      style: const TextStyle(
+                                          color: Colors.white54,
+                                          fontSize: 12),
+                                    ),
+                                  ],
+                                ),
+                                GestureDetector(
+                                  onTap: _showAddNoteDialog,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 14, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                          colors: [Color(0xFF7c3aed),
+                                            Color(0xFFa855f7)]),
+                                      borderRadius:
+                                          BorderRadius.circular(12),
+                                    ),
+                                    child: const Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(Icons.add,
+                                            color: Colors.white, size: 16),
+                                        SizedBox(width: 4),
+                                        Text('Add Note',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 13,
+                                                fontWeight:
+                                                    FontWeight.bold)),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -334,45 +529,51 @@ class _CalNoteCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withOpacity(0.1)),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 46,
-            height: 46,
-            decoration: BoxDecoration(
-              color: const Color(0xFF4c1d95),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Center(
-              child: Text(
-                note['mood']?.isNotEmpty == true ? note['mood'] : '📝',
-                style: const TextStyle(fontSize: 22),
+          Row(
+            children: [
+              Container(
+                width: 46,
+                height: 46,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF4c1d95),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Text(
+                    note['mood']?.isNotEmpty == true ? note['mood'] : '📝',
+                    style: const TextStyle(fontSize: 22),
+                  ),
+                ),
               ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  note['title']?.isNotEmpty == true
-                      ? note['title']
-                      : note['content'],
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      note['title']?.isNotEmpty == true
+                          ? note['title']
+                          : note['content'],
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      _formatTime(note['createdAt']),
+                      style:
+                          const TextStyle(color: Colors.white54, fontSize: 12),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  _formatTime(note['createdAt']),
-                  style: const TextStyle(color: Colors.white54, fontSize: 12),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

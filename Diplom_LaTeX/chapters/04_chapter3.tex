@@ -1,0 +1,1416 @@
+﻿%% ── 3-Р БҮЛЭГ: СУДАЛГААНЫ АРГ А ЗҮЙ ───────────────────────
+\chapter{Судалгааны Арга Зүй -- Системийн Ажиллах Зарчим}
+\label{ch:methodology}
+
+\section{Системийн архитектур}
+
+Систем нь \textbf{Client-Server} архитектурын загвараар хийгдсэн бөгөөд гурван үндсэн
+давхаргатай:
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  box/.style={draw, rounded corners=4pt, minimum width=3.5cm,
+              minimum height=0.8cm, align=center, fill=blue!10, font=\small},
+  db/.style={draw, rounded corners=2pt, minimum width=3cm,
+             minimum height=0.8cm, align=center, fill=green!10, font=\small},
+  arr/.style={->, >=stealth, thick}
+]
+  \node[box] (flutter) at (0,0)      {Flutter App\\(Android/iOS)};
+  \node[box] (api)     at (5,0)      {Node.js + Express\\REST API\\Port 5000};
+  \node[db]  (mongo)   at (10,0)     {MongoDB Atlas\\Cloud DB};
+
+  \draw[arr] (flutter) -- node[above, font=\scriptsize]{HTTP/JSON} (api);
+  \draw[arr] (api) -- node[above, font=\scriptsize]{Mongoose} (mongo);
+  \draw[arr] (api) -- node[below, font=\scriptsize]{JSON} (flutter);
+  \draw[arr] (mongo) -- node[below, font=\scriptsize]{Documents} (api);
+\end{tikzpicture}
+\caption{Системийн архитектурын диаграм}
+\label{fig:arch}
+\end{figure}
+
+\section{AI Sticker, Calendar болон Notification системийн ажиллах зарчим}
+
+Манай системийн гол шинэлэг нь \textbf{AI стикер үүсгэлт $\rightarrow$ Calendar дээр байрлуулалт
+$\rightarrow$ Автомат notification} урсгалд байна. Жишээлбэл:
+
+\textit{``3 сарын 8-нд Sunday уулзалт байна''} гэж тэмдэглэл оруулахад:
+
+\begin{enumerate}
+  \item \textbf{Тэмдэглэл шинжлэх} -- хэрэглэгч текстэн агуулгаа оруулаад
+  \item \textbf{AI стикер үүсгэх} -- тэмдэглэлийн утга агуулга болон mood-д тохирсон
+    стикер дизайныг хиймэл оюун автомат үүсгэнэ
+  \item \textbf{Calendar дээр байрлуулалт} -- үүсгэсэн стикер 3 сарын 8-ны нүдэнд
+    автоматаар холбогдоно
+  \item \textbf{\texttt{reminderAt} огноо хадгалах} -- MongoDB-д Хэзэгд өгөөх цагийг хадгална
+  \item \textbf{Push notification илгээх} -- \texttt{reminderAt} цаг болохд
+    Firebase Cloud Messaging ашиглан сануулга илгээдаг~\cite{firebase2023}
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  %% --- node styles ---
+  screen/.style={draw, rounded corners=5pt, minimum width=4.4cm,
+                 minimum height=1cm, align=center, fill=violet!15, font=\small},
+  auth/.style  ={draw, rounded corners=5pt, minimum width=3.2cm,
+                 minimum height=0.9cm, align=center, fill=blue!20, font=\small},
+  ainod/.style ={draw, rounded corners=5pt, minimum width=3.8cm,
+                 minimum height=1.0cm, align=center, fill=orange!25, font=\small},
+  dbnod/.style ={draw, rounded corners=5pt, minimum width=3.3cm,
+                 minimum height=1.0cm, align=center, fill=yellow!30, font=\small},
+  calnod/.style={draw, rounded corners=5pt, minimum width=4.4cm,
+                 minimum height=1cm, align=center, fill=green!20, font=\small},
+  fcm/.style   ={draw, rounded corners=5pt, minimum width=4.4cm,
+                 minimum height=1cm, align=center, fill=red!15, font=\small},
+  lbl/.style   ={font=\scriptsize, fill=white, inner sep=1pt},
+  arr/.style   ={->, >=stealth, thick},
+  darr/.style  ={->, >=stealth, thick, dashed, gray}
+]
+
+  %% ── Гол урсгал (дунд тэнхлэг) ──────────────────────────────
+  \node[screen] (login)  at (0,   0)   {Нэвтрэх / Бүртгэл\\{\scriptsize\textit{(Login / Signup)}}};
+  \node[screen] (dash)   at (0,  -2.4) {Дашборд\\{\scriptsize(тэмдэглэлүүдийн жагсаалт)}};
+  \node[screen] (create) at (0,  -4.8) {Тэмдэглэл бичих\\{\scriptsize(текст + mood + огноо)}};
+  \node[calnod] (cal)    at (0,  -7.8) {Calendar харах\\{\scriptsize(өдрөөр шүүж, стикер харах)}};
+  \node[fcm]    (notif)  at (0, -10.4) {Push Notification\\{\scriptsize(FCM — автомат сануулга)}};
+
+  %% ── Баруун тал: JWT болон AI ────────────────────────────────
+  \node[auth]  (jwt)     at (5.4, -1.0) {JWT Token\\{\scriptsize(баталгаажуулалт)}};
+  \node[ainod] (aibox)   at (5.4, -4.8) {AI Sticker\\үүсгэх\\{\scriptsize(mood шинжлэнэ)}};
+  \node[ainod] (sticker) at (5.4, -7.2) {Стикер\\Calendar дээр\\байрлуулах};
+
+  %% ── Зүүн тал: MongoDB ──────────────────────────────────────
+  \node[dbnod] (db) at (-5.0, -6.2) {MongoDB\\{\scriptsize note + stickerUrl}\\{\scriptsize + reminderAt}};
+
+  %% ── Гол урсгалын сумнууд ────────────────────────────────────
+  \draw[arr] (login)  -- (dash);
+  \draw[arr] (dash)   -- (create);
+  \draw[arr] (create) -- node[lbl, left]{\texttt{reminderAt}}   (cal);
+  \draw[arr] (cal)    -- node[lbl, left]{цаг болоход}           (notif);
+
+  %% ── JWT баталгаажуулалт ─────────────────────────────────────
+  \draw[darr] (login) -- node[lbl, above]{нэвтрэх}             (jwt);
+  \draw[darr] (jwt)   |- node[lbl, right, near end]{token}      (dash);
+
+  %% ── AI Sticker branch ───────────────────────────────────────
+  \draw[arr] (create)  -- node[lbl, above]{агуулга + mood}      (aibox);
+  \draw[arr] (aibox)   -- node[lbl, right]{\texttt{stickerUrl}} (sticker);
+  \draw[arr] (sticker) -| node[lbl, below, near end]{стикер}    (cal);
+
+  %% ── MongoDB хадгалалт ───────────────────────────────────────
+  \draw[arr]  (create) -- node[lbl, above]{хадгалах}            (db);
+  \draw[darr] (db)     |- node[lbl, left, near end]{\texttt{reminderAt}} (notif);
+
+  %% ── Тайлбар хайрцаг (legend) ────────────────────────────────
+  \node[draw, rounded corners=4pt, fill=white, font=\scriptsize,
+        inner sep=6pt, align=left] at (5.4, -9.6) {
+    \textbf{Тайлбар}\\[3pt]
+    $\rightarrow$ Үндсэн урсгал\\
+    $\dashrightarrow$ Туслах холбоос\\[3pt]
+    \textcolor{violet!70}{$\blacksquare$} Апп дэлгэц\\
+    \textcolor{orange!80}{$\blacksquare$} AI үйлчилгээ\\
+    \textcolor{green!60!black}{$\blacksquare$} Calendar\\
+    \textcolor{red!60}{$\blacksquare$} Notification\\
+    \textcolor{yellow!70!black}{$\blacksquare$} MongoDB
+  };
+
+\end{tikzpicture}
+\caption{Аппликейшний бүрэн ажиллагааны урсгал: Нэвтрэлт, Тэмдэглэл, AI Sticker, Calendar, Push Notification}
+\label{fig:aiflow}
+\end{figure}
+
+\textbf{Note өгөгдлийн загвар}т \texttt{reminderAt} болон \texttt{stickerUrl} талбаруудыг нэмжээ систем дээр
+хадгална. Flutter календар дээр \texttt{reminderAt} дараах өгөгдлүүдийг шүүж,
+тодорхой өдөрт \textbf{\texttt{stickerUrl}-д татасан стикерийг дүрслэн} харуулна.
+
+\section{UML Диаграмууд}
+
+\subsection{Use Case Diagram}
+
+\textbf{Use Case Diagram} нь системд хэн ямар үйлдэл хийж болохыг харуулдаг UML диаграм юм.
+\ref{fig:usecase}-р зурагт харуулснаар манай систем нэг үндсэн актортой -- \textbf{Хэрэглэгч}.
+Тэр нь системтэй холбогддог зургаан хэрэглээний тохиолдол (use case) байна:
+
+\begin{itemize}
+  \item \textbf{Бүртгүүлэх / Нэвтрэх} -- шинэ хэрэглэгч бүртгүүлж, системд аюулгүй нэвтрэх боломж
+  \item \textbf{Тэмдэглэл үүсгэх} -- гарчиг, агуулга, mood бүхий шинэ тэмдэглэл оруулна
+  \item \textbf{Тэмдэглэл харах} -- өнөөдрийн болон бүх тэмдэглэлийн жагсаалтыг харна
+  \item \textbf{Тэмдэглэл засах} -- одоо байгаа тэмдэглэлийн агуулгыг шинэчилнэ
+  \item \textbf{Тэмдэглэл устгах} -- тэмдэглэлийг бүрмөсөн устгана
+  \item \textbf{Mood сонгох} -- Happy, Sad, Tired, Angry, Love-аас нэгийг сонгоно  \item \textbf{Calendar харах} -- стикер бүхий календараас өдөр сонгох
+  \item \textbf{Notification авах} -- тухайн өдрийн автоматаар сануулга хүлээнэ\end{itemize}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+  actor/.style={draw, ellipse, minimum width=1.4cm, minimum height=0.7cm, font=\small},
+  uc/.style={draw, rounded corners=8pt, minimum width=4cm,
+             minimum height=0.7cm, align=center, font=\small, fill=yellow!10},
+  >=stealth
+]
+  \node[actor] (user) at (0,0) {Хэрэглэгч};
+  \node[uc] (reg)    at (5.5, 4.5)   {Бүртгүүлэх / Нэвтрэх};
+  \node[uc] (create) at (5.5, 3.0)   {Тэмдэглэл үүсгэх};
+  \node[uc] (view)   at (5.5, 1.5)   {Тэмдэглэл харах};
+  \node[uc] (edit)   at (5.5, 0.0)   {Тэмдэглэл засах};
+  \node[uc] (del)    at (5.5,-1.5)   {Тэмдэглэл устгах};
+  \node[uc] (mood)   at (5.5,-3.0)   {Mood сонгох};
+  \node[uc] (cal)    at (5.5,-4.5)   {Calendar харах};
+  \node[uc] (notif)  at (5.5,-6.0)   {Notification авах};
+
+  \draw[->] (user) -- (reg);
+  \draw[->] (user) -- (create);
+  \draw[->] (user) -- (view);
+  \draw[->] (user) -- (edit);
+  \draw[->] (user) -- (del);
+  \draw[->] (user) -- (mood);
+  \draw[->] (user) -- (cal);
+  \draw[->] (user) -- (notif);
+
+  \draw[dashed] (3,-6.8) rectangle (8.5,5.2);
+  \node[font=\footnotesize] at (5.75,4.9) {Системийн хүрээ};
+\end{tikzpicture}
+\caption{Системийн Use Case Diagram}
+\label{fig:usecase}
+\end{figure}
+
+\subsection{Class Diagram}
+
+\textbf{Class Diagram} нь системийн өгөгдлийн бүтэц болон классуудын хоорондын
+хамаарлыг харуулна. \ref{fig:classdiag}-р зурагт үзүүлснээр систем нь хоёр үндсэн классаас тогтоно:
+
+\begin{itemize}
+  \item \textbf{User} класс -- хэрэглэгчийн нэр, имэйл, нууцлагдсан нууц үг, огноо хадгална.
+    \texttt{login()} арга JWT токен буцаана.
+  \item \textbf{Note} класс -- тэмдэглэлийн гарчиг, агуулга, mood, сануулгын огноо,
+    үүсгэсэн болон шинэчилсэн огноог хадгална.
+\end{itemize}
+
+Хоёр класс нь \textbf{1-to-many} хамаарлтай: нэг хэрэглэгч олон тэмдэглэл үүсгэж болно.
+Note-ийн \texttt{userId} талбар нь User-ийн \texttt{\_id}-г лавлана (Mongoose ref).
+
+Системийн үндсэн 2 класс -- \textbf{User} болон \textbf{Note}:
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[font=\small]
+  % User class
+  \draw (0,0) rectangle (5,4);
+  \node[font=\bfseries] at (2.5,3.6) {User};
+  \draw (0,3.2) -- (5,3.2);
+  \node[anchor=west] at (0.2,2.8) {+ name: String};
+  \node[anchor=west] at (0.2,2.3) {+ email: String (unique)};
+  \node[anchor=west] at (0.2,1.8) {+ password: String (hashed)};
+  \node[anchor=west] at (0.2,1.3) {+ createdAt: Date};
+  \draw (0,0.9) -- (5,0.9);
+  \node[anchor=west] at (0.2,0.5) {+ login(): JWT};
+
+  % Note class
+  \draw (7,0) rectangle (12.5,5);
+  \node[font=\bfseries] at (9.75,4.6) {Note};
+  \draw (7,4.2) -- (12.5,4.2);
+  \node[anchor=west] at (7.2,3.8) {+ userId: ObjectId};
+  \node[anchor=west] at (7.2,3.3) {+ title: String};
+  \node[anchor=west] at (7.2,2.8) {+ content: String};
+  \node[anchor=west] at (7.2,2.3) {+ mood: String};
+  \node[anchor=west] at (7.2,1.8) {+ reminderAt: Date};
+  \node[anchor=west] at (7.2,1.3) {+ createdAt: Date};
+  \node[anchor=west] at (7.2,0.8) {+ updatedAt: Date};
+  \draw (7,0.4) -- (12.5,0.4);
+
+  % Relationship
+  \draw[->, >=stealth, thick] (5,2) -- (7,2.5) node[midway,above,font=\scriptsize]{1 \quad creates \quad *};
+\end{tikzpicture}
+\caption{Системийн Class Diagram}
+\label{fig:classdiag}
+\end{figure}
+
+\subsection{Sequence Diagram -- Нэвтрэх үйлдэл}
+
+\textbf{Sequence Diagram} нь объектуудын хоорондын мессежийн дарааллыг цагийн хувьд
+харуулна. \ref{fig:seqlogin}-р зурагт нэвтрэх үйл явцын бүрэн дараалал харагдана:
+
+\begin{enumerate}
+  \item Хэрэглэгч имэйл болон нууц үгээ Flutter App-д оруулна
+  \item Flutter App нь \texttt{POST /api/auth/login} хүсэлт илгээнэ
+  \item Node.js API \texttt{User.findOne(\{email\})} ашиглан MongoDB-с хэрэглэгч хайна
+  \item MongoDB хэрэглэгчийн document буцаана
+  \item API \texttt{bcrypt.compare()} ашиглан нууц үгийг шалгана
+  \item Зөв бол \texttt{jwt.sign(\{userId\})} ашиглан 7 хоногийн токен үүсгэнэ
+  \item Flutter App токеныг \texttt{FlutterSecureStorage}-д аюулгүй хадгална
+  \item Хэрэглэгчийг Dashboard руу шилжүүлнэ
+\end{enumerate}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[font=\small, >=stealth]
+  % Lifelines
+  \draw[thick] (0,0) -- (0,-8);
+  \draw[thick] (4,0) -- (4,-8);
+  \draw[thick] (8,0) -- (8,-8);
+  \draw[thick] (12,0) -- (12,-8);
+
+  \node at (0,0.3)  {\textbf{Хэрэглэгч}};
+  \node at (4,0.3)  {\textbf{Flutter App}};
+  \node at (8,0.3)  {\textbf{Node.js API}};
+  \node at (12,0.3) {\textbf{MongoDB}};
+
+  \draw[->] (0,-1) -- (4,-1) node[midway,above,font=\scriptsize]{email + нууц үг оруулах};
+  \draw[->] (4,-2) -- (8,-2) node[midway,above,font=\scriptsize]{POST /api/auth/login};
+  \draw[->] (8,-3) -- (12,-3) node[midway,above,font=\scriptsize]{User.findOne(\{email\})};
+  \draw[<-] (8,-4) -- (12,-4) node[midway,above,font=\scriptsize]{user document};
+  \draw[->] (8,-5) -- (8,-5.5) node[right,font=\scriptsize]{bcrypt.compare()};
+  \draw[->] (8,-5.8) -- (8,-6.3) node[right,font=\scriptsize]{jwt.sign(\{userId\})};
+  \draw[<-] (4,-7) -- (8,-7) node[midway,above,font=\scriptsize]{\{token, user\}};
+  \draw[->] (4,-7.5) -- (4,-7.8) node[right,font=\scriptsize]{SecureStorage.write(token)};
+  \draw[<-] (0,-8) -- (4,-8) node[midway,above,font=\scriptsize]{Dashboard руу шилжих};
+\end{tikzpicture}
+\caption{Нэвтрэх үйлдлийн Sequence Diagram}
+\label{fig:seqlogin}
+\end{figure}
+
+\subsection{Sequence Diagram -- Тэмдэглэл үүсгэх}
+
+\ref{fig:seqcreate}-р зурагт тэмдэглэл үүсгэх үйл явцын дараалал харагдана.
+Энэ үйлдэл нь заавал \textbf{JWT баталгаажуулалт} шаарддаг -- токенгүй хүсэлт
+\texttt{401 Unauthorized} буцаана:
+
+\begin{enumerate}
+  \item Хэрэглэгч гарчиг, агуулга, mood-ыг оруулж \textit{Хадгалах} товч дарна
+  \item Flutter App \texttt{POST /api/notes} хүсэлтийг \texttt{Authorization: Bearer <token>} header-тэй илгээнэ
+  \item \texttt{authMiddleware} JWT токеныг шалгаж \texttt{req.userId} тохируулна
+  \item \texttt{noteController.createNote()} шинэ Note объект үүсгэж MongoDB-д хадгална
+  \item MongoDB хадгалагдсан document буцаана
+  \item API \texttt{201 Created} статустай note JSON буцаана
+  \item Flutter App UI-г шинэчилж шинэ тэмдэглэлийг жагсаалтад харуулна
+\end{enumerate}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[font=\small, >=stealth]
+  \draw[thick] (0,0) -- (0,-7);
+  \draw[thick] (4,0) -- (4,-7);
+  \draw[thick] (8,0) -- (8,-7);
+  \draw[thick] (12,0) -- (12,-7);
+
+  \node at (0,0.3)  {\textbf{Хэрэглэгч}};
+  \node at (4,0.3)  {\textbf{Flutter App}};
+  \node at (8,0.3)  {\textbf{Node.js API}};
+  \node at (12,0.3) {\textbf{MongoDB}};
+
+  \draw[->] (0,-1) -- (4,-1) node[midway,above,font=\scriptsize]{title/content/mood оруулах};
+  \draw[->] (4,-2) -- (8,-2) node[midway,above,font=\scriptsize]{POST /api/notes + Bearer token};
+  \draw[->] (8,-3) -- (8,-3.4) node[right,font=\scriptsize]{authMiddleware: JWT verify};
+  \draw[->] (8,-4) -- (12,-4) node[midway,above,font=\scriptsize]{new Note(\{...\}).save()};
+  \draw[<-] (8,-5) -- (12,-5) node[midway,above,font=\scriptsize]{note document};
+  \draw[<-] (4,-6) -- (8,-6) node[midway,above,font=\scriptsize]{201 Created + note JSON};
+  \draw[<-] (0,-7) -- (4,-7) node[midway,above,font=\scriptsize]{UI шинэчлэгдэх};
+\end{tikzpicture}
+\caption{Тэмдэглэл үүсгэх Sequence Diagram}
+\label{fig:seqcreate}
+\end{figure}
+
+\section{Системийн Үндсэн Компонентүүдийн Техникийн Тайлбар}
+
+Систем нь гурван үндсэн компонент -- Backend (Node.js), Frontend (Flutter), AI (DALL-E) -- -ээр бүрдэн,
+REST API болон JSON-ээр холбогддог модульчилсан архитектурын загвараар дизайн хийгдсэн.
+
+\subsection{Backend: Node.js + Express}
+
+Node.js рантайм орчин дээр Express.js framework ашиглан хөгжүүлэгдсэн REST API сервер. 
+
+\begin{itemize}
+  \item \textbf{Баталгаажуулалт}: JWT token + bcrypt ашиглан нэвтрэх үйлдэл хароод хасад
+  \item \textbf{Өгөгдлийн удирдлага}: MongoDB + Mongoose ашиглан User/Note schema удирдах
+  \item \textbf{API эндпойнтүүд}: CRUD үйлдлүүд, JWT middleware баталгаажуулалт
+  \item \textbf{AI интеграци}: \texttt{POST /api/notes/generate-sticker} ў OpenAI DALL-E API холбоход
+\end{itemize}
+
+Серверийн эргүүлэлт: Request $\rightarrow$ Middleware (CORS, JSON parse) $\rightarrow$ Authentication (JWT) $\rightarrow$ Controller (бизнес логик) $\rightarrow$ Database операци $\rightarrow$ JSON Response.
+
+\subsection{Frontend: Flutter Мобайл Апп}
+
+Flutter framework-ээр хөгжүүлэгдсэн Android/iOS кроссплатформ мобайл апп.
+
+\begin{itemize}
+  \item \textbf{Нэвтрэх}: FlutterSecureStorage ашиглан JWT токеныг шифрлэн хадгалах, автоматаар сессион шалгах
+  \item \textbf{Үндсэн экранүүд}: LoginScreen $\rightarrow$ Dashboard (өдрийн тэмдэглэл) $\rightarrow$ Calendar $\rightarrow$ StickerScreen (AI)
+  \item \textbf{UI Design}: Material Design 3, Dark mode, Purple/Pink өнгөний схем
+  \item \textbf{Mood}: 5 төрөл (Happy, Sad, Tired, Angry, Love) сонгох боломж
+\end{itemize}
+
+Тэмдэглэл үүсгэх урсгал: Текст + mood оруулах $\rightarrow$ \texttt{POST /api/notes} илгээх $\rightarrow$ Backend MongoDB-д хадгалах $\rightarrow$ UI refresh.
+
+\subsection{AI Компонент: OpenAI DALL-E 3}
+
+Текст prompt-оос ухаалаг стикер үүсгэлтийн AI үйлчилгээ.
+
+\begin{itemize}
+  \item \textbf{Процесс}: Хэрэглэгч prompt оруулах $\rightarrow$ Backend DALL-E API-рүү илгээх $\rightarrow$ 1024×1024 зураг үүсгэлт
+  \item \textbf{Mood нөлөөлөл}: Happy mood $\rightarrow$ ``colorful, bright'', Sad mood $\rightarrow$ ``melancholic, blue-toned'' гэх мэт prompt нэмэлтүүд
+  \item \textbf{Сорилтын зүйл}: Rate limiting, 10-30 секундын хүлээлтийн хугацаа, API ашигласны төлбөр шаарддаг
+\end{itemize}
+
+\section{Backend хөгжүүлэлт (Node.js + Express.js)}
+
+\subsection{Серверийн үндсэн тохиргоо}
+
+\begin{lstlisting}[caption={server.js -- Express серверийн бүрэн тохиргоо}]
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ 1. DOTENV: .env файл дээрх хувьсагчдыг ачаална ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// .env файлын жишээ:
+// MONGO_URI = "mongodb+srv://user:pass@cluster0.mongodb.net/ai-notes"
+// PORT = 5000
+// JWT_SECRET = "my-secret-key-12345"
+require("dotenv").config();
+
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ 2. NPM PACKAGE IMPORT: Шаардлагатай модулиудыг оруулна ══╗
+// 
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const bcryptjs = require("bcryptjs");
+
+// Үзүүлэлцүүлсэн route файлуудыг оруул
+const authRoutes = require("./routes/auth");
+const noteRoutes = require("./routes/notes");
+
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ 3. EXPRESS APP ҮҮСГЭХ ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+const app = express();
+
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ 4. MIDDLEWARE СУУЛГАЛТ ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// cors(): Cross-Origin хүсэлтийг зөвшөөрнө
+app.use(cors());
+// express.json(): JSON body-ыг parse хийнэ
+app.use(express.json());
+
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ 5. MongoDB холбоо ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+const MONGO_URI = 
+  process.env.MONGO_URI || 
+  "mongodb+srv://user:pass@cluster0.mongodb.net/ai-notes-db";
+
+mongoose
+  .connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("[OK] MongoDB амжилттай холбогдлоо!");
+  })
+  .catch((err) => {
+    console.log("[ALDAA] MongoDB холбоон алдаа:", err.message);
+    process.exit(1);
+  });
+
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ 6. API ROUTE-УУД БҮРТГЭХ ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+app.use("/api/auth", authRoutes);
+app.use("/api/notes", noteRoutes);
+
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ 7. HEALTH CHECK ENDPOINT ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+app.get("/", (req, res) => {
+  res.json({
+    message: "[START] AI Sticker Note API хэвийн ажилланд байна",
+    version: "1.0.0"
+  });
+});
+
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ 8. СЕРВЕР АСААЛТЫГ ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log("\n" + "═".repeat(60));
+  console.log(`[START] Сервер ${PORT} портод эхлэлээ!`);
+  console.log("═".repeat(60));
+  console.log("[INFO] API Endpoints:");
+  console.log(`   POST   /api/auth/signup`);
+  console.log(`   POST   /api/auth/login`);
+  console.log(`   GET    /api/notes`);
+  console.log(`   POST   /api/notes`);
+  console.log(`   PUT    /api/notes/:id`);
+  console.log(`   DELETE /api/notes/:id`);
+  console.log("═".repeat(60) + "\n");
+});
+\end{lstlisting}
+
+\subsection{Өгөгдлийн загвар (Mongoose Schema)}
+
+\begin{lstlisting}[caption={models/User.js -- Хэрэглэгчийн схем}]
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ User Collection Schema ══╗
+// MongoDB-д хэрэглэгчийн өгөгдлийг хэрхэн хадгалахыг тодорхойлно
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+const mongoose = require("mongoose");
+const bcryptjs = require("bcryptjs");
+
+const userSchema = new mongoose.Schema({
+  // ─────────────────────────────────────────────────
+  // name: String - Хэрэглэгчийн нэр
+  // ─────────────────────────────────────────────────
+  name: {
+    type: String,
+    required: true,
+    trim: true,  // Урд/хойс зай устгана: "  John  " → "John"
+  },
+
+  // ─────────────────────────────────────────────────
+  // email: String - Электрон шуудан (Primary Key)
+  // unique: true → Ижил имэйл 2 удаа орно гэм алдае урпад
+  // ─────────────────────────────────────────────────
+  email: {
+    type: String,
+    required: true,
+    unique: true,  // duplicate check
+    lowercase: true,  // "USER@GMAIL.COM" → "user@gmail.com"
+    trim: true,
+    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,  // Email format validation
+  },
+
+  // ─────────────────────────────────────────────────
+  // password: String - Шифрлэгдсэн нууц үг (bcrypt)
+  // ─────────────────────────────────────────────────
+  password: {
+    type: String,
+    required: true,
+    minlength: 8,  // 8-аас доошгүй урттай байх шаардлага
+  },
+
+  // ─────────────────────────────────────────────────
+  // createdAt: Date - Бүртгүүлэх үеийн цаг
+  // default: Date.now → автоматаар одоогийн цаг оноож байна
+  // ─────────────────────────────────────────────────
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ Pre-Save Hook: Нууц үгийг хашлах (bcrypt) ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// MongoDB руу хадгалахаас өмнө:
+// "password123" → "$2a$10$k3j4h2k341jh2k3hj4k2h..." (хашлагдсан)
+userSchema.pre("save", async function (next) {
+  // Нууц үг өөрчлөгдөөгүй бол skip хийнэ
+  if (!this.isModified("password")) {
+    return next();
+  }
+
+  try {
+    // bcrypt.genSalt(10) - 10 хос цикл (хүндээслэх зэрэг)
+    const salt = await bcryptjs.genSalt(10);
+    // bcryptjs.hash - нууц үгийг salt-ээр хашлана
+    this.password = await bcryptjs.hash(this.password, salt);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+module.exports = mongoose.model("User", userSchema);
+\end{lstlisting}
+
+\begin{lstlisting}[caption={models/Note.js -- Тэмдэглэлийн схем}]
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ Note Collection Schema ══╗
+// Хэрэглэгчийн тэмдэглэлийн мэдээллийг хадгалах
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+const mongoose = require("mongoose");
+
+const noteSchema = new mongoose.Schema({
+  // ─────────────────────────────────────────────────
+  // userId: ObjectId - Аль хэрэглэгчийн тэмдэглэл
+  // ref: "User" → User collection-руу холбох
+  // ─────────────────────────────────────────────────
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",  // User model-ээр холбох
+    required: true,
+  },
+
+  // ─────────────────────────────────────────────────
+  // title: String - Тэмдэглэлийн гарчиг
+  // default: "" → хэли үг авахгүй байж болно
+  // ─────────────────────────────────────────────────
+  title: {
+    type: String,
+    default: "",
+  },
+
+  // ─────────────────────────────────────────────────
+  // content: String - Тэмдэглэлийн үндсэн агуулга
+  // required: true → заавал байх
+  // ─────────────────────────────────────────────────
+  content: {
+    type: String,
+    required: true,
+  },
+
+  // ─────────────────────────────────────────────────
+  // mood: String - Сэтгэл хөдлөл (Happy, Sad, Tired...)
+  // default: "" → орхих боломжтой (заавал биш)
+  // ─────────────────────────────────────────────────
+  mood: {
+    type: String,
+    enum: ["Happy", "Sad", "Tired", "Angry", "Love", ""],
+    default: "",
+  },
+
+  // ─────────────────────────────────────────────────
+  // stickerUrl: String - AI-аар үүсгэгдсэн стикерийн URL
+  // default: null → хэли avax
+  // ─────────────────────────────────────────────────
+  stickerUrl: {
+    type: String,
+    default: null,
+  },
+
+  // ─────────────────────────────────────────────────
+  // reminderAt: Date - Сануулгын цаг
+  // Жишээ: 2024-03-10T14:30:00Z
+  // ─────────────────────────────────────────────────
+  reminderAt: {
+    type: Date,
+    default: null,
+  },
+
+  // ─────────────────────────────────────────────────
+  // createdAt: Date - Тэмдэглэл үүсгэгдсэн цаг
+  // ─────────────────────────────────────────────────
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+
+  // ─────────────────────────────────────────────────
+  // updatedAt: Date - Сүүлийн өөрчлөгдсөн цаг
+  // ─────────────────────────────────────────────────
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+module.exports = mongoose.model("Note", noteSchema);
+\end{lstlisting}
+
+\subsection{Хэрэглэгчийн баталгаажуулалт (JWT + bcrypt)}
+
+\begin{lstlisting}[caption={routes/auth.js -- Бүртгэх endpoint}]
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ SIGNUP: Шинэ хэрэглэгч бүртгэх ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const bcryptjs = require("bcryptjs");
+const User = require("../models/User");
+const JWT_SECRET = process.env.JWT_SECRET || "secret123";
+const router = express.Router();
+
+router.post("/signup", async (req, res) => {
+  try {
+    // ═══════════════════════════════════════════════════════
+    // 1. Request body-с хэрэглэгчийн өгөгдлийг авна
+    // ═══════════════════════════════════════════════════════
+    const { name, email, password, passwordConfirm } = req.body;
+
+    // Бүх талбар байх эсэх шалгах
+    if (!name || !email || !password || !passwordConfirm) {
+      return res.status(400).json({
+        message: "Бүх талбарыг дүүргэнэ үү"
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 2. Нууц үг тэнцэх эсэх шалгах
+    // ═══════════════════════════════════════════════════════
+    if (password !== passwordConfirm) {
+      return res.status(400).json({
+        message: "Нууц үг давхцахгүй байна"
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 3. Ижил имэйл байхгүй эсэх шалгах (unique)
+    // ═══════════════════════════════════════════════════════
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        message: "Энэ имэйл бүртгэлтэй байна"
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 4. Шинэ User объект үүсгэх (нууц үг автомат bcrypt хашлагдана)
+    // pre("save") hook-д bcryptjs.hash() дуудагдаж хашлагдана
+    // ═══════════════════════════════════════════════════════
+    const user = new User({
+      name: name,
+      email: email,
+      password: password,
+    });
+
+    // ═══════════════════════════════════════════════════════
+    // 5. MongoDB-д хадгалах
+    // user.save() дуудахад pre("save") hook ажиллана
+    // ═══════════════════════════════════════════════════════
+    await user.save();
+
+    res.status(201).json({
+      message: "[OK] Хэрэглэгч амжилттай бүртгэгдлээ",
+      userId: user._id
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Алдаа: " + error.message
+    });
+  }
+});
+
+\end{lstlisting}
+
+\begin{lstlisting}[caption={routes/auth.js -- Нэвтрэх endpoint}]
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ LOGIN: Нэвтэрч JWT токен авах ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+router.post("/login", async (req, res) => {
+  try {
+    // ═══════════════════════════════════════════════════════
+    // 1. Request body-с имэйл болон нууц үгийг авна
+    // ═══════════════════════════════════════════════════════
+    const { email, password } = req.body;
+
+    // Бүх талбар байх эсэх шалгах
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Имэйл болон нууц үгийг оруулна уу"
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 2. Email-р MongoDB-д хэрэглэгч хайна
+    // findOne() нэг л document буцаана (тэмдэглэлүүдэс ялгаатай)
+    // ═══════════════════════════════════════════════════════
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(400).json({
+        message: "[ALDAA] Ийм имэйлтэй хэрэглэгч байхгүй"
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 3. Нууц үгийг bcrypt ашиглан харьцуулна
+    // bcryptjs.compare() - сэвсэн нууц үг → хашлагдсан нууц үг
+    // Үр дүн: true (зөв) эсвэл false (буруу)
+    // ═══════════════════════════════════════════════════════
+    const isMatch = await bcryptjs.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({
+        message: "[ALDAA] Нууц үг буруу"
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 4. JWT токен үүсгэх
+    // jwt.sign() нь Header.Payload.Signature хэлбэрээр үүсгэнэ
+    // Payload-д: userId, expiresIn: 7 хоног
+    // ═══════════════════════════════════════════════════════
+    const token = jwt.sign(
+      { userId: user._id },  // Payload: user ID
+      JWT_SECRET,            // Secret key: .env файл дээрээс
+      { expiresIn: "7d" }    // 7 хоног хүчинтэй
+    );
+
+    // ═══════════════════════════════════════════════════════
+    // 5. Клиентэд токен + хэрэглэгчийн мэдээллийг буцаана
+    // ═══════════════════════════════════════════════════════
+    res.json({
+      message: "[OK] Амжилттай нэвтэрлээ",
+      token: token,
+      user: {
+        userId: user._id,
+        name: user.name,
+        email: user.email
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Алдаа: " + error.message
+    });
+  }
+});
+
+module.exports = router;
+\end{lstlisting}
+
+\subsection{Тэмдэглэлийн CRUD хэрэгжилт}
+
+\begin{lstlisting}[caption={controllers/noteController.js -- Тэмдэглэл үүсгэх}]
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ CREATE: Шинэ тэмдэглэл үүсгэх (POST) ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+const Note = require("../models/Note");
+
+exports.createNote = async (req, res) => {
+  try {
+    // ═══════════════════════════════════════════════════════
+    // 1. Request body-с тэмдэглэлийн өгөгдлийг авна
+    // ═══════════════════════════════════════════════════════
+    const { title, content, mood, reminderAt } = req.body;
+
+    // Content заавал байх ёстой
+    if (!content) {
+      return res.status(400).json({
+        message: "Агуулга хоосон байж болохгүй"
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 2. Шинэ Note объект үүсгэх
+    // req.userId → authMiddleware-с ирсэн (JWT-с задалсан)
+    // ═══════════════════════════════════════════════════════
+    const note = new Note({
+      userId: req.userId,      // Аль хэрэглэгчийн тэмдэглэл
+      title: title || "",      // Гарчиг (хэл байж болно)
+      content: content,        // Агуулга (заавал)
+      mood: mood || "",        // Сэтгэл хөдлөл (хэл байж болно)
+      reminderAt: reminderAt || null,  // Сануулгын цаг
+    });
+
+    // ═══════════════════════════════════════════════════════
+    // 3. MongoDB-д хадгалах
+    // note.save() → MongoDB-т оруулж _id авна
+    // ═══════════════════════════════════════════════════════
+    await note.save();
+
+    // ═══════════════════════════════════════════════════════
+    // 4. 201 Created статустай хүнэлэл буцаана
+    // ═══════════════════════════════════════════════════════
+    res.status(201).json({
+      message: "[OK] Тэмдэглэл амжилттай үүсгэгдлээ",
+      note: note
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: " Алдаа: " + error.message
+    });
+  }
+};
+
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ READ: Бүх тэмдэглэл авах (GET) ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+exports.getNotes = async (req, res) => {
+  try {
+    // req.userId → authMiddleware-с ирсэн
+    // find({ userId: req.userId }) → зөвхөн энэ хэрэглэгчийн тэмдэглэлүүд
+    const notes = await Note.find({ userId: req.userId })
+      .sort({ createdAt: -1 });  // Сүүлийн бичлэгийг эхэнд үзүүлэх
+
+    res.json({
+      message: "[OK] Тэмдэглэлүүд авагдлаа",
+      count: notes.length,
+      notes: notes
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "[ALDAA] Алдаа: " + error.message
+    });
+  }
+};
+
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ UPDATE: Тэмдэглэл засах (PUT) ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+exports.updateNote = async (req, res) => {
+  try {
+    // ═══════════════════════════════════════════════════════
+    // 1. URL параметраас ID авна  (/api/notes/123456789)
+    // ═══════════════════════════════════════════════════════
+    const { title, content, mood, reminderAt } = req.body;
+
+    // ═══════════════════════════════════════════════════════
+    // 2. MongoDB-д хайж нэг л document олж шинэчлэх
+    // { _id: ..., userId: req.userId } - оруулга зөвхөн өөрүүдийнхөө
+    // new: true → шинэчилсэн document буцаана
+    // ═══════════════════════════════════════════════════════
+    const note = await Note.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        userId: req.userId,  // Аюулгүй байдлын хэмжээ: өөрийнхөө л засах
+      },
+      {
+        title: title,
+        content: content,
+        mood: mood,
+        reminderAt: reminderAt,
+        updatedAt: new Date(),  // Өөрчлөлтийн цаг
+      },
+      { new: true }
+    );
+
+    if (!note) {
+      return res.status(404).json({
+        message: "[ALDAA] Тэмдэглэл олдсонгүй"
+      });
+    }
+
+    res.json({
+      message: "[OK] Тэмдэглэл шинэчилгдлээ",
+      note: note
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "[ALDAA] Алдаа: " + error.message
+    });
+  }
+};
+
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ DELETE: Тэмдэглэл устгах (DELETE) ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+exports.deleteNote = async (req, res) => {
+  try {
+    // ═══════════════════════════════════════════════════════
+    // 1. MongoDB-д хайж нэг document устгана
+    // findOneAndDelete() - олж устгаж буцаана
+    // ═══════════════════════════════════════════════════════
+    const note = await Note.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.userId,  // Зөвхөн өөрүүдийнх устгах
+    });
+
+    if (!note) {
+      return res.status(404).json({
+        message: "[ALDAA] Тэмдэглэл олдсонгүй"
+      });
+    }
+
+    res.json({
+      message: "[OK] Тэмдэглэл устгагдлээ",
+      deletedNoteId: note._id
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "[ALDAA] Алдаа: " + error.message
+    });
+  }
+};
+\end{lstlisting}
+
+\textbf{API Endpoint-үүдийн жагсаалт:}
+
+\begin{longtable}{|p{4cm}|p{2cm}|p{7cm}|}
+\caption{API Endpoint-үүдийн жагсаалт}\\
+\hline
+\textbf{Endpoint} & \textbf{Арга} & \textbf{Тайлбар} \\
+\hline
+/api/auth/signup & POST & Шинэ хэрэглэгч бүртгэх \\
+\hline
+/api/auth/login & POST & Нэвтрэх, JWT токен авах \\
+\hline
+/api/notes & POST & Шинэ тэмдэглэл үүсгэх \\
+\hline
+/api/notes & GET & Бүх тэмдэглэл харах \\
+\hline
+/api/notes/:id & PUT & Тэмдэглэл засах \\
+\hline
+/api/notes/:id & DELETE & Тэмдэглэл устгах \\
+\hline
+\end{longtable}
+
+\section{Middleware болон аюулгүй байдлын систем}
+
+\subsection{authMiddleware.js -- JWT баталгаажуулалт}
+
+\begin{lstlisting}[caption={middleware/authMiddleware.js -- JWT validation}]
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ authMiddleware: JWT баталгаажуулалт ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// Энэ middleware-ийг /api/notes доторх route-уудад ашиглан
+// токены хүчинтэй эсэхийг баталгаажуулна.
+const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET || "secret123";
+
+module.exports = (req, res, next) => {
+  try {
+    // ═══════════════════════════════════════════════════════
+    // 1. Authorization header-с токен авна
+    // Header хэлбэр: "Authorization: Bearer eyJhbGc..."
+    // ═══════════════════════════════════════════════════════
+    const authHeader = req.headers.authorization;
+
+    // Токен байхгүй бол 401 Unauthorized буцаана
+    if (!authHeader) {
+      return res.status(401).json({
+        message: "[ALDAA] Токен олдсонгүй. Authorization header шаардлагатай"
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 2. "Bearer <token>" хэлбэрээс токеныг задалж авна
+    // split(" ") → ["Bearer", "eyJhbGc..."]
+    // [1] → "eyJhbGc..." (зөвхөн токен)
+    // ═══════════════════════════════════════════════════════
+    const token = authHeader.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        message: "[ALDAA] Токены формат буруу. 'Bearer <token>' ашиглана уу"
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 3. JWT токеныг баталгаажуулна
+    // jwt.verify() - Signature чекк, expiration чекк
+    // Амжилттай бол decoded объект авна: { userId, exp, iat }
+    // ═══════════════════════════════════════════════════════
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    // ═══════════════════════════════════════════════════════
+    // 4. Задалсан userId-ыг req.userId-д хийнэ
+    // Дараа route handler нь req.userId авч ашиглаж болно
+    // ═══════════════════════════════════════════════════════
+    req.userId = decoded.userId;
+
+    // ═══════════════════════════════════════════════════════
+    // 5. next() дуудаж дараа middleware буюу controller руу явна
+    // ═══════════════════════════════════════════════════════
+    next();
+  } catch (err) {
+    // Токен буруу, сүүлэгдсэн, эсвэл signature алдаа
+    if (err.name === "TokenExpiredError") {
+      return res.status(401).json({
+        message: "[ALDAA] Токеныг сүүлэгдсэн. Дахин нэвтрээрэй"
+      });
+    } else if (err.name === "JsonWebTokenError") {
+      return res.status(401).json({
+        message: "[ALDAA] Токеныг буруу. Очих боломжгүй"
+      });
+    } else {
+      return res.status(401).json({
+        message: "[ALDAA] Баталгаажуулалтын алдаа: " + err.message
+      });
+    }
+  }
+};
+\end{lstlisting}
+
+\subsection{API Route-д authMiddleware ашиглалт}
+
+\begin{lstlisting}[caption={routes/notes.js -- authMiddleware хэрэгжилт}]
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ API Route-д Middleware ашиглалт ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+const express = require("express");
+const noteController = require("../controllers/noteController");
+const authMiddleware = require("../middleware/authMiddleware");
+
+const router = express.Router();
+
+// ═════════════════════════════════════════════════════════════════════
+// GET /api/notes
+// ═════════════════════════════════════════════════════════════════════
+// authMiddleware ашиглан токеныг шалгана
+// Баталгаажсан бол noteController.getNotes() дуудагдана
+// ═════════════════════════════════════════════════════════════════════
+router.get("/", authMiddleware, noteController.getNotes);
+
+// ═════════════════════════════════════════════════════════════════════
+// POST /api/notes
+// ═════════════════════════════════════════════════════════════════════
+// Шинэ тэмдэглэл үүсгэхэд баталгаажуулалт шаардлагатай
+// ═════════════════════════════════════════════════════════════════════
+router.post("/", authMiddleware, noteController.createNote);
+
+// ═════════════════════════════════════════════════════════════════════
+// PUT /api/notes/:id
+// ═════════════════════════════════════════════════════════════════════
+// Тэмдэглэл засахдаа баталгаажуулалт шаардлагатай
+// ═════════════════════════════════════════════════════════════════════
+router.put("/:id", authMiddleware, noteController.updateNote);
+
+// ═════════════════════════════════════════════════════════════════════
+// DELETE /api/notes/:id
+// ═════════════════════════════════════════════════════════════════════
+// Тэмдэглэл устгахдаа баталгаажуулалт шаардлагатай
+// ═════════════════════════════════════════════════════════════════════
+router.delete("/:id", authMiddleware, noteController.deleteNote);
+
+module.exports = router;
+\end{lstlisting}
+
+\section{Flutter UI хэрэгжилтийн дэлгэрэнгүй}
+
+\subsection{Апп-ын Material Theme тохиргоо}
+
+\begin{lstlisting}[caption={main.dart -- ThemeData дэлгэрэнгүй}]
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ Material 3 Dark Theme ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // ═════════════════════════════════════════════════════════
+    // ThemeData: Апп-ын өнгө, фонт, компонент стилийн сонголт
+    // ═════════════════════════════════════════════════════════
+    return MaterialApp(
+      title: 'AI Sticker Note App',
+      theme: ThemeData(
+        // ───────────────────────────────────────────────────
+        // Seed цвет болон Dark mode идэвхжүүлэх
+        // ───────────────────────────────────────────────────
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF7c3aed),  // Purple
+          brightness: Brightness.dark,  // Dark mode
+        ).copyWith(
+          // ────────────────────────────────────────────────
+          // Үндсэн өнгүүд override хийх
+          // ────────────────────────────────────────────────
+          primary: const Color(0xFF7c3aed),      // Purple
+          secondary: const Color(0xFFc084fc),    // Pink
+          surface: const Color(0xFF1a0033),      // Very dark
+          onSurface: Colors.white,               // Text on dark
+        ),
+        
+        // ────────────────────────────────────────────────
+        // Scaffold-ийн background
+        // ────────────────────────────────────────────────
+        scaffoldBackgroundColor: const Color(0xFF1a0033),
+        
+        // ────────────────────────────────────────────────
+        // Material Design 3 шинэ компонентүүдийг идэвхжүүлэх
+        // ────────────────────────────────────────────────
+        useMaterial3: true,
+        
+        // ────────────────────────────────────────────────
+        // AppBar стилийн сонголт
+        // ────────────────────────────────────────────────
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF4d1d7a),  // Dark purple
+          elevation: 0,
+          centerTitle: true,
+        ),
+        
+        // ────────────────────────────────────────────────
+        // Кнопкаас стилийн сонголт
+        // ────────────────────────────────────────────────
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF7c3aed),  // Purple
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 12,
+            ),
+          ),
+        ),
+      ),
+      home: const LoginScreen(),
+    );
+  }
+}
+\end{lstlisting}
+
+\subsection{Нэвтрэх хуудас (LoginScreen) -- Дэлгэрэнгүй хэрэгжилт}
+
+\begin{lstlisting}[caption={login\_screen.dart -- JWT токены ашиглан нэвтэрх}]
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+// ╔══ LoginScreen: Email + Password Аршивалалт ══╗
+// ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'services/api_service.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  // ──────────────────────────────────────────────────
+  // UI State holders
+  // ──────────────────────────────────────────────────
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLoading = false;
+  String _errorMessage = "";
+
+  // ──────────────────────────────────────────────────
+  // FlutterSecureStorage: iOS Keychain, Android EncryptedSharedPref
+  // ──────────────────────────────────────────────────
+  final _storage = const FlutterSecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAutoLogin();  // Эхлэхэд аутолог чекк хийх
+  }
+
+  // ═══════════════════════════════════════════════════════
+  // _checkAutoLogin(): Аутолог боломж байгаа эсэх
+  // ═══════════════════════════════════════════════════════
+  Future<void> _checkAutoLogin() async {
+    try {
+      // ───────────────────────────────────────────────────
+      // 1. FlutterSecureStorage-с JWT авна
+      // ───────────────────────────────────────────────────
+      final token = await _storage.read(key: "jwt");
+
+      // Токен байхгүй → нэвтрэх хуудас үлдэнэ
+      if (token == null) return;
+
+      // ───────────────────────────────────────────────────
+      // 2. Токен байхгүй бол -> MainScreen руу явна
+      // ───────────────────────────────────────────────────
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const MainScreen()),
+        );
+      }
+    } catch (e) {
+      // Аутолог алдаа (токен сүүлэгдсэн, гэх мэт)
+      print("Autologin error: \$e");
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════
+  // _login(): Нэвтрэх функц
+  // ═══════════════════════════════════════════════════════
+  Future<void> _login() async {
+    try {
+      // ───────────────────────────────────────────────────
+      // 1. Loading UI үзүүлэх
+      // ───────────────────────────────────────────────────
+      setState(() {
+        _isLoading = true;
+        _errorMessage = "";
+      });
+
+      // ───────────────────────────────────────────────────
+      // 2. Backend API дуудалт (POST /api/auth/login)
+      // ───────────────────────────────────────────────────
+      final response = await ApiService.login(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+
+      // ───────────────────────────────────────────────────
+      // 3. JWT токеныг encrypted хадгалалтад оруулна
+      // ───────────────────────────────────────────────────
+      await _storage.write(
+        key: "jwt",
+        value: response["token"],
+      );
+
+      // ───────────────────────────────────────────────────
+      // 4. Хэрэглэгчийн нэрийг хадгалах
+      // ───────────────────────────────────────────────────
+      await _storage.write(
+        key: "userName",
+        value: response["user"]["name"],
+      );
+
+      // ───────────────────────────────────────────────────
+      // 5. MainScreen руу шилжүүлнэ
+      // ───────────────────────────────────────────────────
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const MainScreen()),
+        );
+      }
+    } catch (e) {
+      // ───────────────────────────────────────────────────
+      // 6. Алдаа ирсэн үед UI-д үзүүлэх
+      // ───────────────────────────────────────────────────
+      setState(() {
+        _errorMessage = "[ALDAA] Алдаа: \$e";
+      });
+    } finally {
+      // ───────────────────────────────────────────────────
+      // 7. Loading UI эхлүүлэх
+      // ───────────────────────────────────────────────────
+      setState(() => _isLoading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Нэвтрэх")),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Email TextField
+              TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  labelText: "Имэйл",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              
+              // Password TextField
+              TextField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: "Нууц үг",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 24),
+              
+              // Error message
+              if (_errorMessage.isNotEmpty)
+                Text(
+                  _errorMessage,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              const SizedBox(height: 16),
+              
+              // Login button
+              _isLoading
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: _login,
+                      child: const Text("Нэвтрэх"),
+                    ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+}
+\end{lstlisting}
+
+\section{Өгөгдлийн урсгалын диаграм}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  %% ── Node styles ─────────────────────────────────────────────
+  start/.style ={draw=black!70, line width=1.4pt, rounded corners=16pt,
+                 minimum width=3.8cm, minimum height=1.0cm,
+                 align=center, fill=gray!18, font=\small\bfseries},
+  proc/.style  ={draw=blue!55, line width=1.2pt, rounded corners=6pt,
+                 minimum width=4.6cm, minimum height=1.0cm,
+                 align=center, fill=blue!8, font=\small},
+  dec/.style   ={draw=orange!70, line width=1.4pt, diamond,
+                 minimum width=3.6cm, minimum height=1.4cm,
+                 align=center, fill=orange!12, font=\small\bfseries},
+  login/.style ={draw=red!50, line width=1.2pt, rounded corners=6pt,
+                 minimum width=3.8cm, minimum height=1.0cm,
+                 align=center, fill=red!8, font=\small},
+  note/.style  ={draw=blue!55, line width=1.2pt, rounded corners=6pt,
+                 minimum width=4.6cm, minimum height=1.1cm,
+                 align=center, fill=blue!8, font=\small},
+  create/.style={draw=violet!60, line width=1.2pt, rounded corners=6pt,
+                 minimum width=4.6cm, minimum height=1.1cm,
+                 align=center, fill=violet!8, font=\small},
+  ainod/.style ={draw=orange!70, line width=1.4pt, rounded corners=6pt,
+                 minimum width=4.6cm, minimum height=1.1cm,
+                 align=center, fill=orange!18, font=\small\bfseries},
+  dbnod/.style ={draw=yellow!70!black, line width=1.2pt, rounded corners=6pt,
+                 minimum width=4.6cm, minimum height=1.1cm,
+                 align=center, fill=yellow!22, font=\small},
+  calnod/.style={draw=green!60!black, line width=1.4pt, rounded corners=6pt,
+                 minimum width=4.6cm, minimum height=1.1cm,
+                 align=center, fill=green!15, font=\small\bfseries},
+  fcm/.style   ={draw=red!60, line width=1.4pt, rounded corners=6pt,
+                 minimum width=4.6cm, minimum height=1.1cm,
+                 align=center, fill=red!10, font=\small\bfseries},
+  grpblue/.style  ={draw=blue!40,   line width=0.8pt, dashed, rounded corners=8pt, fill=blue!4,   inner sep=8pt},
+  grpred/.style   ={draw=red!40,    line width=0.8pt, dashed, rounded corners=8pt, fill=red!4,    inner sep=8pt},
+  grpviolet/.style={draw=violet!40, line width=0.8pt, dashed, rounded corners=8pt, fill=violet!4, inner sep=8pt},
+  grpgreen/.style ={draw=green!50!black, line width=0.8pt, dashed, rounded corners=8pt, fill=green!4, inner sep=8pt},
+  arr/.style   ={-{Stealth[length=7pt]}, line width=1.2pt, color=black!60},
+  lbl/.style   ={draw=none, fill=white, rounded corners=3pt,
+                 inner sep=2pt, font=\scriptsize\itshape, text=black!70}
+]
+
+  %% ── Nodes ──────────────────────────────────────────────────
+  \node[start]  (appstart) at (0,    0   ) {Апп нээх};
+  \node[proc]   (splash)   at (0,   -2.0 ) {SplashRouter};
+  \node[dec]    (check)    at (0,   -4.4 ) {Токен байна уу?};
+
+  \node[login]  (loginN)   at (-5.2, -6.8) {LoginScreen};
+  \node[proc]   (dash)     at (0,   -6.8 ) {DashboardScreen};
+
+  \node[note]   (list)     at (0,   -9.0 ) {Тэмдэглэл жагсаалт\\[-2pt]
+                                             {\scriptsize харах \textbullet\ засах \textbullet\ устгах}};
+  \node[create] (create)   at (6.4, -9.0 ) {Шинэ тэмдэглэл\\[-2pt]
+                                             {\scriptsize текст + mood + огноо}};
+  \node[ainod]  (ai)       at (6.4, -11.2) {\textbf{AI Sticker} үүсгэх\\[-2pt]
+                                             {\scriptsize mood шинжлэж стикер гаргана}};
+  \node[dbnod]  (db)       at (6.4, -13.4) {MongoDB хадгалах\\[-2pt]
+                                             {\scriptsize stickerUrl \textbullet\ reminderAt}};
+  \node[calnod] (cal)      at (0,   -13.4) {\textbf{Calendar} харах\\[-2pt]
+                                             {\scriptsize стикер + огноо дээр харагдана}};
+  \node[fcm]    (notif)    at (0,   -15.6) {\textbf{Push Notification}\\[-2pt]
+                                             {\scriptsize reminderAt болоход FCM автомат}};
+
+  %% ── Group background boxes ──────────────────────────────────
+  \begin{scope}[on background layer]
+    \node[grpblue,   fit=(appstart)(splash)(check)] {};
+    \node[grpred,    fit=(loginN)]                  {};
+    \node[grpblue,   fit=(dash)(list)]              {};
+    \node[grpviolet, fit=(create)(ai)(db)]          {};
+    \node[grpgreen,  fit=(cal)(notif)]              {};
+  \end{scope}
+
+  %% ── Arrows ──────────────────────────────────────────────────
+  \draw[arr] (appstart) -- (splash);
+  \draw[arr] (splash)   -- (check);
+  \draw[arr] (check.west) -| node[lbl, near start, above=2pt]{Байхгүй} (loginN.north);
+  \draw[arr] (check.south) -- node[lbl, right=3pt]{Байна} (dash.north);
+  \draw[arr] (loginN.east) -- node[lbl, above=2pt]{нэвтэрсний дараа} (dash.west);
+  \draw[arr] (dash)     -- (list);
+  \draw[arr] (list.east) -- node[lbl, above=2pt]{Шинэ нэмэх} (create.west);
+  \draw[arr] (create)   -- (ai);
+  \draw[arr] (ai)       -- node[lbl, right=3pt]{\texttt{stickerUrl}} (db);
+  \draw[arr] (db.west)  -- node[lbl, above=2pt]{Calendar-т} (cal.east);
+  \draw[arr] (cal)      -- node[lbl, right=3pt]{цаг болоход} (notif);
+
+\end{tikzpicture}
+\caption{Апп-ын бүрэн үйл ажиллагааны урсгалын диаграм}
+\label{fig:flowchart}
+\end{figure}
+

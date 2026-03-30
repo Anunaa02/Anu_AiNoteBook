@@ -1,0 +1,232 @@
+%% ── 2-Р БҮЛЭГ: ОНОЛЫН ХЭСЭГ ─────────────────────────────────
+\chapter{Судалгааны Ажлын Онолын Хэсэг, Өнөөгийн Түвшин}
+\label{ch:literature}
+
+\section{Тэмдэглэл хөтлөлтийн түүхэн хөгжил}
+
+Тэмдэглэл хөтлөх үйл ажиллагаа нь хүний бичгийн соёл үүссэн цагаас эхлэлтэй олон
+мянган жилийн түүхтэй оюуны үйл ажиллагаа юм.
+
+\subsection{Дижитал тэмдэглэлийн эхлэл (1990--2000)}
+
+Компьютер, интернэт түгээмэл болсноор тэмдэглэл дараах хэлбэрт шилжсэн:
+\begin{itemize}
+  \item Microsoft OneNote (2003) -- хэвлэлийн байгууллагуудад түгээмэл
+  \item Evernote (2008) -- хоорондоо синхрончлогдох анхны систем
+  \item Google Keep (2013) -- хурдан тэмдэглэлд зориулагдсан, хөнгөн
+  \item Notion (2016) -- бүрэн workspace платформ
+\end{itemize}
+
+\subsection{Хиймэл оюун ухаан суурилсан тэмдэглэлийн үе (2020--өнөөдөр)}
+
+Сүүлийн жилүүдэд AI технологи нэмэгдсэнээр тэмдэглэлийн системүүд дараах боломжтой болсон:
+\begin{itemize}
+  \item Текстийг автоматаар эмхэтгэх, хураангуй гаргах
+  \item Тэмдэглэлийн агуулгаар зураг, sticker үүсгэх
+  \item Sentiment analysis ашиглан хэрэглэгчийн сэтгэл хөдлөл тодорхойлох
+  \item Автомат мэдэгдэл, сануулга илгээх
+\end{itemize}
+
+\section{Дижитал тэмдэглэлийн системийн онолын үндэс}
+
+\subsection{REST API архитектур}
+
+REST (Representational State Transfer) нь HTTP протоколд суурилсан архитектурын загвар
+бөгөөд client-server харилцааг тогтмолжуулдаг. REST API-ийн үндсэн зарчмууд:
+\begin{itemize}
+  \item \textbf{Stateless} -- сервер нь client-ийн төлөвийг хадгалдаггүй
+  \item \textbf{Uniform Interface} -- нэгдсэн endpoint бүтэц (GET, POST, PUT, DELETE)
+  \item \textbf{Client-Server} -- frontend болон backend тусдаа хөгжүүлэгддэг
+  \item \textbf{Cacheable} -- хариуг cache хийж гүйцэтгэлийг сайжруулах
+\end{itemize}
+
+\subsection{JWT (JSON Web Token) баталгаажуулалт}
+
+JWT нь хэрэглэгчийн баталгаажуулалтад ашиглагддаг стандарт токен форматыг хэлнэ~\cite{jwt2015}.
+Бүтэц нь 3 хэсгээс тогтоно: \textbf{Header.Payload.Signature}
+
+\begin{itemize}
+  \item \textbf{Header} -- алгоритмын мэдээлэл (HS256)
+  \item \textbf{Payload} -- хэрэглэгчийн мэдээлэл (userId, expiresIn)
+  \item \textbf{Signature} -- нууц түлхүүрээр гарын үсэг зурсан хэсэг
+\end{itemize}
+
+Манай системд JWT токеныг \texttt{flutter\_secure\_storage}-д аюулгүй хадгалж,
+дараагийн API дуудалтад \texttt{Authorization: Bearer <token>} header-т дамжуулна.
+
+\subsection{MongoDB NoSQL өгөгдлийн сан}
+
+MongoDB нь document-oriented NoSQL өгөгдлийн сан бөгөөд JSON-тай ижил BSON форматаар
+өгөгдөл хадгалдаг~\cite{mongodb2019}. Давуу талууд:
+\begin{itemize}
+  \item Schema-flexible -- өгөгдлийн бүтцийг уян хатнаар өөрчлөх боломжтой
+  \item Horizontal scaling -- өгөгдлийг олон серверт тарааж хадгалах
+  \item Aggregation pipeline -- хүчирхэг шүүлт, нэгтгэлтийн боломж
+  \item Atlas -- үүлэн хостолт, автомат backup
+\end{itemize}
+
+\subsection{Flutter мобайл хөгжүүлэлтийн платформ}
+
+Flutter нь Google-ийн гаргасан нээлттэй эхийн UI toolkit бөгөөд нэг код бичиж
+Android, iOS, Web, Desktop платформуудад ажиллах апп хөгжүүлэх боломжийг олгодог~\cite{windmill2019}.
+
+\begin{itemize}
+  \item \textbf{Dart хэл} -- OOP, strongly-typed, AOT compiled
+  \item \textbf{Widget tree} -- UI-г widget-үүдийн мод хэлбэрээр байгуулдаг
+  \item \textbf{Hot Reload} -- кодын өөрчлөлтийг тэр даруй харах
+  \item \textbf{Material Design} -- Google-ийн дизайн стандартыг дэмжих
+\end{itemize}
+
+\section{Mood Tracking технологийн үндэс}
+
+Mood tracking буюу сэтгэлийн байдлыг хянах нь хэрэглэгчийн сэтгэл хөдлөлийг
+тодорхойлж, тэдэнд тохирсон контент, сануулга гаргах технологи юм.
+
+\begin{longtable}{|p{3cm}|p{5cm}|p{5cm}|}
+\caption{Mood tracking-ийн төрлүүд}\\
+\hline
+\textbf{Mood} & \textbf{Дүрлэл} & \textbf{Тайлбар} \\
+\hline
+Happy & Emoji: :) -- аз жаргалтай & Баяр хөөртэй, эерэг сэтгэлийн байдал \\
+\hline
+Sad & Emoji: :( -- гунигтай & Гунигтай, уналтын сэтгэлийн байдал \\
+\hline
+Tired & Emoji: -\_- -- ядарсан & Ядарсан, унтмаар байгаа байдал \\
+\hline
+Angry & Emoji: $>$:( -- уурласан & Уурласан, хурцадмал байдал \\
+\hline
+Love & Emoji: $<$3 -- дуртай & Дуртай, халуун дотно байдал \\
+\hline
+\end{longtable}
+
+\section{Төстэй бүтээгдэхүүнүүдтэй харьцуулалт}
+
+\begin{longtable}{|p{3.5cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+\caption{Төстэй бүтээгдэхүүнүүдтэй харьцуулалт}\\
+\hline
+\textbf{Үзүүлэлт} & \textbf{Манай апп} & \textbf{Notion} & \textbf{Evernote} & \textbf{Google Keep} \\
+\hline
+CRUD үйлдэл & \checkmark & \checkmark & \checkmark & \checkmark \\
+\hline
+Mood tracking & \checkmark & -- & -- & -- \\
+\hline
+JWT auth & \checkmark & \checkmark & \checkmark & \checkmark \\
+\hline
+Монгол UI & \checkmark & -- & -- & -- \\
+\hline
+REST API & \checkmark & -- & \checkmark & -- \\
+\hline
+Нээлттэй эх & \checkmark & -- & -- & -- \\
+\hline
+\end{longtable}
+
+\section{Express.js фреймворкийн онолын үндэс}
+
+Express.js нь Node.js-д суурилсан хурдан, хялбар веб framework юм~\cite{nodejs2020}.
+Middleware болон routing механизмаараа RESTful API барихад өргөн хэрэглэгддэг.
+
+\subsection{Middleware дарааллын үзэл баримтлал}
+
+Express.js-д middleware гэдэг нь HTTP хүсэлтийн дунд гүйцэтгэгддэг функц юм.
+Дараалал дараах байдлаар явагдана:
+
+\begin{enumerate}
+  \item Клиентийн хүсэлт ирнэ (HTTP Request)
+  \item \texttt{cors()} -- Cross-Origin аюулгүй байдлыг шалгана
+  \item \texttt{express.json()} -- JSON body-г parse хийнэ
+  \item \texttt{authMiddleware} -- JWT токеныг шалгана (хамгаалагдсан route-уудад)
+  \item Route handler -- бизнесийн логик гүйцэтгэнэ
+  \item HTTP хариу буцаана
+\end{enumerate}
+
+\subsection{Mongoose ODM (Object Document Mapper)}
+
+Mongoose нь MongoDB-тэй ажиллахад schema-based шийдэл санал болгодог Node.js
+library юм. Schema тодорхойлж, model үүсгэж, CRUD үйлдэл хийхэд ашиглана.
+
+\begin{longtable}{|p{4cm}|p{9cm}|}
+\caption{Mongoose ODM-ийн үндсэн аргуудын тайлбар}\\
+\hline
+\textbf{Mongoose арга} & \textbf{Тайлбар} \\
+\hline
+\texttt{Model.save()} & Шинэ document хадгалах \\
+\hline
+\texttt{Model.find()} & Нөхцөлийн дагуу хайх \\
+\hline
+\texttt{Model.findOneAndUpdate()} & Нэг document олж шинэчлэх \\
+\hline
+\texttt{Model.findOneAndDelete()} & Нэг document олж устгах \\
+\hline
+\texttt{Model.findOne()} & Нөхцөлд тохирсон эхний doc олох \\
+\hline
+\end{longtable}
+
+\section{flutter\_secure\_storage-ийн онолын үндэс}
+
+\texttt{flutter\_secure\_storage} нь Flutter-т зориулсан аюулгүй хадгалалтын package юм.
+iOS-д Keychain, Android-д EncryptedSharedPreferences ашигладаг.
+
+\begin{longtable}{|p{2.8cm}|p{5.8cm}|p{5.4cm}|}
+\caption{flutter\_secure\_storage платформын харьцуулалт}\\
+\hline
+\textbf{Платформ} & \textbf{Технологи} & \textbf{Аюулгүй байдлын түвшин} \\
+\hline
+Android & EncryptedShared\-Preferences & AES 256-bit шифрлэлт \\
+\hline
+iOS & Keychain Services & Hardware-level аюулгүй байдал \\
+\hline
+\end{longtable}
+
+Хадгалалтын үндсэн арга:
+\begin{itemize}
+  \item \texttt{write(key, value)} -- утга хадгалах
+  \item \texttt{read(key)} -- утга унших
+  \item \texttt{delete(key)} -- утга устгах
+  \item \texttt{deleteAll()} -- бүгдийг устгах (logout)
+\end{itemize}
+
+\section{HTTP Client Flutter дахь ашиглалт}
+
+Flutter-д \texttt{http} package ашиглан REST API-тай харьцана.
+Үндсэн HTTP арга:
+
+\begin{longtable}{|p{3cm}|p{4cm}|p{6cm}|}
+\caption{Flutter HTTP Client аргуудын тайлбар}\\
+\hline
+\textbf{HTTP арга} & \textbf{Flutter код} & \textbf{Зориулалт} \\
+\hline
+GET & \texttt{http.get(uri, headers)} & Өгөгдөл авах \\
+\hline
+POST & \texttt{http.post(uri, body)} & Шинэ өгөгдөл үүсгэх \\
+\hline
+PUT & \texttt{http.put(uri, body)} & Өгөгдөл шинэчлэх \\
+\hline
+DELETE & \texttt{http.delete(uri)} & Өгөгдөл устгах \\
+\hline
+\end{longtable}
+
+\section{CORS (Cross-Origin Resource Sharing)}
+
+Манай систем frontend болон backend өөр портод ажилладаг тул CORS тохиргоо зайлшгүй
+шаардлагатай. Backend-д \texttt{cors()} middleware-ийг \texttt{server.js}-д ашиглана.
+
+CORS-ийн тохиргоогүй бол browser нь cross-origin хүсэлтийг хориглоно.
+\texttt{npm install cors} командаар суулгаж, \texttt{app.use(cors())} дуудна.
+
+\section{RESTful API дизайны зарчим}
+
+Манай API-ийн endpoint-үүд Richardson Maturity Model-ийн 2-р түвшинд байна
+(HTTP арга + Resource-based URL):
+
+\begin{longtable}{|p{4cm}|p{3cm}|p{6cm}|}
+\caption{RESTful API endpoint-үүдийн жагсаалт}\\
+\hline
+\textbf{Resource} & \textbf{URL} & \textbf{HTTP методууд} \\
+\hline
+Хэрэглэгч & /api/auth & POST (login, signup) \\
+\hline
+Тэмдэглэл & /api/notes & GET, POST \\
+\hline
+Тэмдэглэл (id-р) & /api/notes/:id & PUT, DELETE \\
+\hline
+\end{longtable}

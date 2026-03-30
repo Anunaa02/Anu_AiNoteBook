@@ -1,0 +1,194 @@
+%% ============================================================
+%% ДИПЛОМЫН АЖЛЫН LATEX ЖИШЭЭ ЗАГВАР
+%% Монгол хэл — XeLaTeX + polyglossia
+%%
+%% Хөрвүүлэх: xelatex main.tex  (2 удаа)
+%%             bibtex main
+%%             xelatex main.tex  (2 удаа)
+%% ============================================================
+\documentclass[11pt, a4paper]{report}
+
+% ── Фонт болон хэл ──────────────────────────────────────────
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont[Scale=0.88]{Times New Roman}  % Times New Roman has full Cyrillic support
+
+\usepackage{polyglossia}
+\setdefaultlanguage{mongolian}
+\setotherlanguage{english}
+
+% ── Хуудасны тохиргоо ───────────────────────────────────────
+\usepackage[
+  a4paper,
+  top=20mm, bottom=20mm,
+  left=20mm, right=20mm
+]{geometry}
+
+% ── Ерөнхий багцууд ─────────────────────────────────────────
+\usepackage{indentfirst}          % Параграф бүр эхэнд зай
+\usepackage{setspace}             % Мөр хоорондын зай
+\singlespacing                    % 1.0 мөр (single spacing)
+
+\usepackage{amsmath, amssymb}     % Математик томьёо
+\usepackage{graphicx}             % Зураг оруулах
+\usepackage{longtable}            % Урт хүснэгт
+\usepackage{xcolor}               % Өнгө
+\usepackage{url}                  % \url{} nom züid
+
+% booktabs байхгүй тул \hline ашиглана
+\newcommand{\toprule}{\hline\hline}
+\newcommand{\midrule}{\hline}
+\newcommand{\bottomrule}{\hline\hline}
+% float байхгүй тул htbp ашиглана
+\makeatletter\def\fps@figure{htbp}\def\fps@table{htbp}\makeatother
+% hyperref болон listings тохиргоо
+\usepackage{listings}
+\lstset{
+  basicstyle   = \ttfamily\small,
+  breaklines   = true,
+  frame        = single,
+  numbers      = left,
+  numberstyle  = \tiny\color{gray},
+  keywordstyle = \color{blue}\bfseries,
+  commentstyle = \color{green!60!black}\itshape,
+  stringstyle  = \color{red},
+  showstringspaces = false,
+  tabsize      = 2
+}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, shapes.geometric, shapes.misc, shapes.symbols, positioning, fit, calc, backgrounds}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% ── Гарчиг тохиргоо (titlesec байхгүй, default ашиглана) ────
+% Бүлгийн гарчгийг Times New Roman 14pt, bold болгох
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+      \huge\bfseries\fontsize{14pt}{14pt}\selectfont \@chapapp\space \thechapter
+      \par\nobreak
+      \vskip 20\p@
+    \fi
+    \huge\bfseries\fontsize{14pt}{14pt}\selectfont #1\par\nobreak
+    \vskip 40\p@
+  }}
+\makeatother
+
+% ── Дугаарлалт ──────────────────────────────────────────────
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+% Хэсгийн гарчгийг Times New Roman 12pt, bold болгох
+\makeatletter
+\renewcommand{\section}{\@startsection%
+  {section}%
+  {1}%
+  {\z@}%
+  {-6pt}%
+  {6pt}%
+  {\normalfont\fontsize{12pt}{12pt}\selectfont\bfseries}}
+\renewcommand{\subsection}{\@startsection%
+  {subsection}%
+  {2}%
+  {\z@}%
+  {-6pt}%
+  {6pt}%
+  {\normalfont\fontsize{11pt}{11pt}\selectfont\bfseries}}
+\makeatother
+
+% ── Монгол нэрлэгдэхүүн ─────────────────────────────────────
+\renewcommand{\tablename}{Хүснэгт}
+\renewcommand{\figurename}{Зураг}
+
+% ── Гарчгийн тусгаарлагч : → .  (бүх хүснэгт, зураг) ──────
+\makeatletter
+% Баримтын биед: "Хүснэгт 4.2. Гарчиг"
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{#1. #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1. #2\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+% Зургийн болон хүснэгтийн жагсаалтад: "Хүснэгт 4.2. Гарчиг"
+\long\def\@caption#1[#2]#3{%
+  \par
+  \addcontentsline{\csname ext@#1\endcsname}{#1}%
+    {\csname fnum@#1\endcsname.\space #2}%
+  \begingroup
+    \@parboxrestore
+    \if@minipage\@setminipage\fi
+    \normalsize
+    \@makecaption{\csname fnum@#1\endcsname}{\ignorespaces #3}\par
+  \endgroup}
+% longtable-ийн гарчиг: ":" → "."
+\def\LT@makecaption#1#2#3{%
+  \LT@mcol\LT@cols c{\hbox to\z@{\hss\parbox[t]\LTcapwidth{%
+    \sbox\@tempboxa{#1{#2}. #3}%
+    \ifdim\wd\@tempboxa>\hsize
+      #1{#2}. #3%
+    \else
+      \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+    \fi
+    \endgraf\vskip\baselineskip}%
+  \hss}}}
+\makeatother
+
+% ── Метамэдээлэл ────────────────────────────────────────────
+\newcommand{\univ}{Шинэ Монгол Технологийн Коллеж}
+\newcommand{\dept}{Компьютерийн Ухааны Танхим}
+\newcommand{\studentcode}{s21c032b}
+\newcommand{\thesistitle}{Хэрэглэгчийн Дижитал Ухаалаг Тэмдэглэлийн Дэвтрийн Апп Хөгжүүлэлт}
+\newcommand{\authorname}{Эрдэнэ Ану}
+\newcommand{\supervisor}{У. Анужин, Бакалавр}
+\newcommand{\gradyear}{2025}
+
+%% ============================================================
+\begin{document}
+\frenchspacing
+
+% ── Нүүр хуудас ─────────────────────────────────────────────
+\input{chapters/00_title}
+
+% ── Хураангуй ───────────────────────────────────────────────
+\pagenumbering{roman}
+\input{chapters/01_abstract}
+
+% ── Агуулгын хүснэгт ────────────────────────────────────────
+\newpage
+\tableofcontents
+
+% ── Зургийн жагсаалт ────────────────────────────────────────
+\newpage
+\listoffigures
+
+% ── Хүснэгтийн жагсаалт ─────────────────────────────────────
+\newpage
+\listoftables
+
+% ── Үндсэн бүлгүүд ──────────────────────────────────────────
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{chapters/02_chapter1}   % 1. Удиртгал
+\input{chapters/03_chapter2}   % 2. Онолын үндэслэл
+\input{chapters/04_chapter3}   % 3. Арга зүй
+\input{chapters/05_chapter4}   % 4. Үр дүн
+\input{chapters/06_chapter5}   % 5. Дүгнэлт
+
+% ── Хавсралт ────────────────────────────────────────────────
+\input{chapters/07_appendix}
+
+% ── Ном зүй ─────────────────────────────────────────────────
+\newpage
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

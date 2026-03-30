@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           secondary: Color(0xFFc084fc),
         ),
       ),
-      home: const SplashRouter(),
+      home: const SplashRouter(), // Dashboard home
     );
   }
 }
@@ -62,4 +62,3 @@ class _SplashRouterState extends State<SplashRouter> {
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'services/api_service.dart';
 import 'login_screen.dart';
@@ -241,6 +242,121 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  Future<void> _showEditNoteDialog(dynamic note) async {
+    final titleCtrl = TextEditingController(text: note['title'] ?? '');
+    final contentCtrl = TextEditingController(text: note['content'] ?? '');
+    String mood = note['mood'] ?? '';
+
+    await showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setSt) => Dialog(
+          backgroundColor: const Color(0xFF2d1b4e),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Edit Note',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold)),
+                const SizedBox(height: 20),
+                _dialogField(
+                    titleCtrl, 'Title (optional)', Icons.title_outlined),
+                const SizedBox(height: 12),
+                _dialogField(
+                    contentCtrl, 'How are you feeling?',
+                    Icons.edit_note_rounded,
+                    maxLines: 4),
+                const SizedBox(height: 14),
+                const Text('Mood',
+                    style: TextStyle(color: Colors.white70, fontSize: 13)),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  children: _moods
+                      .map((m) => GestureDetector(
+                            onTap: () =>
+                                setSt(() => mood = m['emoji'] as String),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 150),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: mood == m['emoji']
+                                    ? const Color(0xFF7c3aed)
+                                    : Colors.white.withOpacity(0.08),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                    color: mood == m['emoji']
+                                        ? Colors.transparent
+                                        : Colors.white24),
+                              ),
+                              child: Text(m['emoji'] as String,
+                                  style: const TextStyle(fontSize: 20)),
+                            ),
+                          ))
+                      .toList(),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      child: const Text('Cancel',
+                          style: TextStyle(color: Colors.white54)),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF7c3aed),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14)),
+                      ),
+                      onPressed: () async {
+                        final content = contentCtrl.text.trim();
+                        if (content.isEmpty) return;
+                        Navigator.pop(ctx);
+                        final ok = await ApiService.updateNote(
+                          note['_id'] as String,
+                          titleCtrl.text.trim(),
+                          content,
+                          mood,
+                        );
+                        if (ok && mounted) _loadData();
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  ok ? 'Note updated! ✓' : 'Failed to update'),
+                              backgroundColor:
+                                  ok ? const Color(0xFF7c3aed) : Colors.red,
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                            ),
+                          );
+                        }
+                      },
+                      child: const Text('Update',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -457,36 +573,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         .map((n) => _buildNoteCard(n)),
                   ],
 
-                  const SizedBox(height: 16),
-
-                  // AI Sticker button
-                  GestureDetector(
-                    onTap: () => widget.onSwitchTab?.call(2),
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.07),
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(
-                            color: Colors.white.withOpacity(0.15)),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('✨',
-                              style: TextStyle(fontSize: 20)),
-                          SizedBox(width: 8),
-                          Text('Generate AI Sticker 🎨',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15)),
-                        ],
-                      ),
-                    ),
-                  ),
-
                   const SizedBox(height: 24),
                 ],
               ),
@@ -583,6 +669,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             ),
           ),
+          GestureDetector(
+            onTap: () => _showEditNoteDialog(note),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: const Color(0xFF7c3aed).withOpacity(0.12),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                    color: const Color(0xFF7c3aed).withOpacity(0.3),
+                    width: 1),
+              ),
+              child: const Icon(Icons.edit_outlined,
+                  color: Color(0xFFc084fc), size: 18),
+            ),
+          ),
+          const SizedBox(width: 8),
           GestureDetector(
             onTap: () => _deleteNote(note['_id'] as String),
             child: Container(
