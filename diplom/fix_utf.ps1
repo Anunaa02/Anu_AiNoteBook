@@ -1,0 +1,1 @@
+$text = [System.IO.File]::ReadAllText("C:\Users\Acer\Desktop\Ai_notebook_app\diplom\Chapters\Chapter3_Methodology.tex", [System.Text.Encoding]::GetEncoding(1252)); [System.IO.File]::WriteAllText("C:\Users\Acer\Desktop\Ai_notebook_app\diplom\Chapters\Chapter3_Methodology.tex", $text, [System.Text.Encoding]::UTF8);

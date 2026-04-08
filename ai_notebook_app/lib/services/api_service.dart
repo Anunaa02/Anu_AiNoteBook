@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'puter.dart';
 
 class ApiService {
-
   // ── Change this if testing on a real device (use your PC LAN IP) ──
   static const String _devHost = '192.168.1.9';
 
@@ -87,7 +87,7 @@ class ApiService {
     return [];
   }
 
-  static Future<bool> createNote({
+  static Future<String?> createNote({
     required String content,
     String title = "",
     String mood = "",
@@ -95,7 +95,7 @@ class ApiService {
   }) async {
 
     final token = await _storage.read(key: "jwt");
-    if (token == null || token.isEmpty) return false;
+    if (token == null || token.isEmpty) return null;
 
     final body = {
       "title": title,
@@ -117,10 +117,14 @@ class ApiService {
         body: jsonEncode(body),
       ).timeout(const Duration(seconds: 10));
 
-      return res.statusCode == 201;
+      if (res.statusCode == 201) {
+        final data = jsonDecode(res.body);
+        return data["note"]["_id"] as String?;
+      }
+      return null;
 
     } catch (_) {
-      return false;
+      return null;
     }
   }
 
@@ -197,12 +201,25 @@ class ApiService {
 
   // ───── AI STICKER GENERATOR ─────────────────────
 
-  /// Generates a sticker using OpenAI DALL-E API
+  /// Generates a sticker using Puter.js API on web, and DALL-E on Mobile
   /// Returns a data:image/png;base64,... URI or image URL.
   static Future<String> generateSticker(String prompt) async {
     final token = await _storage.read(key: "jwt");
     if (token == null || token.isEmpty) {
       throw Exception("Authentication required");
+    }
+
+    if (kIsWeb) {
+      print("🎨 Generating sticker via Puter.js in browser: $prompt");
+      try {
+        final url = await callPuterStickerJs(prompt);
+        if (url != null && url.isNotEmpty) {
+           return url;
+        }
+        throw Exception("Puter.js returned null");
+      } catch (e) {
+        throw Exception("Puter Generation failed: $e");
+      }
     }
 
     try {

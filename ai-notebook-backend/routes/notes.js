@@ -6,6 +6,7 @@ const router = express.Router();
 
 // ✨ AI Sticker generator route (must be before /:id routes)
 router.post("/generate-sticker", authMiddleware, generateSticker);
+router.post("/save-sticker-local", require("../controllers/noteController").saveStickerToLocalFile);
 
 // Standard CRUD routes
 router.post("/", authMiddleware, createNote);

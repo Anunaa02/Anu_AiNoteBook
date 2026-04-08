@@ -161,17 +161,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         final content = contentCtrl.text.trim();
                         if (content.isEmpty) return;
                         Navigator.pop(ctx);
-                        final ok = await ApiService.createNote(
+                        final noteId = await ApiService.createNote(
                           title: titleCtrl.text.trim(),
                           content: content,
                           mood: mood,
                         );
+                        final ok = noteId != null;
                         if (ok && mounted) _loadData();
                         if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                  ok ? 'Note saved! ✓' : 'Failed to save'),
+                                  ok ? 'Note saved! ✨ Generating sticker auto-reminder...' : 'Failed to save'),
                               backgroundColor: ok
                                   ? const Color(0xFF7c3aed)
                                   : Colors.red,
@@ -181,6 +182,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       BorderRadius.circular(12)),
                             ),
                           );
+                        }
+                        // ✨ AUTO-STICKER WORKFLOW
+                        if (ok && noteId.isNotEmpty) {
+                           Future.microtask(() async {
+                             try {
+                                final stickerUrl = await ApiService.generateSticker(content);
+                                if (stickerUrl.isNotEmpty) {
+                                   await ApiService.saveNoteSticker(noteId, stickerUrl);
+                                }
+                             } catch(e) {
+                                print("Auto sticker failed: $e");
+                             }
+                           });
                         }
                       },
                       child: const Text('Save',

@@ -142,14 +142,29 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () async {
-                          if (contentCtrl.text.trim().isEmpty) return;
+                          final content = contentCtrl.text.trim();
+                          if (content.isEmpty) return;
                           Navigator.pop(ctx);
-                          final ok = await ApiService.createNote(
+                          final noteId = await ApiService.createNote(
                             title: titleCtrl.text.trim(),
-                            content: contentCtrl.text.trim(),
+                            content: content,
                             mood: selectedMood,
                           );
+                          final ok = noteId != null;
                           if (ok) _loadNotes();
+                          // ✨ AUTO-STICKER WORKFLOW
+                          if (ok && noteId.isNotEmpty) {
+                             Future.microtask(() async {
+                               try {
+                                  final stickerUrl = await ApiService.generateSticker(content);
+                                  if (stickerUrl.isNotEmpty) {
+                                     await ApiService.saveNoteSticker(noteId, stickerUrl);
+                                  }
+                               } catch(e) {
+                                  print("Auto sticker failed: $e");
+                               }
+                             });
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF7c3aed),

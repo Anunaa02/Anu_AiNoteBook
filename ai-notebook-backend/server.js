@@ -2,13 +2,18 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 
 const authRoutes = require("./routes/auth");
 const noteRoutes = require("./routes/notes");
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+// Serve sticker directory statically
+app.use('/sticker', express.static(path.join(__dirname, '../sticker')));
 
 // MongoDB
 const MONGO_URI =

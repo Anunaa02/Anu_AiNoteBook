@@ -142,7 +142,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                               borderRadius: BorderRadius.circular(14),
                             ),
                             child: Center(
-                                child: Text(n.icon,
+                                  child: n.imageUrl != null 
+                                      ? ClipRRect(
+                                          borderRadius: BorderRadius.circular(14),
+                                          child: Image.network(n.imageUrl!, fit: BoxFit.cover,
+                                            errorBuilder: (_, __, ___) => Text(n.icon, style: const TextStyle(fontSize: 22)),
+                                          ),
+                                        )
+                                      : Text(n.icon,
                                     style: const TextStyle(fontSize: 22))),
                           ),
                           const SizedBox(width: 12),
@@ -207,9 +214,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
 class _Notif {
   final String icon, title, subtitle, time;
+  final String? imageUrl;
   bool read;
   _Notif({
     required this.icon,
+    this.imageUrl,
     required this.title,
     required this.subtitle,
     required this.time,

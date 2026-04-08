@@ -64,6 +64,9 @@ exports.updateNote = async (req, res) => {
   }
 };
 
+const fs = require("fs");
+const path = require("path");
+
 exports.saveStickerToNote = async (req, res) => {
   try {
     const { stickerUrl } = req.body;
@@ -72,8 +75,36 @@ exports.saveStickerToNote = async (req, res) => {
       { stickerUrl, updatedAt: Date.now() },
       { new: true }
     );
-    if (!note) return res.status(404).json({ message: "Note not found" });
-    res.json({ message: "Sticker saved", note });
+    if (!note) return res.status(404).json({ message: "Note not found" });      
+    
+    // 🔍 ТАНИЛЦУУЛГА: Үүсгэсэн стикерийг "sticker" хавтсанд автоматаар хадгалах
+    let finalStickerUrl = stickerUrl;
+    if (stickerUrl) {
+      try {
+        const response = await fetch(stickerUrl);
+        const buffer = await response.arrayBuffer();
+        const stickerDir = path.join(__dirname, "../../sticker");
+        
+        // Хавтас байхгүй бол үүсгэх
+        if (!fs.existsSync(stickerDir)) {
+          fs.mkdirSync(stickerDir, { recursive: true });
+        }
+
+        const fileName = `sticker_${note._id}.png`;
+        fs.writeFileSync(path.join(stickerDir, fileName), Buffer.from(buffer));
+        console.log(`✅ Debug: Стикерийг локал 'sticker' хавтсанд хадгаллаа: ${fileName}`);
+        
+        // Front-End-руу локал орчны зураг руу харуулж CORS алдаанаас сэргийлнэ
+        const hostUrl = req.protocol + '://' + req.get('host');
+        finalStickerUrl = `${hostUrl}/sticker/${fileName}`;
+        note.stickerUrl = finalStickerUrl;
+        await note.save();
+      } catch (dlError) {
+        console.error(`❌ Debug: Стикерийг татаж хадгалахад алдаа гарлаа:`, dlError.message);
+      }
+    }
+
+    res.json({ message: "Sticker saved", note: { ...note.toObject(), stickerUrl: finalStickerUrl } });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -108,7 +139,7 @@ exports.generateSticker = async (req, res) => {
 
       const response = await openai.images.generate({
         model: "dall-e-3",
-        prompt: `A cute, adorable sticker illustration of: ${prompt}. Cartoon style, vibrant colors, professional quality, high resolution.`,
+        prompt: `A single cute minimal cartoon icon visually representing this idea: "${prompt.substring(0, 100)}". Beautiful flat vector sticker design, thick white border outline around the shape, 100% solid white background. NO TEXT, no writing, no words, no letters, purely visual symbol.`,
         n: 1,
         size: "1024x1024",
         quality: "standard",
@@ -118,11 +149,47 @@ exports.generateSticker = async (req, res) => {
       if (response.data && response.data.length > 0) {
         const imageUrl = response.data[0].url;
         console.log("✅ Sticker generated successfully with OpenAI DALL-E");
-        return res.json({
-          success: true,
-          stickerUrl: imageUrl,
-          source: "openai_dalle3"
-        });
+        
+        try {
+          const fs = require("fs");
+          const path = require("path");
+          
+          const imageResponse = await fetch(imageUrl);
+          if (!imageResponse.ok) {
+            throw new Error(`Failed to download image: ${imageResponse.statusText}`);
+          }
+
+          const imageBuffer = await imageResponse.arrayBuffer();
+          const stickerDir = path.join(__dirname, "../../sticker");
+
+          // Хавтас байхгүй бол үүсгэх
+          if (!fs.existsSync(stickerDir)) {
+            fs.mkdirSync(stickerDir, { recursive: true });
+          }
+
+          // Timestamp-ээр нэрлэж, локал хавтсанд хадгалах
+          const fileName = `sticker_${Date.now()}.png`;
+          const filePath = path.join(stickerDir, fileName);
+          fs.writeFileSync(filePath, Buffer.from(imageBuffer));
+
+          console.log(`✅ Стикерийг локал хавтсанд хадгаллаа: ${fileName}`);
+
+          // Локал URL-г буцаах
+          const localStickerUrl = `${req.protocol}://${req.get('host')}/sticker/${fileName}`;
+
+          return res.json({
+            success: true,
+            stickerUrl: localStickerUrl,
+            source: "openai_dalle3"
+          });
+        } catch (downloadError) {
+          console.error("❌ Зургийг татаж хадгалахад алдаа гарлаа:", downloadError.message);
+          return res.json({
+            success: true,
+            stickerUrl: imageUrl,
+            source: "openai_dalle3"
+          });
+        }
       } else {
         return res.status(500).json({
           success: false,
@@ -163,3 +230,38 @@ exports.generateSticker = async (req, res) => {
     });
   }
 };
+
+exports.saveStickerToLocalFile = async (req, res) => {
+  try {
+    const fs = require("fs");
+    const path = require("path");
+    
+    const { imageBase64 } = req.body;
+    if (!imageBase64) {
+      return res.status(400).json({ success: false, message: "No imageBase64 provided" });
+    }
+
+    const base64Data = imageBase64.replace(/^data:image\/\w+;base64,/, "");
+    const buffer = Buffer.from(base64Data, 'base64');
+    
+    const stickerDir = path.join(__dirname, "../../sticker");
+    if (!fs.existsSync(stickerDir)) {
+      fs.mkdirSync(stickerDir, { recursive: true });
+    }
+    
+    const fileName = `sticker_${Date.now()}.png`;
+    const filePath = path.join(stickerDir, fileName);
+    
+    fs.writeFileSync(filePath, buffer);
+    
+    const stickerUrl = `${req.protocol}://${req.get('host')}/sticker/${fileName}`;
+    res.json({
+      success: true,
+      stickerUrl,
+      fileName
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
