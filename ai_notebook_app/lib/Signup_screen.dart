@@ -83,7 +83,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   width: 260, height: 260,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: const Color(0xFF7c3aed).withOpacity(0.12),
+                    color: const Color(0xFF7c3aed).withValues(alpha: 0.12),
                   ),
                 ),
               ),
@@ -93,7 +93,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   width: 200, height: 200,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: const Color(0xFFa855f7).withOpacity(0.1),
+                    color: const Color(0xFFa855f7).withValues(alpha: 0.1),
                   ),
                 ),
               ),
@@ -113,7 +113,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.15),
+                                  color: Colors.grey.withValues(alpha: 0.15),
                                   blurRadius: 8)
                               ],
                             ),
@@ -134,7 +134,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         borderRadius: BorderRadius.circular(28),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF7c3aed).withOpacity(0.1),
+                            color: const Color(0xFF7c3aed).withValues(alpha: 0.1),
                             blurRadius: 30,
                             offset: const Offset(0, 10),
                           ),
@@ -196,7 +196,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                               BorderRadius.circular(16)),
                                       elevation: 4,
                                       shadowColor: const Color(0xFF7c3aed)
-                                          .withOpacity(0.4),
+                                          .withValues(alpha: 0.4),
                                     ),
                                     child: const Text("Sign Up",
                                         style: TextStyle(

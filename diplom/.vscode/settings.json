@@ -1,12 +1,12 @@
 {
   "latex-workshop.latex.recipes": [
     {
-      "name": "XeLaTeX",
-      "tools": ["xelatex"]
-    },
-    {
       "name": "latexmk (XeLaTeX)",
       "tools": ["latexmk_xelatex"]
+    },
+    {
+      "name": "XeLaTeX",
+      "tools": ["xelatex"]
     }
   ],
   "latex-workshop.latex.tools": [
@@ -32,5 +32,7 @@
       ]
     }
   ],
-  "latex-workshop.latex.recipe.default": "first"
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.view.pdf.viewer": "tab"
 }

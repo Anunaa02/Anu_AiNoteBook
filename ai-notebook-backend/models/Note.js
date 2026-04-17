@@ -7,6 +7,7 @@ const noteSchema = new mongoose.Schema({
   mood:    { type: String, default: "" },
   stickerUrl: { type: String, default: null },
   reminderAt: { type: Date, default: null },
+  noteDate: { type: Date, default: null },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });

@@ -1,3 +1,41 @@
 {
-    "cmake.sourceDirectory": "C:/Users/Dell/Documents/Diplom/ai_notebook_app/linux"
+    "cmake.sourceDirectory": "C:/Users/Dell/Documents/Diplom/ai_notebook_app/linux",
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk (XeLaTeX)",
+            "tools": [
+                "latexmk_xelatex"
+            ]
+        },
+        {
+            "name": "XeLaTeX",
+            "tools": [
+                "xelatex"
+            ]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk_xelatex",
+            "command": "latexmk",
+            "args": [
+                "-xelatex",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "xelatex",
+            "command": "xelatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "first"
 }

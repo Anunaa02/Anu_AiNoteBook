@@ -17,9 +17,9 @@
 
 \section{Ерөнхий ойлголтоос нарийвчилсан өгөгдлийн урсгалын зураг руу}
 
-Энэ бүлгийн гол зорилго нь системийн ажиллагааг \textbf{том ерөнхий зураг} (context level)-аас эхлүүлж, дараа нь \textbf{модуль түвшний өгөгдлийн урсгалын зураг} (level-1 dataflow), эцэст нь \textbf{функцийн дэлгэрэнгүй урсгалын зураг} (level-2 dataflow) руу шаталж тайлбарлах юм.
+Энэ бүлгийн гол зорилго нь системийн ажиллагааг \textbf{Зураг 4.1} (context level)-аас эхлүүлж, дараа нь \textbf{Зураг 4.2} (level-1 dataflow), эцэст нь \textbf{Зураг 4.3} (level-2 dataflow) руу шаталж тайлбарлах юм.
 
-\subsection{Контекст түвшний өгөгдлийн урсгалын зураг (context-level dataflow)}
+
 
 \begin{figure}[H]
 \centering
@@ -54,7 +54,6 @@
 
 \noindent \fref{fig:dfd_context}-д системийг нэг процесс гэж үзэж, гаднах оролцогчид (хэрэглэгч, OpenAI) болон өгөгдлийн сангийн харилцааг ерөнхий түвшинд харуулав.
 
-\subsection{Нэгдүгээр түвшний өгөгдлийн урсгалын зураг (level-1 dataflow)}
 
 \begin{figure}[H]
 \centering
@@ -74,7 +73,7 @@
 \node[proc]  (p3)  at (0, -3.8) {P3: Наалт зургийн API\\(Sticker API)};
 
 \node[store] (d1)  at (6.8, 3.8) {D1: Хэрэглэгчид\\(Users)};
-\node[store] (d2)  at (6.8, 0) {D2: Тэмдэглэл\\(Notes)};
+\node[store] (d2)  at (6.8, 0) {Тэмдэглэл\\(Notes)};
 \node[ext]   (oa)  at (6.8, -3.8) {OpenAI API};
 
 % App <-> P1
@@ -106,30 +105,9 @@
 \label{fig:dfd_level1}
 \end{figure}
 
-\section{Хоёрдугаар түвшний дэлгэрэнгүй өгөгдлийн урсгалын зураг}
-
-\subsection{Баталгаажуулалтын урсгалын өгөгдлийн зураг}
-
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[
-    b/.style={rectangle, rounded corners=7pt, draw=black!60, minimum width=3.2cm, minimum height=1.0cm, align=center},
-    arr/.style={-{Stealth[length=2.2mm]}, line width=1pt}
-]
-\node[b, fill=blue!8]   (f1) at (-5,0) {Нэвтрэх/бүртгэх интерфейс (Login/Signup UI)};
-\node[b, fill=purple!8] (f2) at (-1.5,0) {\texttt{/api/auth/*}};
-\node[b, fill=green!8]  (f3) at (2.1,1.1) {Хэрэглэгч хайх (User.findOne)};
-\node[b, fill=green!8]  (f4) at (2.1,-1.1) {Нууц үг шалгах ба токен үүсгэх (bcrypt + jwt.sign)};
-\node[b, fill=orange!10] (f5) at (5.8,0) {Хамгаалалттай санах ой (Secure Storage)};
-
-\draw[arr] (f1) -- node[above]{Имэйл, нууц үг (email, password)} (f2);
-\draw[arr] (f2) -- (f3);
-\draw[arr] (f3) -- (f2);
-\draw[arr] (f2) -- (f4);
-\draw[arr] (f4) -- node[above]{Токен, хэрэглэгч} (f2);
-\draw[arr] (f2) -- node[above]{JSON хариу} (f1);
-\draw[arr] (f1) -- node[below]{Хадгалах үйлдэл (saveToken/saveUser)} (f5);
-\end{tikzpicture}
+\includegraphics[width=0.98\textwidth]{Pictures/2r_tuvshin2.png}
 \caption{Хоёрдугаар түвшний өгөгдлийн урсгал: нэвтрэх болон бүртгэх урсгал}
 \label{fig:dfd_auth_detail}
 \end{figure}
@@ -138,24 +116,7 @@
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[
-    b/.style={rectangle, rounded corners=7pt, draw=black!60, minimum width=3.2cm, minimum height=1.0cm, align=center},
-    arr/.style={-{Stealth[length=2.2mm]}, line width=1pt}
-]
-\node[b, fill=blue!8]   (n1) at (-5,0) {Хянах самбар/Календарийн интерфейс (Dashboard/Calendar UI)};
-\node[b, fill=purple!8] (n2) at (-1.8,0) {\texttt{/api/notes}};
-\node[b, fill=purple!8] (n3) at (1.5,0) {Баталгаажуулалтын завсрын модуль (authMiddleware)};
-\node[b, fill=green!8]  (n4) at (4.8,1.0) {Тэмдэглэлийн загвар/хайх/хадгалах/шинэчлэх/устгах};
-\node[b, fill=orange!10] (n5) at (4.8,-1.1) {MongoDB тэмдэглэлийн цуглуулга};
-
-\draw[arr] (n1) -- node[above]{Bearer токен + өгөгдөл (payload)} (n2);
-\draw[arr] (n2) -- (n3);
-\draw[arr] (n3) -- node[above]{Хэрэглэгчийн таних утга (req.userId)} (n4);
-\draw[arr] (n4) -- (n5);
-\draw[arr] (n5) -- (n4);
-\draw[arr] (n4) -- node[below]{Тэмдэглэлийн JSON өгөгдөл} (n2);
-\draw[arr] (n2) -- node[below]{Интерфейс шинэчлэх (refresh UI)} (n1);
-\end{tikzpicture}
+\includegraphics[width=0.98\textwidth]{Pictures/2r_tuvshin_3.png}
 \caption{Хоёрдугаар түвшний өгөгдлийн урсгал: тэмдэглэлийн CRUD урсгал}
 \label{fig:dfd_notes_detail}
 \end{figure}
@@ -164,54 +125,57 @@
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[
-    b/.style={rectangle, rounded corners=7pt, draw=black!60, minimum width=3.0cm, minimum height=1.0cm, align=center},
-    arr/.style={-{Stealth[length=2.2mm]}, line width=1pt}
-]
-\node[b, fill=blue!8]    (s1) at (-5,0) {Наалт зургийн интерфейс (Sticker UI)};
-\node[b, fill=purple!8]  (s2) at (-2,0) {\texttt{/generate-sticker}};
-\node[b, fill=purple!8]  (s3) at (1,0) {Заавар текстийн шалгалт (prompt validation)};
-\node[b, fill=teal!10]   (s4) at (4.2,1.0) {OpenAI \texttt{images.generate}};
-\node[b, fill=orange!10] (s5) at (4.2,-1.0) {Алдааны ангилал (401/429/quota)};
-
-\draw[arr] (s1) -- node[above]{Заавар текст + токен (prompt + token)} (s2);
-\draw[arr] (s2) -- (s3);
-\draw[arr] (s3) -- (s4);
-\draw[arr] (s4) -- node[below]{Наалт зургийн холбоос (stickerUrl)} (s2);
-\draw[arr] (s2) -- node[below]{Зургийн URL хаяг} (s1);
-
-\draw[arr, dashed] (s4) -- (s5);
-\draw[arr, dashed] (s5) -- node[left]{Тайлбар мессеж (hint message)} (s2);
-\end{tikzpicture}
+\includegraphics[width=0.98\textwidth]{Pictures/2r_tuvshin4.png}
 \caption{Хоёрдугаар түвшний өгөгдлийн урсгал: хиймэл оюун ухаанаар стикер үүсгэх урсгал (AI sticker generation)}
 \label{fig:dfd_sticker_detail}
 \end{figure}
 
+\subsection{Мэдэгдлийн урсгалын өгөгдлийн зураг}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    font=\small,
+    proc/.style={rectangle, rounded corners=8pt, draw=purple!70, fill=purple!8, minimum width=4.0cm, minimum height=1.2cm, text width=3.8cm, align=center},
+    ext/.style={rectangle, rounded corners=6pt, draw=blue!60, fill=blue!8, minimum width=3.4cm, minimum height=1.2cm, text width=3.1cm, align=center},
+    store/.style={rectangle, rounded corners=6pt, draw=green!55!black, fill=green!8, minimum width=3.4cm, minimum height=1.2cm, text width=3.0cm, align=center},
+    arr/.style={-Stealth, line width=1.05pt},
+    lbl/.style={fill=white, inner sep=1.5pt, font=\scriptsize, align=center}
+]
+
+\node[ext]   (app)   at (-7.2, 0) {Flutter апп\\(Notifications UI)};
+\node[proc]  (notif) at (0, 2.8) {Мэдэгдлийн\\үйлчилгээ (NotificationService)};
+\node[ext]   (os)    at (7.2, 2.8) {Төхөөрөмжийн\\Notification Center};
+\node[proc]  (api)   at (0, -2.8) {Тэмдэглэлийн API\\(\texttt{/api/notes})};
+\node[store] (db)    at (7.2, -2.8) {Тэмдэглэл\\(Notes)};
+
+% Top path: local notification flow
+\draw[arr] ([yshift=3pt]app.east) -- node[above, lbl] {Хуваарьлах/цуцлах} (notif.south west);
+\draw[arr] (notif.east) -- node[above, lbl] {Notification event} (os.west);
+\draw[arr] (os.south west) -- node[below, lbl] {Tap/open event} ([yshift=-3pt]app.east);
+
+% Bottom path: notes aggregation flow
+\draw[arr] (app.south east) -- node[above, lbl] {GET /notes + JWT} (api.west);
+\draw[arr] (api.east) -- node[above, lbl] {Query:\\ \texttt{reminderAt}, \texttt{stickerUrl}} (db.west);
+\draw[arr] ([yshift=-8pt]db.west) -- node[below, lbl] {Notes JSON} ([yshift=-8pt]api.east);
+\draw[arr] ([yshift=-8pt]api.west) -- node[below, lbl] {Нэгтгэсэн мэдэгдлийн жагсаалт} ([yshift=-8pt]app.south east);
+
+\end{tikzpicture}
+\caption{Хоёрдугаар түвшний өгөгдлийн урсгал: мэдэгдлийн урсгал}
+\label{fig:dfd_notification_detail}
+\end{figure}
+
+\noindent Зураг~\ref{fig:dfd_notes_detail}-д хэрэглэгчийн тэмдэглэлтэй холбоотой CRUD үйлдлийн өгөгдлийн урсгалыг харуулсан. Хэрэглэгчийн интерфейсээс илгээсэн хүсэлт \texttt{/api/notes} endpoint-оор дамжин эхлээд баталгаажуулалтын завсрын модульд (authentication middleware) шалгагдаж, зөвшөөрөгдсөн тохиолдолд хянагч модуль (controller) руу шилжин MongoDB мэдээллийн санд хадгалах, унших, шинэчлэх, устгах үйлдлүүдийг гүйцэтгэнэ. Ийм зохион байгуулалт нь хэрэглэгчийн өгөгдөлтэй аюулгүй, бүтэцтэй, хяналттай харилцах үндсэн механизмыг бүрдүүлж байна. Зураг~\ref{fig:dfd_sticker_detail}-д хиймэл оюун ухаанд суурилсан наалт зураг үүсгэх урсгалыг үзүүлсэн бөгөөд хэрэглэгчийн хүсэлт \texttt{/generate-sticker} endpoint-оор орж, заавар текстийн шалгалтаар (validation) баталгаажсаны дараа OpenAI API руу дамжуулан зураг үүсгэдэг. Зураг~\ref{fig:dfd_notification_detail}-д мэдэгдлийн урсгалын өгөгдлийн замнал тодорхойлогдсон бөгөөд \texttt{/api/notes}-оос ирэх \texttt{reminderAt}/\texttt{stickerUrl} талбаруудыг клиент талд нэгтгэн жагсаалт үүсгэх, мөн төхөөрөмжийн мэдэгдлийг хуваарьлах/цуцлах үйлдлүүдийг салангид түвшинд загварчилсан.
+
 \section{Дарааллын диаграммууд (sequence diagrams)}
 
-Өгөгдлийн урсгалын зураг (dataflow) нь өгөгдөл хаашаа урсаж байгааг харуулдаг бол дарааллын диаграмм (sequence diagram) нь \textbf{цаг хугацааны дараалал}-ыг тодорхой харуулдаг. Энэ ажлын үндсэн гурван урсгалд дарааллын диаграмм (sequence diagram) ашиглав.
+Өгөгдлийн урсгалын зураг (dataflow) нь өгөгдөл хаашаа урсаж байгааг харуулдаг бол дарааллын диаграмм (sequence diagram) нь \textbf{цаг хугацааны дараалал}-ыг тодорхой харуулдаг. Энэ ажлын үндсэн дөрвөн урсгалд дарааллын диаграмм (sequence diagram) ашиглав.
 
 \subsection{Дарааллын диаграмм 1: Нэвтрэх урсгал}
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[font=\small]
-\node at (0,0) (u) {Хэрэглэгч (User)};
-\node at (3,0) (f) {Flutter апп (Flutter App)};
-\node at (6,0) (a) {Баталгаажуулалтын API (Auth API)};
-\node at (9,0) (m) {MongoDB};
-\node at (12,0) (s) {Хамгаалалттай санах ой (SecureStorage)};
-
-\foreach \x in {0,3,6,9,12} {\draw[dashed] (\x,-0.4) -- (\x,-5.8);} 
-
-\draw[->] (0,-1.0) -- node[above]{Имэйл, нууц үг (email,password)} (3,-1.0);
-\draw[->] (3,-1.5) -- node[above]{POST /auth/login} (6,-1.5);
-\draw[->] (6,-2.0) -- node[above]{Хэрэглэгч хайх (findOne(email))} (9,-2.0);
-\draw[->] (9,-2.5) -- node[above]{Хэрэглэгч (user)} (6,-2.5);
-\draw[->] (6,-3.0) -- node[above]{Токен, хэрэглэгч} (3,-3.0);
-\draw[->] (3,-3.5) -- node[above]{Токен хадгалах (saveToken())} (12,-3.5);
-\draw[->] (3,-4.0) -- node[above]{Үндсэн дэлгэц (MainScreen())} (0,-4.0);
-\end{tikzpicture}
+\includegraphics[width=0.95\textwidth]{Pictures/nevtreh1.png}
 \caption{Дарааллын диаграмм: нэвтрэх урсгал}
 \label{fig:seq_login}
 \end{figure}
@@ -220,24 +184,7 @@
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[font=\small]
-\node at (0,0) {Хэрэглэгч (User)};
-\node at (3,0) {Хянах самбарын интерфейс (Dashboard UI)};
-\node at (6,0) {Тэмдэглэлийн API (Notes API)};
-\node at (9,0) {Баталгаажуулалтын завсрын модуль (Auth MW)};
-\node at (12,0) {MongoDB};
-
-\foreach \x in {0,3,6,9,12} {\draw[dashed] (\x,-0.4) -- (\x,-5.6);} 
-
-\draw[->] (0,-1.0) -- node[above]{Гарчиг, агуулга, сэтгэл хөдлөлийн төлөв (title,content,mood)} (3,-1.0);
-\draw[->] (3,-1.6) -- node[above]{POST /notes + Bearer} (6,-1.6);
-\draw[->] (6,-2.2) -- node[above]{Токен шалгах (verify(token))} (9,-2.2);
-\draw[->] (9,-2.8) -- node[above]{Хэрэглэгчийн таних утга (req.userId)} (6,-2.8);
-\draw[->] (6,-3.4) -- node[above]{Шинэ тэмдэглэл хадгалах (new Note().save())} (12,-3.4);
-\draw[->] (12,-4.0) -- node[above]{Үүсгэсэн тэмдэглэл (created note)} (6,-4.0);
-\draw[->] (6,-4.6) -- node[above]{201 Created} (3,-4.6);
-\draw[->] (3,-5.1) -- node[above]{Жагсаалт шинэчлэх (refresh list)} (0,-5.1);
-\end{tikzpicture}
+\includegraphics[width=0.95\textwidth]{Pictures/nevtreh3.png}
 \caption{Дарааллын диаграмм: тэмдэглэл үүсгэх урсгал}
 \label{fig:seq_note_create}
 \end{figure}
@@ -246,26 +193,61 @@
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[font=\small]
-\node at (0,0) {Хэрэглэгч (User)};
-\node at (3,0) {Наалт зургийн интерфейс (Sticker UI)};
-\node at (6,0) {Тэмдэглэлийн API (Notes API)};
-\node at (9,0) {OpenAI API};
+\begin{tikzpicture}[
+    font=\small,
+    every node/.style={align=center},
+    lbl/.style={fill=white, inner sep=1.2pt, font=\scriptsize}
+]
+\node at (0,0) {Хэрэглэгч\\(User)};
+\node at (4,0) {Наалт зургийн интерфейс\\(Sticker UI)};
+\node at (8,0) {Тэмдэглэлийн API\\(Notes API)};
+\node at (12,0) {OpenAI API};
 
-\foreach \x in {0,3,6,9} {\draw[dashed] (\x,-0.4) -- (\x,-5.2);} 
+\foreach \x in {0,4,8,12} {\draw[dashed] (\x,-0.4) -- (\x,-6.0);} 
 
-\draw[->] (0,-1.0) -- node[above]{Заавар текст (prompt)} (3,-1.0);
-\draw[->] (3,-1.6) -- node[above]{POST /notes/generate-sticker} (6,-1.6);
-\draw[->] (6,-2.2) -- node[above]{Зураг үүсгэх дуудлага (images.generate(prompt))} (9,-2.2);
-\draw[->] (9,-2.8) -- node[above]{URL / алдаа} (6,-2.8);
-\draw[->] (6,-3.4) -- node[above]{Наалт зургийн холбоос / тайлбар (stickerUrl / hint)} (3,-3.4);
-\draw[->] (3,-4.0) -- node[above]{Зургийн урьдчилан харах ба мессеж (preview image + snackbar)} (0,-4.0);
+\draw[->] (0,-1.1) -- node[above, lbl] {Заавар текст\\(prompt)} (4,-1.1);
+\draw[->] (4,-1.9) -- node[above, lbl] {POST /notes\\generate-sticker} (8,-1.9);
+\draw[->] (8,-2.7) -- node[above, lbl] {Зураг үүсгэх\\дуудлага\\images.generate(prompt)} (12,-2.7);
+\draw[->] (12,-3.5) -- node[above, lbl] {URL / алдаа} (8,-3.5);
+\draw[->] (8,-4.3) -- node[above, lbl] {Наалт зургийн холбоос\\(stickerUrl / hint)} (4,-4.3);
+\draw[->] (4,-5.1) -- node[above, lbl] {Урьдчилан харах ба мессеж\\(preview + snackbar)} (0,-5.1);
 \end{tikzpicture}
 \caption{Дарааллын диаграмм: хиймэл оюун ухаанаар стикер үүсгэх урсгал (AI sticker generation)}
 \label{fig:seq_sticker}
 \end{figure}
 
-\section{Туршилтын арга ба шалгуур}
+\subsection{Дарааллын диаграмм 4: Мэдэгдэл хуваарьлах ба хүргэх урсгал}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    font=\small,
+    every node/.style={align=center},
+    lbl/.style={fill=white, inner sep=1.2pt, font=\scriptsize, text width=2.6cm}
+]
+\node at (0,0) {Хэрэглэгч\\(User)};
+\node at (4,0) {Flutter апп\\(Flutter App)};
+\node at (8,0) {Тэмдэглэлийн API\\(Notes API)};
+\node at (12,0) {NotificationService};
+\node at (16,0) {Төхөөрөмжийн OS\\(Notification Center)};
+
+\foreach \x in {0,4,8,12,16} {\draw[dashed] (\x,-0.4) -- (\x,-9.4);} 
+
+\draw[->] (0,-1.0) -- node[above, lbl] {Сануулгын\\хугацаа сонгох} (4,-1.0);
+\draw[->] (4,-2.0) -- node[above, lbl] {PUT /notes/:id\\(reminderAt)} (8,-2.0);
+\draw[->] (8,-3.0) -- node[below, lbl] {200 Updated\\(note JSON)} (4,-3.0);
+\draw[->] (4,-4.0) -- node[above, lbl] {Reminder schedule\\request} (12,-4.0);
+\draw[->] (12,-5.0) -- node[above, lbl] {zonedSchedule\\(UTC-based)} (16,-5.0);
+\draw[->] (16,-6.0) -- node[below, lbl] {Reminder alert} (0,-6.0);
+\draw[->] (0,-7.0) -- node[above, lbl] {Мэдэгдэл дээр\\дарах (tap)} (4,-7.0);
+\draw[->] (4,-8.0) -- node[above, lbl] {GET /notes\\(refresh)} (8,-8.0);
+\draw[->] (8,-9.0) -- node[below, lbl] {Шинэчлэгдсэн\\жагсаалт} (4,-9.0);
+\end{tikzpicture}
+\caption{Дарааллын диаграмм: мэдэгдэл хуваарьлах ба хүргэх урсгал}
+\label{fig:seq_notification}
+\end{figure}
+
+\section{Шалгуур}
 
 Системийн урсгал бүрийг дараах шалгуураар баталгаажуулсан:
 
@@ -273,9 +255,46 @@
     \item Баталгаажуулалтын урсгал (auth flow): токен олголт, хадгалалт, дэлгэц шилжилтийн (navigation) зөв байдал;
     \item Тэмдэглэлийн урсгал (notes flow): CRUD үйлдлийн дараах өгөгдлийн тууштай байдал;
     \item Наалт зургийн урсгал (sticker flow): заавар текстээс (prompt) URL буцах, алдааны тайлбар зөв харуулах эсэх;
+    \item Мэдэгдлийн урсгал (notification flow): сануулгыг зөв хуваарьлах/цуцлах, мэдэгдлийн жагсаалтын төлөв шинэчлэх;
     \item Аюулгүй байдлын урсгал (security flow): токенгүй хүсэлтэд 401 буцах эсэх.
 \end{itemize}
 
-\section{Бүлгийн дүгнэлт}
+\section{Generative AI туршилтын аргачлал}
 
-Энэ бүлэгт AI Notebook системийн ажиллагааг контекст түвшний өгөгдлийн урсгалын зураг (context-level dataflow)-аас эхлэн нэгдүгээр ба хоёрдугаар түвшний өгөгдлийн урсгалын зураг (level-1, level-2 dataflow) руу шаталж тайлбарлав. Мөн нэвтрэлт, тэмдэглэлийн CRUD, хиймэл оюун ухаанаар стикер үүсгэх урсгал (AI sticker generation flow) зэрэг гол хэрэглээний урсгалуудыг дарааллын диаграммаар (sequence diagram) баталгаажуулснаар системийн ерөнхий архитектур болон хугацааны дарааллыг зэрэгцүүлэн ойлгох боломж бүрдсэн.
+Энэхүү судалгаанд хиймэл оюун ухаанд суурилсан \texttt{/api/notes/generate-sticker} төгсгөлийн цэгийг (endpoint) бодит орчинд шалгаж, үр дүнг зөвхөн дараах хоёр метрикаар үнэлэв.
+
+\begin{enumerate}
+    \item \textbf{Latency} (зураг үүсгэх хугацаа, секунд),
+    \item \textbf{Prompt relevance} (үсгэсэн зураг prompt-той нийцэж байгаа эсэх).
+\end{enumerate}
+
+Туршилтыг 2026-04-17-нд Windows орчинд ажилласан Node.js backend дээр хийж, баталгаажуулалтын (JWT) токентой хүсэлтүүдийг \texttt{Invoke-RestMethod} ашиглан давтан илгээсэн.
+
+\subsection*{Latency хэмжих арга}
+
+Хүсэлт бүрийн эхлэх ба дуусах хугацааг тэмдэглэж, зураг үүсгэх хугацааг секундээр тооцов:
+\[
+t_{latency}=t_{response}-t_{request}\;(sec)
+\]
+
+Нэг сценар доторх дундаж хугацааг:
+\[
+\overline{t}=\frac{1}{N}\sum_{i=1}^{N}t_i
+\]
+томьёогоор гаргав.
+
+\subsection*{Prompt relevance үнэлэх арга}
+
+Үүсгэсэн зураг бүрийг prompt-ийн үндсэн утгатай тохирч байгаа эсэхээр бинар үнэлэв:
+
+\begin{itemize}
+    \item \textbf{1 (нийцсэн)}: prompt-д өгсөн гол объект/үйлдэл зурагт тодорхой харагдсан,
+    \item \textbf{0 (нийцээгүй)}: prompt-ийн гол утга алдагдсан эсвэл өөр сэдэв рүү хазайсан.
+\end{itemize}
+
+Нийцлийн хувийг дараах байдлаар тооцов:
+\[
+\text{Prompt relevance rate}(\%)=\frac{N_{match}}{N_{total}}\times 100
+\]
+энд $N_{match}$ нь нийцсэн зураг, $N_{total}$ нь нийт үүсгэсэн зураг болно.
+

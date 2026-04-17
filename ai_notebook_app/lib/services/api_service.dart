@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'puter.dart';
 
 class ApiService {
   // ── Change this if testing on a real device (use your PC LAN IP) ──
@@ -17,7 +17,7 @@ class ApiService {
     return 'http://localhost:3000/api';
   }
 
-  static final FlutterSecureStorage _storage = FlutterSecureStorage();
+  static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
   // ───── AUTH ─────────────────────────────────────
 
@@ -91,7 +91,8 @@ class ApiService {
     required String content,
     String title = "",
     String mood = "",
-    String? reminderAt
+    String? reminderAt,
+    String? noteDate,
   }) async {
 
     final token = await _storage.read(key: "jwt");
@@ -105,6 +106,10 @@ class ApiService {
 
     if (reminderAt != null) {
       body["reminderAt"] = reminderAt;
+    }
+
+    if (noteDate != null) {
+      body["noteDate"] = noteDate;
     }
 
     try {
@@ -153,23 +158,36 @@ class ApiService {
       String id,
       String title,
       String content,
-      String mood) async {
+      String mood, {
+      String? reminderAt,
+      String? noteDate,
+    }) async {
 
     final token = await _storage.read(key: "jwt");
     if (token == null || token.isEmpty) return false;
 
     try {
+      final body = {
+        "title": title,
+        "content": content,
+        "mood": mood,
+      };
+
+      if (reminderAt != null) {
+        body["reminderAt"] = reminderAt;
+      }
+
+      if (noteDate != null) {
+        body["noteDate"] = noteDate;
+      }
+
       final res = await http.put(
         Uri.parse("$_base/notes/$id"),
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer $token",
         },
-        body: jsonEncode({
-          "title": title,
-          "content": content,
-          "mood": mood
-        }),
+        body: jsonEncode(body),
       ).timeout(const Duration(seconds: 10));
 
       return res.statusCode == 200;
@@ -201,25 +219,12 @@ class ApiService {
 
   // ───── AI STICKER GENERATOR ─────────────────────
 
-  /// Generates a sticker using Puter.js API on web, and DALL-E on Mobile
+  /// Generates a sticker via backend free generator/fallback pipeline.
   /// Returns a data:image/png;base64,... URI or image URL.
   static Future<String> generateSticker(String prompt) async {
     final token = await _storage.read(key: "jwt");
     if (token == null || token.isEmpty) {
       throw Exception("Authentication required");
-    }
-
-    if (kIsWeb) {
-      print("🎨 Generating sticker via Puter.js in browser: $prompt");
-      try {
-        final url = await callPuterStickerJs(prompt);
-        if (url != null && url.isNotEmpty) {
-           return url;
-        }
-        throw Exception("Puter.js returned null");
-      } catch (e) {
-        throw Exception("Puter Generation failed: $e");
-      }
     }
 
     try {
@@ -232,7 +237,7 @@ class ApiService {
           "Authorization": "Bearer $token",
         },
         body: jsonEncode({"prompt": prompt}),
-      ).timeout(const Duration(minutes: 5));
+      ).timeout(const Duration(seconds: 45));
 
       final data = jsonDecode(res.body);
 
@@ -251,6 +256,8 @@ class ApiService {
       throw Exception("Network error: ${e.message}");
     } on FormatException {
       throw Exception("Invalid response from server");
+    } on TimeoutException {
+      throw Exception("Generation timeout: please try a shorter prompt");
     } catch (e) {
       throw Exception("Generation failed: ${e.toString()}");
     }

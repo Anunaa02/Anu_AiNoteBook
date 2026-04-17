@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'services/api_service.dart';
+import 'services/notification_service.dart';
 import 'login_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -76,10 +76,74 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return '🌙';
   }
 
+  Future<DateTime?> _pickReminderDateTime({DateTime? initial}) async {
+    final now = DateTime.now();
+    final start = initial ?? now.add(const Duration(minutes: 5));
+
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: start,
+      firstDate: DateTime(now.year - 1),
+      lastDate: DateTime(now.year + 5),
+    );
+    if (pickedDate == null) return null;
+
+    final pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(start),
+    );
+    if (pickedTime == null) return null;
+
+    return DateTime(
+      pickedDate.year,
+      pickedDate.month,
+      pickedDate.day,
+      pickedTime.hour,
+      pickedTime.minute,
+    );
+  }
+
+  String _formatReminder(DateTime d) {
+    final y = d.year.toString().padLeft(4, '0');
+    final m = d.month.toString().padLeft(2, '0');
+    final day = d.day.toString().padLeft(2, '0');
+    final h = d.hour.toString().padLeft(2, '0');
+    final min = d.minute.toString().padLeft(2, '0');
+    return '$y-$m-$day $h:$min';
+  }
+
+  Future<void> _syncReminderForNote({
+    required String noteId,
+    required DateTime? reminderAt,
+    required String title,
+    required String content,
+    String? stickerUrl,
+  }) async {
+    if (reminderAt == null || !reminderAt.isAfter(DateTime.now())) {
+      await NotificationService.cancelScheduledReminderForNote(noteId);
+      return;
+    }
+
+    final notifTitle = title.trim().isNotEmpty ? title.trim() : 'Note reminder';
+    final clean = content.trim().isNotEmpty
+        ? content.trim()
+        : 'You have a scheduled note reminder.';
+    final notifBody = clean.length > 120 ? '${clean.substring(0, 120)}...' : clean;
+
+    await NotificationService.scheduleReminderNotification(
+      noteId: noteId,
+      reminderAt: reminderAt,
+      title: notifTitle,
+      body: notifBody,
+      stickerUrl: stickerUrl,
+    );
+  }
+
   Future<void> _showAddNoteDialog() async {
     final titleCtrl = TextEditingController();
     final contentCtrl = TextEditingController();
     String mood = _selectedMood;
+    DateTime? reminderAt;
 
     await showDialog(
       context: context,
@@ -107,6 +171,50 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     contentCtrl, 'How are you feeling?',
                     Icons.edit_note_rounded,
                     maxLines: 4),
+                const SizedBox(height: 12),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.07),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.white24),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          reminderAt == null
+                              ? 'No reminder set'
+                              : 'Reminder: ${_formatReminder(reminderAt!)}',
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          final picked = await _pickReminderDateTime(
+                            initial: reminderAt,
+                          );
+                          if (picked == null) return;
+                          setSt(() => reminderAt = picked);
+                        },
+                        child: const Text('Set',
+                            style: TextStyle(color: Color(0xFFc084fc))),
+                      ),
+                      if (reminderAt != null)
+                        IconButton(
+                          onPressed: () => setSt(() => reminderAt = null),
+                          icon: const Icon(Icons.close,
+                              color: Colors.white54, size: 18),
+                          tooltip: 'Clear reminder',
+                        ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 14),
                 const Text('Mood',
                     style:
@@ -126,7 +234,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               decoration: BoxDecoration(
                                 color: mood == m['emoji']
                                     ? const Color(0xFF7c3aed)
-                                    : Colors.white.withOpacity(0.08),
+                                    : Colors.white.withValues(alpha: 0.08),
                                 borderRadius:
                                     BorderRadius.circular(20),
                                 border: Border.all(
@@ -165,8 +273,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           title: titleCtrl.text.trim(),
                           content: content,
                           mood: mood,
+                          reminderAt: reminderAt?.toIso8601String(),
                         );
                         final ok = noteId != null;
+                        if (ok && noteId.isNotEmpty) {
+                          await _syncReminderForNote(
+                            noteId: noteId,
+                            reminderAt: reminderAt,
+                            title: titleCtrl.text.trim(),
+                            content: content,
+                          );
+                        }
                         if (ok && mounted) _loadData();
                         if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -190,6 +307,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 final stickerUrl = await ApiService.generateSticker(content);
                                 if (stickerUrl.isNotEmpty) {
                                    await ApiService.saveNoteSticker(noteId, stickerUrl);
+                                   final notifTitle = titleCtrl.text.trim().isNotEmpty
+                                       ? titleCtrl.text.trim()
+                                       : 'New sticker generated';
+                                   final notifBody = content.length > 90
+                                       ? '${content.substring(0, 90)}...'
+                                       : content;
+                                   await NotificationService.showStickerGeneratedNotification(
+                                     title: notifTitle,
+                                     body: notifBody,
+                                     stickerUrl: stickerUrl,
+                                   );
+                                   await _syncReminderForNote(
+                                     noteId: noteId,
+                                     reminderAt: reminderAt,
+                                     title: titleCtrl.text.trim(),
+                                     content: content,
+                                     stickerUrl: stickerUrl,
+                                   );
+                                if (mounted) {
+                                 await _loadData();
+                                }
                                 }
                              } catch(e) {
                                 print("Auto sticker failed: $e");
@@ -242,6 +380,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
     if (confirmed != true) return;
     final ok = await ApiService.deleteNote(id);
+    if (ok) {
+      await NotificationService.cancelScheduledReminderForNote(id);
+    }
     if (ok && mounted) _loadData();
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -260,6 +401,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final titleCtrl = TextEditingController(text: note['title'] ?? '');
     final contentCtrl = TextEditingController(text: note['content'] ?? '');
     String mood = note['mood'] ?? '';
+    DateTime? reminderAt =
+        DateTime.tryParse((note['reminderAt'] ?? '').toString());
 
     await showDialog(
       context: context,
@@ -287,6 +430,50 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     contentCtrl, 'How are you feeling?',
                     Icons.edit_note_rounded,
                     maxLines: 4),
+                const SizedBox(height: 12),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.07),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.white24),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          reminderAt == null
+                              ? 'No reminder set'
+                              : 'Reminder: ${_formatReminder(reminderAt!)}',
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          final picked = await _pickReminderDateTime(
+                            initial: reminderAt,
+                          );
+                          if (picked == null) return;
+                          setSt(() => reminderAt = picked);
+                        },
+                        child: const Text('Set',
+                            style: TextStyle(color: Color(0xFFc084fc))),
+                      ),
+                      if (reminderAt != null)
+                        IconButton(
+                          onPressed: () => setSt(() => reminderAt = null),
+                          icon: const Icon(Icons.close,
+                              color: Colors.white54, size: 18),
+                          tooltip: 'Clear reminder',
+                        ),
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 14),
                 const Text('Mood',
                     style: TextStyle(color: Colors.white70, fontSize: 13)),
@@ -304,7 +491,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               decoration: BoxDecoration(
                                 color: mood == m['emoji']
                                     ? const Color(0xFF7c3aed)
-                                    : Colors.white.withOpacity(0.08),
+                                    : Colors.white.withValues(alpha: 0.08),
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
                                     color: mood == m['emoji']
@@ -342,7 +529,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           titleCtrl.text.trim(),
                           content,
                           mood,
+                          reminderAt: reminderAt?.toIso8601String() ?? '',
                         );
+                        if (ok) {
+                          final stickerUrl =
+                              (note['stickerUrl'] ?? '').toString().trim();
+                          await _syncReminderForNote(
+                            noteId: note['_id'] as String,
+                            reminderAt: reminderAt,
+                            title: titleCtrl.text.trim(),
+                            content: content,
+                            stickerUrl: stickerUrl.isNotEmpty ? stickerUrl : null,
+                          );
+                        }
                         if (ok && mounted) _loadData();
                         if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -405,7 +604,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           child: Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.1),
+                              color: Colors.white.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Icon(Icons.menu_rounded,
@@ -467,7 +666,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   : null,
                               color: selected
                                   ? null
-                                  : Colors.white.withOpacity(0.08),
+                                  : Colors.white.withValues(alpha: 0.08),
                               borderRadius:
                                   BorderRadius.circular(20),
                               border: Border.all(
@@ -512,7 +711,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0xFF7c3aed)
-                                .withOpacity(0.4),
+                                .withValues(alpha: 0.4),
                             blurRadius: 16,
                             offset: const Offset(0, 6),
                           ),
@@ -602,10 +801,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 28),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
+        color: Colors.white.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(18),
         border:
-            Border.all(color: Colors.white.withOpacity(0.1)),
+            Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: const Column(
         children: [
@@ -635,9 +834,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       padding: EdgeInsets.symmetric(
           horizontal: 16, vertical: isWide ? 16 : 14),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.07),
+        color: Colors.white.withValues(alpha: 0.07),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white.withOpacity(0.12)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -688,10 +887,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color(0xFF7c3aed).withOpacity(0.12),
+                color: const Color(0xFF7c3aed).withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                    color: const Color(0xFF7c3aed).withOpacity(0.3),
+                    color: const Color(0xFF7c3aed).withValues(alpha: 0.3),
                     width: 1),
               ),
               child: const Icon(Icons.edit_outlined,
@@ -704,10 +903,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.12),
+                color: Colors.red.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                    color: Colors.red.withOpacity(0.3), width: 1),
+                    // ignore: deprecated_member_use
+                    color: Colors.red.withValues(alpha: 0.3), width: 1),
               ),
               child: const Icon(Icons.delete_outline_rounded,
                   color: Color(0xFFf87171), size: 18),
@@ -735,7 +935,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ? Icon(icon, color: Colors.white38, size: 20)
             : null,
         filled: true,
-        fillColor: Colors.white.withOpacity(0.07),
+        fillColor: Colors.white.withValues(alpha: 0.07),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide.none,
@@ -765,9 +965,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Container(
                     width: 52,
                     height: 52,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: const LinearGradient(
+                      gradient: LinearGradient(
                         colors: [Color(0xFF7c3aed), Color(0xFFa855f7)],
                       ),
                     ),
@@ -849,7 +1049,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       leading: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: const Color(0xFF7c3aed).withOpacity(0.2),
+          color: const Color(0xFF7c3aed).withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(icon, color: const Color(0xFFc084fc), size: 20),

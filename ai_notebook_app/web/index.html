@@ -31,64 +31,6 @@
 
   <title>ai_notebook_app</title>
   <link rel="manifest" href="manifest.json">
-  <!-- Puter.js integration -->
-  <script src="https://js.puter.com/v2/"></script>
-  <script>
-    async function generateAndUploadStickerWithPuter(prompt) {
-      try {
-        const cleanPrompt = prompt.length > 100 ? prompt.substring(0, 100) : prompt;
-        const enhancedPrompt = `A single cute minimal cartoon icon visually representing this idea: "${cleanPrompt}". Beautiful flat vector sticker design, thick white border outline around the shape, 100% solid white background. NO TEXT, no writing, no words, purely visual symbol.`;
-        
-        // Puter.js-ийн зураг үүсгэх илүү сайн модел ашиглах (Gemini 3 Pro Image)
-        const options = {
-            model: "gemini-3-pro-image-preview"
-        };
-        
-        console.log("Generating sticker with Puter Gemini 3 Pro...");
-        const img = await puter.ai.txt2img(enhancedPrompt, options);
-        
-        const res = await fetch(img.src);
-        const blob = await res.blob();
-        
-        // Convert Blob to Base64 using FileReader
-        const reader = new FileReader();
-        reader.readAsDataURL(blob); 
-        const imageBase64Promise = new Promise((resolve) => {
-            reader.onloadend = () => resolve(reader.result);
-        });
-        const imageBase64 = await imageBase64Promise;
-        
-        // Push this image to our backend to save it in `sticker/`
-        try {
-          // Send to local backend server
-          const saveRes = await fetch("http://localhost:3000/api/notes/save-sticker-local", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ imageBase64 })
-          });
-          
-          if (!saveRes.ok) {
-            console.error("Failed to save local sticker", await saveRes.text());
-          }
-        } catch (postErr) {
-          console.error("Could not post sticker to local server.", postErr);
-        }
-
-        const timestamp = new Date().getTime();
-        const filename = 'sticker_' + timestamp + '.png';
-        const file = await puter.fs.write(filename, blob);
-        
-        // This makes the file readable from anywhere
-        const url = await puter.fs.getReadURL(file);
-        return url;
-      } catch (e) {
-        console.error('Puter Error:', e);
-        throw e;
-      }
-    }
-  </script>
 </head>
 <body>
   <!--

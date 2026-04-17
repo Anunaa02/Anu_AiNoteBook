@@ -14,15 +14,21 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  int _unreadNotificationCount = 0;
 
   @override
   Widget build(BuildContext context) {
     final screens = [
       DashboardScreen(onSwitchTab: (i) => setState(() => _currentIndex = i)),
       const CalendarScreen(),
-      const StickerScreen(),
-      const NotificationsScreen(),
-      const ProfileScreen(),
+      StickerScreen(onSwitchTab: (i) => setState(() => _currentIndex = i)),
+      NotificationsScreen(
+        onUnreadCountChanged: (count) {
+          if (_unreadNotificationCount == count) return;
+          setState(() => _unreadNotificationCount = count);
+        },
+      ),
+      ProfileScreen(onSwitchTab: (i) => setState(() => _currentIndex = i)),
     ];
     return Scaffold(
       backgroundColor: const Color(0xFF1a0033),
@@ -34,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
         decoration: BoxDecoration(
           color: const Color(0xFF1a0033),
           border: Border(
-            top: BorderSide(color: Colors.white.withOpacity(0.1), width: 1),
+            top: BorderSide(color: Colors.white.withValues(alpha: 0.1), width: 1),
           ),
         ),
         child: SafeArea(
@@ -47,7 +53,11 @@ class _MainScreenState extends State<MainScreen> {
                 _navItem(Icons.home_rounded, 0),
                 _navItem(Icons.calendar_month_rounded, 1),
                 _navItem(Icons.auto_awesome_rounded, 2),
-                _navItem(Icons.notifications_rounded, 3, badge: true),
+                _navItem(
+                  Icons.notifications_rounded,
+                  3,
+                  badge: _unreadNotificationCount > 0,
+                ),
                 _navItem(Icons.person_rounded, 4),
               ],
             ),
@@ -67,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
             const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           color: selected
-              ? Colors.white.withOpacity(0.1)
+              ? Colors.white.withValues(alpha: 0.1)
               : Colors.transparent,
           borderRadius: BorderRadius.circular(14),
         ),
