@@ -6,15 +6,28 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiService {
-  // ── Change this if testing on a real device (use your PC LAN IP) ──
-  static const String _devHost = '192.168.1.9';
+  // Demo/dev API endpoint settings (can be overridden with --dart-define)
+  static const String _devHost = String.fromEnvironment(
+    'DEV_API_HOST',
+    defaultValue: '192.168.1.9',
+  );
+  static const int _devPort = int.fromEnvironment(
+    'DEV_API_PORT',
+    defaultValue: 3000,
+  );
+  static const bool _useHttps = bool.fromEnvironment(
+    'DEV_API_HTTPS',
+    defaultValue: false,
+  );
+
+  static String get _scheme => _useHttps ? 'https' : 'http';
 
   static String get _base {
-    if (kIsWeb) return 'http://localhost:3000/api';
-    if (Platform.isAndroid) {
-      return 'http://$_devHost:3000/api';
+    if (kIsWeb) return '$_scheme://localhost:$_devPort/api';
+    if (Platform.isAndroid || Platform.isIOS) {
+      return '$_scheme://$_devHost:$_devPort/api';
     }
-    return 'http://localhost:3000/api';
+    return '$_scheme://localhost:$_devPort/api';
   }
 
   static const FlutterSecureStorage _storage = FlutterSecureStorage();

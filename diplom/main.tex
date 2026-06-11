@@ -1,4 +1,4 @@
-\documentclass[11pt]{Thesis}
+ \documentclass[11pt]{Thesis}
 \usepackage{fontspec}
 \setmainfont[Script=Cyrillic]{Times New Roman}
 \setsansfont{Arial}
@@ -8,6 +8,8 @@
 \setotherlanguage{english}
 \usepackage{wrapfig}
 \usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{tabularx}
 \usepackage{amssymb}
 \usepackage{indentfirst}
 \usepackage{multicol}
@@ -26,6 +28,13 @@
 \pgfplotsset{compat=1.18}
 \usepgfplotslibrary{fillbetween}
 \usetikzlibrary{pgfplots.fillbetween}
+
+% Graphics packages for figures
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\numberwithin{equation}{chapter}
 
 \begin{document}
 \frenchspacing
@@ -62,13 +71,13 @@
 %	Хүснэгтийн жагсаалт (iv)
 %---------
 \newpage
-\listoftab
+\listoftables
 
 %---------
 %	Зургийн жагсаалт (v)
 %---------
 \newpage
-\listoffig
+\listoffigures
 
 %---------
 %	Үндсэн хэсэг
@@ -94,10 +103,17 @@
 \input{Chapters/Chapter4_Results}
 \input{Chapters/Chapter5_Conclusion}
 
+
+
 %---------
 %	Ном зүй
 %---------
 \input{Chapters/Bibliography}
+
+%---------
+%	Талархал
+%---------
+\input{Chapters/Talarhal}
 
 %---------
 %	Хавсралт
@@ -105,8 +121,8 @@
 \input{Chapters/appendix}
 
 %---------
-%	Талархал
+%	Товчлол
 %---------
-% \input{Chapters/Talarhal}
+\input{Chapters/Tovchlol}
 
 \end{document}

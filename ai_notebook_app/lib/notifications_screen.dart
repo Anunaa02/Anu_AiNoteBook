@@ -159,12 +159,25 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Future<void> _loadNotifications() async {
     setState(() => _loading = true);
     final notes = await ApiService.getNotes();
+    final now = DateTime.now();
 
     final mapped = notes
         .where((n) {
-          final hasReminder = (n['reminderAt'] ?? '').toString().trim().isNotEmpty;
           final hasSticker = (n['stickerUrl'] ?? '').toString().trim().isNotEmpty;
-          return hasReminder || hasSticker;
+          final reminderAtRaw = (n['reminderAt'] ?? '').toString().trim();
+          final hasReminder = reminderAtRaw.isNotEmpty;
+
+          if (!hasReminder) {
+            return hasSticker;
+          }
+
+          final reminder = _parseDateTimeLocal(reminderAtRaw);
+          if (reminder == null) {
+            return false;
+          }
+
+          // Do not show future reminders in notifications list.
+          return !reminder.isAfter(now);
         })
         .map((n) {
           final title = (n['title'] ?? '').toString().trim();
@@ -175,10 +188,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           final createdAtRaw = (n['createdAt'] ?? '').toString();
           final updatedAtRaw = (n['updatedAt'] ?? '').toString();
 
-          final reminder = DateTime.tryParse(reminderAtRaw);
-          final created = DateTime.tryParse(createdAtRaw);
-          final updated = DateTime.tryParse(updatedAtRaw);
-          final now = DateTime.now();
+          final reminder = _parseDateTimeLocal(reminderAtRaw);
+          final created = _parseDateTimeLocal(createdAtRaw);
+          final updated = _parseDateTimeLocal(updatedAtRaw);
           final hasReminder = reminderAtRaw.trim().isNotEmpty;
           final noteId = (n['_id'] ?? '').toString().trim();
           final kind = hasReminder ? 'reminder' : 'sticker';
@@ -195,8 +207,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           final subtitle = hasReminder
               ? (reminder == null
                     ? 'Reminder'
-                    : '${_fmtTime(reminder)} · Reminder')
-              : '${_fmtTime(source)} · Sticker generated';
+                : _fmtDateCompact(reminder))
+              : _fmtDateCompact(source);
 
           return _Notif(
             notificationKey: notificationKey,
@@ -209,7 +221,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             imageUrl: stickerUrl.isNotEmpty ? stickerUrl : null,
             title: title.isNotEmpty ? title : content,
             subtitle: subtitle,
-            time: _relativeTime(source),
+            time: _fmtTime(source),
             sourceAt: source,
             read: isRead,
           );
@@ -228,18 +240,25 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     _notifyUnreadCountChanged();
   }
 
-  static String _fmtTime(DateTime d) {
-    final h = d.hour.toString().padLeft(2, '0');
-    final m = d.minute.toString().padLeft(2, '0');
-    return '$h:$m';
+  static String _fmtDateCompact(DateTime d) {
+    final local = d.isUtc ? d.toLocal() : d;
+    final y = local.year.toString().padLeft(4, '0');
+    final m = local.month.toString().padLeft(2, '0');
+    final day = local.day.toString().padLeft(2, '0');
+    return '$y.$m.$day';
   }
 
-  static String _relativeTime(DateTime d) {
-    final diff = DateTime.now().difference(d);
-    if (diff.inMinutes < 1) return 'just now';
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24) return '${diff.inHours}h ago';
-    return '${diff.inDays}d ago';
+  static DateTime? _parseDateTimeLocal(String raw) {
+    final parsed = DateTime.tryParse(raw);
+    if (parsed == null) return null;
+    return parsed.isUtc ? parsed.toLocal() : parsed;
+  }
+
+  static String _fmtTime(DateTime d) {
+    final local = d.isUtc ? d.toLocal() : d;
+    final h = local.hour.toString().padLeft(2, '0');
+    final m = local.minute.toString().padLeft(2, '0');
+    return '$h:$m';
   }
 
   Future<bool> _deleteNotification(_Notif notif) async {
@@ -492,7 +511,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                                           children: [
                                             Text(n.time,
                                                 style: const TextStyle(
-                                                    color: Colors.white54, fontSize: 11)),
+                                                    color: Colors.white54,
+                                                    fontSize: 11)),
                                             const SizedBox(height: 6),
                                             if (!n.read)
                                               Container(

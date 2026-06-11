@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -9,9 +10,16 @@ import 'package:path_provider/path_provider.dart';
 import 'package:timezone/data/latest_all.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
+@pragma('vm:entry-point')
+void notificationTapBackground(NotificationResponse response) {
+  NotificationService.handleNotificationTapPayload(response.payload);
+}
+
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();
+  static final StreamController<DateTime> _calendarDayTapController =
+      StreamController<DateTime>.broadcast();
 
   static const AndroidNotificationChannel _channel = AndroidNotificationChannel(
     'sticker_events_channel',
@@ -22,6 +30,16 @@ class NotificationService {
 
   static bool _initialized = false;
   static int _notificationSeed = 1;
+  static DateTime? _pendingCalendarDay;
+
+  static Stream<DateTime> get calendarDayTapStream =>
+      _calendarDayTapController.stream;
+
+  static DateTime? consumePendingCalendarDay() {
+    final day = _pendingCalendarDay;
+    _pendingCalendarDay = null;
+    return day;
+  }
 
   static Future<void> init() async {
     if (_initialized) return;
@@ -38,7 +56,11 @@ class NotificationService {
       iOS: DarwinInitializationSettings(),
     );
 
-    await _plugin.initialize(initSettings);
+    await _plugin.initialize(
+      initSettings,
+      onDidReceiveNotificationResponse: _onNotificationResponse,
+      onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+    );
 
     final androidPlugin =
         _plugin.resolvePlatformSpecificImplementation<
@@ -55,13 +77,29 @@ class NotificationService {
         >();
     await iosPlugin?.requestPermissions(alert: true, badge: true, sound: true);
 
+    final launchDetails = await _plugin.getNotificationAppLaunchDetails();
+    handleNotificationTapPayload(launchDetails?.notificationResponse?.payload);
+
     _initialized = true;
+  }
+
+  static void _onNotificationResponse(NotificationResponse response) {
+    handleNotificationTapPayload(response.payload);
+  }
+
+  static void handleNotificationTapPayload(String? payload) {
+    final calendarDay = _extractCalendarDay(payload);
+    if (calendarDay == null) return;
+
+    _pendingCalendarDay = calendarDay;
+    _calendarDayTapController.add(calendarDay);
   }
 
   static Future<void> showStickerGeneratedNotification({
     required String title,
     required String body,
     String? stickerUrl,
+    DateTime? targetDay,
   }) async {
     if (!_initialized) {
       await init();
@@ -80,6 +118,9 @@ class NotificationService {
       title,
       body,
       details,
+      payload: _buildCalendarPayload(
+        day: targetDay ?? DateTime.now(),
+      ),
     );
   }
 
@@ -122,7 +163,10 @@ class NotificationService {
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
-      payload: 'note:$noteId',
+      payload: _buildCalendarPayload(
+        day: reminderAt,
+        noteId: noteId,
+      ),
     );
   }
 
@@ -188,6 +232,49 @@ class NotificationService {
       _notificationSeed = 1;
     }
     return _notificationSeed;
+  }
+
+  static String _buildCalendarPayload({required DateTime day, String? noteId}) {
+    final dateToken = _formatDayToken(day);
+    final cleanNoteId = (noteId ?? '').trim();
+    if (cleanNoteId.isEmpty) {
+      return 'calday:$dateToken';
+    }
+    return 'calday:$dateToken;note:$cleanNoteId';
+  }
+
+  static String _formatDayToken(DateTime value) {
+    final local = value.isUtc ? value.toLocal() : value;
+    final y = local.year.toString().padLeft(4, '0');
+    final m = local.month.toString().padLeft(2, '0');
+    final d = local.day.toString().padLeft(2, '0');
+    return '$y-$m-$d';
+  }
+
+  static DateTime? _extractCalendarDay(String? payload) {
+    final raw = (payload ?? '').trim();
+    if (raw.isEmpty) return null;
+
+    final match = RegExp(r'calday:(\d{4}-\d{2}-\d{2})').firstMatch(raw);
+    if (match == null) {
+      if (raw.startsWith('note:')) {
+        final now = DateTime.now();
+        return DateTime(now.year, now.month, now.day);
+      }
+      return null;
+    }
+
+    final dateText = match.group(1);
+    if (dateText == null) return null;
+    final parts = dateText.split('-');
+    if (parts.length != 3) return null;
+
+    final y = int.tryParse(parts[0]);
+    final m = int.tryParse(parts[1]);
+    final d = int.tryParse(parts[2]);
+    if (y == null || m == null || d == null) return null;
+
+    return DateTime(y, m, d);
   }
 
   static Future<String?> _prepareImage(String? stickerUrl) async {

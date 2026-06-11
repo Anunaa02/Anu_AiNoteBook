@@ -1,12 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'dashboard_screen.dart';
 import 'calendar_screen.dart';
 import 'sticker_screen.dart';
 import 'notifications_screen.dart';
 import 'profile_screen.dart';
+import 'services/notification_service.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final int initialTabIndex;
+  final DateTime? initialCalendarDay;
+
+  const MainScreen({
+    super.key,
+    this.initialTabIndex = 0,
+    this.initialCalendarDay,
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -15,12 +25,52 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   int _unreadNotificationCount = 0;
+  DateTime? _calendarJumpDay;
+  int _calendarJumpToken = 0;
+  StreamSubscription<DateTime>? _calendarTapSub;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialTabIndex;
+
+    final startupDay =
+        widget.initialCalendarDay ?? NotificationService.consumePendingCalendarDay();
+    if (startupDay != null) {
+      _currentIndex = 1;
+      _calendarJumpDay = _normalizeDay(startupDay);
+      _calendarJumpToken = 1;
+    }
+
+    _calendarTapSub = NotificationService.calendarDayTapStream.listen((day) {
+      if (!mounted) return;
+      setState(() {
+        _currentIndex = 1;
+        _calendarJumpDay = _normalizeDay(day);
+        _calendarJumpToken += 1;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _calendarTapSub?.cancel();
+    super.dispose();
+  }
+
+  DateTime _normalizeDay(DateTime value) {
+    final local = value.isUtc ? value.toLocal() : value;
+    return DateTime(local.year, local.month, local.day);
+  }
 
   @override
   Widget build(BuildContext context) {
     final screens = [
       DashboardScreen(onSwitchTab: (i) => setState(() => _currentIndex = i)),
-      const CalendarScreen(),
+      CalendarScreen(
+        jumpToDay: _calendarJumpDay,
+        jumpToDayToken: _calendarJumpToken,
+      ),
       StickerScreen(onSwitchTab: (i) => setState(() => _currentIndex = i)),
       NotificationsScreen(
         onUnreadCountChanged: (count) {

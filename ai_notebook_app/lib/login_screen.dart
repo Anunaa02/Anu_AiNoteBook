@@ -57,6 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final titleFontSize = size.width < 380 ? 32.0 : 37.0;
+    const loginSectionOffset = 72.0;
     return Scaffold(
       backgroundColor: const Color(0xFFF5F0FF),
       body: SingleChildScrollView(
@@ -90,15 +92,38 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 28),
                 child: Column(
                   children: [
-                    SizedBox(height: size.height * 0.06),
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: Icon(Icons.nightlight_round,
-                          color: Color(0xFF7c3aed), size: 28),
-                    ),
+                    SizedBox(height: size.height * 0.06 + loginSectionOffset),
                     SizedBox(height: size.height * 0.04),
-                    const Text("🐕", style: TextStyle(fontSize: 70)),
-                    const SizedBox(height: 20),
+                    ShaderMask(
+                      shaderCallback: (bounds) => const LinearGradient(
+                        colors: [
+                          Color(0xFF4F46E5),
+                          Color(0xFF7C3AED),
+                          Color(0xFFEC4899),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ).createShader(bounds),
+                      child: Text(
+                        "Ai Notebook",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: titleFontSize,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.6,
+                          shadows: [
+                            Shadow(
+                              color: const Color(0xFF7c3aed)
+                                  .withValues(alpha: 0.24),
+                              blurRadius: 18,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 22),
                     // Card
                     Container(
                       padding: const EdgeInsets.symmetric(

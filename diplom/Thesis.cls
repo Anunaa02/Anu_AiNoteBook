@@ -62,15 +62,15 @@
 \clubpenalty=10000
 
 \usepackage{vmargin}
-\setmarginsrb               { 25mm}  % left margin
+\setmarginsrb               { 30mm}  % left margin
                             { 20mm}  % top margin
-                            { 20mm}  % right margin
+                            { 15mm}  % right margin
                             { 20mm}  % bottom margin
                             {  20pt}  % head height
                             {0.25in}  % head sep
                             {   9pt}  % foot height
                             { 0.3in}  % foot sep
-\setstretch{1.0}
+\setstretch{1.15}
 
 
    

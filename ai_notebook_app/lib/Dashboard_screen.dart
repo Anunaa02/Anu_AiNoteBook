@@ -87,6 +87,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       lastDate: DateTime(now.year + 5),
     );
     if (pickedDate == null) return null;
+    if (!mounted) return null;
 
     final pickedTime = await showTimePicker(
       context: context,
@@ -317,6 +318,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                      title: notifTitle,
                                      body: notifBody,
                                      stickerUrl: stickerUrl,
+                                     targetDay: reminderAt ?? DateTime.now(),
                                    );
                                    await _syncReminderForNote(
                                      noteId: noteId,
@@ -329,8 +331,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                  await _loadData();
                                 }
                                 }
-                             } catch(e) {
-                                print("Auto sticker failed: $e");
+                              } catch (e) {
+                                debugPrint("Auto sticker failed: $e");
                              }
                            });
                         }

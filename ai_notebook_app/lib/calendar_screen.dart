@@ -133,7 +133,14 @@ class _DayNotePreview {
 }
 
 class CalendarScreen extends StatefulWidget {
-  const CalendarScreen({super.key});
+  final DateTime? jumpToDay;
+  final int jumpToDayToken;
+
+  const CalendarScreen({
+    super.key,
+    this.jumpToDay,
+    this.jumpToDayToken = 0,
+  });
 
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
@@ -180,7 +187,34 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   void initState() {
     super.initState();
+    _applyJumpDay(widget.jumpToDay, shouldSetState: false);
     _loadNotes();
+  }
+
+  @override
+  void didUpdateWidget(covariant CalendarScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.jumpToDayToken != oldWidget.jumpToDayToken) {
+      _applyJumpDay(widget.jumpToDay);
+    }
+  }
+
+  void _applyJumpDay(DateTime? value, {bool shouldSetState = true}) {
+    if (value == null) return;
+
+    final local = value.isUtc ? value.toLocal() : value;
+    final normalized = DateTime(local.year, local.month, local.day);
+
+    void apply() {
+      _selectedDay = normalized;
+      _focusedDay = DateTime(normalized.year, normalized.month, 1);
+    }
+
+    if (shouldSetState) {
+      setState(apply);
+    } else {
+      apply();
+    }
   }
 
   Future<void> _loadNotes() async {
@@ -614,6 +648,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     title: notifTitle,
                                     body: notifBody,
                                     stickerUrl: stickerUrl,
+                                    targetDay: noteDate,
                                   );
                                   await _syncReminderForNote(
                                     noteId: noteId,
@@ -1294,9 +1329,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.07),
+        color: const Color(0xFF24123D).withValues(alpha: 0.92),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        border: Border.all(color: const Color(0xFF6d4bb8).withValues(alpha: 0.35)),
       ),
       child: Column(
         children: [
@@ -1367,9 +1402,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 children: [
                   Row(
                     children: List.generate(_weekdays.length, (i) {
-                      final bg = (i == 0 || i == 6)
-                          ? const Color(0xFFffcfda)
-                          : const Color(0xFFd7efeb);
+                      final isWeekend = i == 0 || i == 6;
+                      final bg = isWeekend
+                          ? const Color(0xFF5b2a86)
+                          : const Color(0xFF342055);
                       return Expanded(
                         child: Container(
                           height: weekdayHeight,
@@ -1379,12 +1415,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           decoration: BoxDecoration(
                             color: bg,
                             borderRadius: BorderRadius.circular(4),
+                            border: Border.all(
+                              color: isWeekend
+                                  ? const Color(0xFFf0abfc).withValues(alpha: 0.35)
+                                  : const Color(0xFFa78bfa).withValues(alpha: 0.28),
+                            ),
                           ),
                           alignment: Alignment.center,
                           child: Text(
                             weekdayLabel(_weekdays[i]),
                             style: TextStyle(
-                              color: const Color(0xFF4b5563),
+                              color: isWeekend
+                                  ? const Color(0xFFfbcfe8)
+                                  : Colors.white70,
                               fontSize: weekdayFontSize,
                               fontWeight: FontWeight.w700,
                               letterSpacing: isPhone ? 0.6 : 1,
@@ -1410,10 +1453,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       if (i < startWeekday || i >= startWeekday + daysInMonth) {
                         return Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.03),
+                            color: const Color(0xFF1f1535),
                             borderRadius: BorderRadius.circular(cellRadius),
                             border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.12),
+                              color: const Color(0xFF6d4bb8).withValues(alpha: 0.22),
                             ),
                           ),
                         );
@@ -1461,15 +1504,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             duration: const Duration(milliseconds: 140),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? const Color(0xFF3b2b62)
-                                  : Colors.white.withValues(alpha: 0.95),
+                                  ? const Color(0xFF4b2b7f)
+                                  : const Color(0xFF25183f),
                               borderRadius: BorderRadius.circular(cellRadius),
                               border: Border.all(
                                 color: isSelected
-                                    ? const Color(0xFFc084fc)
+                                    ? const Color(0xFFd8b4fe)
                                     : isToday
-                                    ? const Color(0xFF9f7aea)
-                                    : const Color(0xFFd1d5db),
+                                    ? const Color(0xFFa78bfa)
+                                    : const Color(0xFF5b3f8f).withValues(alpha: 0.55),
                                 width: isSelected || isToday ? 1.6 : 1,
                               ),
                               boxShadow: isSelected
@@ -1501,8 +1544,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                             ? Colors.white
                                             : (weekDayIndex == 0 ||
                                                   weekDayIndex == 6)
-                                            ? const Color(0xFFc84d7f)
-                                            : const Color(0xFF6b7280),
+                                            ? const Color(0xFFfbcfe8)
+                                            : const Color(0xFFe9d5ff),
                                         fontSize: dayFontSize,
                                         fontWeight: FontWeight.w700,
                                       ),
@@ -1537,7 +1580,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                                   alpha: 0.2,
                                                                 )
                                                             : const Color(
-                                                              0xFFF3E8FF,
+                                                              0xFF2a1745,
                                                             ),
                                                         border: Border.all(
                                                           color: isSelected
@@ -1545,7 +1588,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                                 0xFFd8b4fe,
                                                               )
                                                               : const Color(
-                                                                0xFFE9D5FF,
+                                                                0xFF6d4bb8,
                                                               ),
                                                         ),
                                                       ),
@@ -1641,7 +1684,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                       style: TextStyle(
                                         color: isSelected
                                             ? Colors.white70
-                                            : const Color(0xFF334155),
+                                            : const Color(0xFFd8b4fe),
                                         fontSize: labelFontSize,
                                         fontWeight: FontWeight.w700,
                                       ),
